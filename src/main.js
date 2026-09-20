@@ -6,7 +6,6 @@ import { initPdfMerge } from './tools/pdfMerge.js';
 import { initPdfSplit } from './tools/pdfSplit.js';
 import { initImageStudio } from './tools/imageStudio.js';
 import { initAudioToText } from './tools/audioToText.js';
-import { initOcrStudio } from './tools/ocrStudio.js';
 import { initSecurityStudio } from './tools/securityStudio.js';
 import { initArchiveStudio } from './tools/archiveStudio.js';
 import { initProModal, openProModal } from './components/proModal.js';
@@ -88,7 +87,6 @@ function initToolSwitcher() {
     'split-pdf': document.getElementById('view-split-pdf'),
     'image-studio': document.getElementById('view-image-studio'),
     'audio-to-text': document.getElementById('view-audio-to-text'),
-    'ocr-studio': document.getElementById('view-ocr-studio'),
     'security-studio': document.getElementById('view-security-studio'),
     'archive-studio': document.getElementById('view-archive-studio')
   };
@@ -208,13 +206,7 @@ document.addEventListener('DOMContentLoaded', () => {
     onProModalRequested: (reason) => openProModal(reason)
   });
 
-  // 10. Inicializar OCR Studio
-  initOcrStudio({
-    onUsageUpdated: () => updateFreemiumUI(false),
-    onProModalRequested: (reason) => openProModal(reason)
-  });
-
-  // 11. Inicializar Security Studio (Cifrado, Hashes, Contraseñas)
+  // 10. Inicializar Security Studio (Cifrado, Hashes, Contraseñas)
   initSecurityStudio({
     onUsageUpdated: () => updateFreemiumUI(false),
     onProModalRequested: (reason) => openProModal(reason)

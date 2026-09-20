@@ -138,16 +138,6 @@
           <span>Audio a Texto</span>
         </button>
 
-        <button type="button" class="nav-cat-btn" data-category="ocr" data-tool="ocr-studio">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-            <line x1="11" y1="8" x2="11" y2="14"></line>
-            <line x1="8" y1="11" x2="14" y2="11"></line>
-          </svg>
-          <span>OCR (Texto)</span>
-        </button>
-
         <button type="button" class="nav-cat-btn" data-category="security" data-tool="security-studio">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
@@ -1332,112 +1322,7 @@
 
   </div>
 
-  <!-- =========================================================================
-       VISTA 7: OCR STUDIO (RECONOCIMIENTO ÓPTICO DE CARACTERES)
-       ========================================================================= -->
-  <div id="view-ocr-studio" class="tool-view-section" style="display: none;">
-    
-    <section class="hero">
-      <div class="hero-pill">
-        Reconocimiento Óptico de Caracteres en Web Worker • 100% Local
-      </div>
-      <h1 class="hero-title">
-        Reconocimiento de Texto (OCR)
-      </h1>
-      <p class="hero-subtitle">
-        Sube fotos, recibos, facturas, carteles o capturas de pantalla para extraer todo su texto de forma editable sin servidores.
-      </p>
-    </section>
 
-    <main class="main-wrapper">
-      <div class="tool-grid">
-        
-        <div class="tool-editor glass-card">
-          <div id="ocr-dropzone" class="pdf-dropzone-box">
-            <div class="dropzone-icon">
-              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="11" cy="11" r="8"></circle>
-                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                <line x1="11" y1="8" x2="11" y2="14"></line>
-                <line x1="8" y1="11" x2="14" y2="11"></line>
-              </svg>
-            </div>
-            <h4>Arrastra tu imagen o captura aquí</h4>
-            <p>o haz clic para explorar (PNG, JPG, WebP)</p>
-            <input type="file" id="ocr-file-input" accept="image/*" style="display: none;" />
-          </div>
-
-          <div id="ocr-preview-box" style="display: none;">
-            <div class="ocr-img-wrap">
-              <img id="ocr-image-preview" class="ocr-thumb" alt="Vista previa OCR" />
-              <button type="button" id="btn-ocr-change-image" class="btn-danger-sm" style="margin-top: 0.75rem;">Cambiar Imagen</button>
-            </div>
-          </div>
-
-          <div class="form-group" style="margin-top: 1.25rem;">
-            <label class="form-label" for="select-ocr-lang">Idioma del Texto</label>
-            <select id="select-ocr-lang" class="form-select">
-              <option value="spa" selected>Español</option>
-              <option value="eng">Inglés (English)</option>
-            </select>
-          </div>
-
-          <button type="button" id="btn-execute-ocr" class="btn-download-primary" style="margin-top: 1.25rem;" disabled>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="11" cy="11" r="8"></circle>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-            </svg>
-            <span>Extraer Texto con OCR</span>
-          </button>
-
-          <div id="ocr-progress-box" class="transcribe-progress-box" style="display: none;">
-            <div class="progress-status-row">
-              <span id="ocr-progress-text" class="progress-status-label">Iniciando OCR...</span>
-            </div>
-            <div class="progress-track-large">
-              <div id="ocr-progress-bar" class="progress-fill-large" style="width: 0%;"></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="preview-card glass-card">
-          <div class="preview-header">
-            <span class="preview-title">Texto Extraído</span>
-            <div class="transcript-badges">
-              <span id="ocr-word-count" class="tier-badge free">0 palabras</span>
-              <span id="ocr-char-count" class="tier-badge free">0 caracteres</span>
-            </div>
-          </div>
-
-          <div class="transcript-editor-container">
-            <textarea id="ocr-output-text" class="form-textarea transcript-textarea" placeholder="Aquí se mostrará el texto extraído de la imagen para que puedas copiarlo, editarlo o corregirlo..."></textarea>
-          </div>
-
-          <div class="transcript-actions-grid">
-            <button type="button" id="btn-copy-ocr" class="btn-action-outline" disabled>
-              <span class="btn-label">Copiar Texto</span>
-            </button>
-            <button type="button" id="btn-download-ocr-txt" class="btn-action-outline" disabled>
-              <span>Descargar .TXT</span>
-            </button>
-            <button type="button" id="btn-clear-ocr" class="btn-action-outline btn-action-danger" disabled>
-              <span>Limpiar</span>
-            </button>
-          </div>
-
-          <div class="transcription-disclaimer-note">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="10"></circle>
-              <line x1="12" y1="8" x2="12" y2="12"></line>
-            </svg>
-            <span>La precisión del OCR depende de la nitidez, iluminación y resolución de la foto original.</span>
-          </div>
-        </div>
-
-      </div>
-    </main>
-
-  </div>
 
   <!-- =========================================================================
        VISTA 8: SECURITY STUDIO (CIFRADO AES-256, HASHES, CONTRASEÑAS)

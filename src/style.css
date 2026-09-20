@@ -3120,6 +3120,201 @@ h1, h2, h3, h4, .brand-text {
   .pro-modal-content {
     padding: 1.5rem 1rem 1.25rem;
     max-height: 94vh;
+  }
+
+  .editor-toolbar-actions {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .editor-toolbar-actions button {
+    flex: 1;
+    justify-content: center;
+    padding: 0.4rem 0.5rem;
+    font-size: 0.75rem;
+  }
+
+  .editor-pages-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.65rem;
+  }
+
+  .pdf-page-card {
+    padding: 0.65rem 0.4rem;
+  }
+
+  .page-card-preview-box {
+    width: 105px;
+    height: 145px;
+  }
+
+  .page-card-preview-box.landscape {
+    width: 130px;
+    height: 95px;
+  }
+
+  .page-sheet-mockup {
+    width: 75px;
+    height: 110px;
+    padding: 6px 4px;
+  }
+
+  .btn-page-action {
+    padding: 0.3rem 0.4rem;
+    font-size: 0.7rem;
+  }
+
+  .editor-export-bar {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .editor-options-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.85rem;
+  }
+
+  .watermark-input-group {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    gap: 0.4rem;
+  }
+
+  .watermark-input-group input {
+    max-width: 100% !important;
+    width: 100%;
+  }
+
+  .editor-export-btn-wrap {
+    width: 100%;
+  }
+
+  .editor-export-btn-wrap button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Image Studio: Métricas y Controles */
+  .metrics-cards-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.4rem;
+  }
+
+  .metric-mini-card {
+    padding: 0.5rem 0.25rem;
+  }
+
+  .metric-sub {
+    font-size: 0.64rem;
+  }
+
+  .metric-val {
+    font-size: 0.82rem;
+  }
+
+  .orientation-btns-row {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.4rem;
+  }
+
+  .scale-presets-row {
+    gap: 0.35rem;
+  }
+
+  .scale-presets-row .img-scale-btn {
+    padding: 0.25rem 0.55rem;
+    font-size: 0.75rem;
+  }
+
+  .image-preview-canvas-holder {
+    min-height: 200px;
+    max-height: 280px;
+    padding: 0.65rem;
+  }
+
+  /* Security Studio: Output de contraseñas y hashes */
+  .pass-output-row {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .pass-display {
+    width: 100%;
+    font-size: 1rem;
+    padding: 0.65rem;
+  }
+
+  #btn-copy-pass {
+    flex: 1;
+    padding: 0.65rem;
+  }
+
+  #btn-regen-pass {
+    padding: 0.65rem 0.9rem;
+  }
+
+  .hash-code-display {
+    font-size: 0.72rem;
+    padding: 0.55rem;
+    word-break: break-all;
+    overflow-wrap: anywhere;
+  }
+
+  /* Audio a Texto & OCR */
+  .transcript-actions-grid {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .live-mic-controls {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .btn-live-mic {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Tarjetas de Demostración Visual (Showcase) */
+  .tool-showcase-section {
+    margin: 2.5rem auto 1rem;
+  }
+
+  .tool-showcase-title {
+    font-size: 1.25rem;
+  }
+
+  .tool-showcase-subtitle {
+    font-size: 0.82rem;
+  }
+
+  .showcase-body {
+    padding: 1.1rem;
+  }
+
+  .showcase-body h4 {
+    font-size: 0.98rem;
+  }
+
+  .showcase-body p {
+    font-size: 0.82rem;
+  }
+
+  /* Modales Pro y Legal */
+  .modal-overlay {
+    padding: 0.65rem;
+  }
+
+  .pro-modal-content {
+    padding: 1.5rem 1rem 1.25rem;
+    max-height: 94vh;
     border-radius: var(--radius-md);
   }
 
@@ -3208,5 +3403,280 @@ h1, h2, h3, h4, .brand-text {
   }
 }
 
+/* ==========================================================================
+   OCR Studio: Buscador en Contratos y Mejoras Visuales
+   ========================================================================== */
+.ocr-search-bar-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 0.85rem;
+  padding: 0.75rem;
+  background: var(--color-bg-base);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+}
 
+.ocr-search-input-box {
+  display: flex;
+  align-items: center;
+  position: relative;
+  background: var(--color-bg-section);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 0.35rem 0.6rem;
+  transition: border-color 0.2s ease;
+}
 
+.ocr-search-input-box:focus-within {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(0, 82, 204, 0.15);
+}
+
+.ocr-search-input-box .search-icon {
+  color: var(--color-text-muted);
+  margin-right: 0.45rem;
+  flex-shrink: 0;
+}
+
+.ocr-search-input {
+  width: 100%;
+  border: none;
+  background: transparent;
+  color: var(--color-text-main);
+  font-size: 0.88rem;
+  outline: none;
+}
+
+.btn-search-clear {
+  background: transparent;
+  border: none;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  padding: 0.2rem 0.4rem;
+  font-size: 0.8rem;
+  border-radius: 4px;
+}
+
+.btn-search-clear:hover {
+  background: rgba(0, 0, 0, 0.08);
+  color: var(--color-text-main);
+}
+
+.ocr-search-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.ocr-search-counter {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.ocr-search-counter.has-matches {
+  color: var(--color-primary);
+}
+
+.ocr-nav-arrows {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.btn-search-nav {
+  padding: 0.25rem 0.6rem;
+  font-size: 0.75rem;
+  background: var(--color-bg-section);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-main);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-search-nav:hover:not(:disabled) {
+  background: var(--color-primary);
+  color: #fff;
+  border-color: var(--color-primary);
+}
+
+.btn-search-nav:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.btn-search-copy-btn {
+  font-size: 0.75rem;
+  padding: 0.3rem 0.65rem;
+}
+
+.ocr-doc-meta-info {
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+/* Sugerencias Rápidas de Búsqueda (Chips) */
+.contract-search-chips {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+  padding: 0.2rem 0;
+}
+
+.chips-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-right: 0.2rem;
+}
+
+.btn-contract-chip {
+  background: var(--color-bg-section);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  color: var(--color-text-main);
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-contract-chip:hover {
+  background: var(--color-primary-light, rgba(0, 82, 204, 0.1));
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  transform: translateY(-1px);
+}
+
+/* Tabs de Visualización (Editor vs Resaltado) */
+.ocr-view-mode-tabs {
+  display: flex;
+  gap: 0.4rem;
+  margin-bottom: 0.65rem;
+}
+
+.ocr-view-tab-btn {
+  flex: 1;
+  padding: 0.45rem 0.75rem;
+  background: var(--color-bg-base);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-muted);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.ocr-view-tab-btn:hover {
+  color: var(--color-text-main);
+}
+
+.ocr-view-tab-btn.active {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #ffffff;
+}
+
+/* Visor con Resaltado */
+.ocr-highlight-doc-box {
+  min-height: 220px;
+  max-height: 350px;
+  overflow-y: auto;
+  padding: 1rem;
+  background: var(--color-bg-section);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: var(--color-text-main);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.ocr-highlight-match {
+  background-color: #fef08a;
+  color: #854d0e;
+  padding: 1px 4px;
+  border-radius: 3px;
+  font-weight: 600;
+}
+
+.ocr-highlight-active {
+  background-color: #f97316 !important;
+  color: #ffffff !important;
+  padding: 2px 5px;
+  border-radius: 4px;
+  font-weight: 700;
+  box-shadow: 0 0 8px rgba(249, 115, 22, 0.6);
+}
+
+/* Resumen de Cláusulas Encontradas */
+.ocr-clauses-summary-box {
+  margin-top: 0.85rem;
+  padding: 0.85rem;
+  background: var(--color-bg-base);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+}
+
+.clauses-summary-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--color-text-main);
+  margin-bottom: 0.5rem;
+}
+
+.clauses-summary-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.clause-card-item {
+  padding: 0.6rem 0.75rem;
+  background: var(--color-bg-section);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.clause-card-text {
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: var(--color-text-main);
+  flex: 1;
+}
+
+.clause-card-btn {
+  flex-shrink: 0;
+  font-size: 0.72rem;
+  padding: 0.25rem 0.5rem;
+  background: var(--color-bg-base);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-main);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.clause-card-btn:hover {
+  background: var(--color-primary);
+  color: #ffffff;
+  border-color: var(--color-primary);
+}
