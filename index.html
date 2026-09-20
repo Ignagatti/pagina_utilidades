@@ -1,0 +1,2043 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QRStudio | Generador de Códigos QR y Utilidades PDF 100% Privadas</title>
+  <meta name="description" content="Genera códigos QR profesionales con logotipo y formato SVG, une múltiples PDFs, extrae páginas y convierte imágenes a PDF sin subir tus archivos a la nube. 100% privado en tu navegador." />
+  <meta name="keywords" content="generador codigo qr gratis, crear qr con logo, qr transparente png, unir pdf gratis, separar paginas pdf, imagenes a pdf, editor pdf privado, sin subir a la nube" />
+  <meta name="author" content="QRStudio" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://qrstudio.vercel.app/" />
+
+  <!-- Favicon e Iconografía -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="theme-color" content="#0052CC" />
+
+  <!-- Open Graph / Redes Sociales (WhatsApp, Facebook, LinkedIn) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://qrstudio.vercel.app/" />
+  <meta property="og:title" content="QRStudio | Generador QR y Herramientas PDF 100% Privadas" />
+  <meta property="og:description" content="Tus archivos nunca salen de tu dispositivo. Genera códigos QR con logo, une y separa PDFs de forma instantánea y confidencial." />
+  <meta property="og:site_name" content="QRStudio" />
+  <meta property="og:locale" content="es_ES" />
+
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="QRStudio | Suite de Códigos QR y PDFs Privados" />
+  <meta name="twitter:description" content="100% confidencial en tu navegador. Genera QRs y procesa documentos sin servidores intermedios." />
+
+  <!-- Datos Estructurados Schema.org (Google Rich Snippets & Precios) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "name": "QRStudio",
+        "url": "https://qrstudio.vercel.app/",
+        "description": "Suite de herramientas de oficina para generar códigos QR y procesar archivos PDF 100% en el navegador con privacidad total.",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "All",
+        "offers": {
+          "@type": "Offer",
+          "price": "3.99",
+          "priceCurrency": "USD",
+          "priceValidUntil": "2027-12-31",
+          "availability": "https://schema.org/InStock"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "¿Por qué es más seguro usar QRStudio que otras páginas?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Las páginas tradicionales suben tus contratos o balances a servidores externos. QRStudio ejecuta el procesamiento directamente en tu navegador web mediante WebAssembly y JavaScript: el archivo nunca viaja por internet."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Cómo funciona el plan mensual?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Por solo $3.99 al mes obtienes acceso ilimitado a todas las herramientas sin límites diarios, procesamiento masivo y exportación en SVG con logo. Puedes cancelar en cualquier momento con 1 solo clic."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Los códigos QR creados vencen con el tiempo?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. Todos los códigos QR generados en QRStudio son estáticos y permanentes. Nunca caducan ni dependen de un servidor para funcionar."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+
+  <!-- Barra de Navegación Superior -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="/" class="brand-link">
+        <div class="brand-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="7" height="7"></rect>
+            <rect x="14" y="3" width="7" height="7"></rect>
+            <rect x="14" y="14" width="7" height="7"></rect>
+            <rect x="3" y="14" width="7" height="7"></rect>
+          </svg>
+        </div>
+        <div class="brand-text">QR<span>Studio</span></div>
+      </a>
+
+      <!-- Selector Principal de Categorías de la Suite -->
+      <nav class="tool-switch-nav">
+        <button type="button" class="nav-cat-btn active" data-category="qr" data-tool="qr">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="7" height="7"></rect>
+            <rect x="14" y="3" width="7" height="7"></rect>
+            <rect x="14" y="14" width="7" height="7"></rect>
+            <rect x="3" y="14" width="7" height="7"></rect>
+          </svg>
+          <span>QR Studio</span>
+        </button>
+
+        <button type="button" class="nav-cat-btn" data-category="pdf">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+          </svg>
+          <span>PDF Studio</span>
+        </button>
+
+        <button type="button" class="nav-cat-btn" data-category="images" data-tool="image-studio">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+            <circle cx="8.5" cy="8.5" r="1.5"></circle>
+            <polyline points="21 15 16 10 5 21"></polyline>
+          </svg>
+          <span>Imágenes</span>
+        </button>
+
+        <button type="button" class="nav-cat-btn" data-category="audio" data-tool="audio-to-text">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+            <line x1="12" y1="19" x2="12" y2="23"></line>
+            <line x1="8" y1="23" x2="16" y2="23"></line>
+          </svg>
+          <span>Audio a Texto</span>
+        </button>
+
+        <button type="button" class="nav-cat-btn" data-category="ocr" data-tool="ocr-studio">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            <line x1="11" y1="8" x2="11" y2="14"></line>
+            <line x1="8" y1="11" x2="14" y2="11"></line>
+          </svg>
+          <span>OCR (Texto)</span>
+        </button>
+
+        <button type="button" class="nav-cat-btn" data-category="security" data-tool="security-studio">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+          <span>Seguridad</span>
+        </button>
+
+        <button type="button" class="nav-cat-btn" data-category="archive" data-tool="archive-studio">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="21 8 21 21 3 21 3 8"></polyline>
+            <rect x="1" y="3" width="22" height="5"></rect>
+            <line x1="10" y1="12" x2="14" y2="12"></line>
+          </svg>
+          <span>Archivos ZIP</span>
+        </button>
+      </nav>
+
+      <div class="nav-actions">
+        <!-- Badge de Límite Diario -->
+        <div id="navbar-usage-badge" class="usage-badge" title="Estado de tu cuenta">
+          <span id="usage-counter-text">3 descargas gratuitas hoy</span>
+          <div class="mini-progress-track">
+            <div id="usage-progress-bar" class="mini-progress-fill" style="width: 0%;"></div>
+          </div>
+        </div>
+
+        <!-- Botón Pro -->
+        <button id="navbar-pro-btn" class="btn-pro">
+          Obtener Pro
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Barra Secundaria de Sub-herramientas PDF -->
+  <div id="pdf-subnav-bar" class="subnav-bar" style="display: none;">
+    <div class="subnav-container">
+      <span class="subnav-label">Herramientas PDF:</span>
+      <div class="subnav-buttons">
+        <button type="button" class="nav-tool-btn active" data-tool="pdf-editor">
+          <span>Editor Visual (Páginas)</span>
+        </button>
+        <button type="button" class="nav-tool-btn" data-tool="merge-pdf">
+          <span>Unir PDFs</span>
+        </button>
+        <button type="button" class="nav-tool-btn" data-tool="split-pdf">
+          <span>Separar PDF</span>
+        </button>
+        <button type="button" class="nav-tool-btn" data-tool="images-to-pdf">
+          <span>Imágenes a PDF</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       VISTA 1: GENERADOR DE CÓDIGOS QR
+       ========================================================================= -->
+  <div id="view-qr-tool" class="tool-view-section active">
+    
+    <section class="hero">
+      <div class="hero-pill">
+        Procesamiento local sin servidores
+      </div>
+      <h1 class="hero-title">
+        Generador de Códigos QR
+      </h1>
+      <p class="hero-subtitle">
+        Crea códigos QR y descárgalos en PNG (con o sin fondo transparente) o en documento PDF listo para imprimir.
+      </p>
+    </section>
+
+    <main class="main-wrapper">
+      <div class="tool-grid">
+        
+        <!-- Columna Izquierda: Configuración del QR -->
+        <div class="tool-editor glass-card">
+          
+          <div id="input-security-alert" class="security-alert-box"></div>
+
+          <div class="type-selector-tabs">
+            <button type="button" class="type-btn active" data-type="url">
+              <svg class="tab-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+              </svg>
+              <span>Enlace</span>
+            </button>
+            <button type="button" class="type-btn" data-type="wifi">
+              <svg class="tab-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12.55a11 11 0 0 1 14.08 0"></path>
+                <path d="M1.42 9a16 16 0 0 1 21.16 0"></path>
+                <path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
+                <line x1="12" y1="20" x2="12.01" y2="20"></line>
+              </svg>
+              <span>Wi-Fi</span>
+            </button>
+            <button type="button" class="type-btn" data-type="whatsapp">
+              <svg class="tab-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+              </svg>
+              <span>WhatsApp</span>
+            </button>
+            <button type="button" class="type-btn" data-type="contact">
+              <svg class="tab-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+              <span>Contacto</span>
+            </button>
+            <button type="button" class="type-btn" data-type="text">
+              <svg class="tab-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="4 7 4 4 20 4 20 7"></polyline>
+                <line x1="9" y1="20" x2="15" y2="20"></line>
+                <line x1="12" y1="4" x2="12" y2="20"></line>
+              </svg>
+              <span>Texto</span>
+            </button>
+          </div>
+
+          <div class="data-panels-container">
+            <div class="tab-panel active" data-type="url">
+              <div class="form-group">
+                <label class="form-label" for="input-url">Enlace o URL de destino</label>
+                <input type="url" id="input-url" class="form-input qr-data-input" placeholder="https://tu-sitio-web.com" value="https://google.com" />
+              </div>
+            </div>
+
+            <div class="tab-panel" data-type="wifi">
+              <div class="form-group">
+                <label class="form-label" for="wifi-ssid">Nombre de la Red (SSID)</label>
+                <input type="text" id="wifi-ssid" class="form-input qr-data-input" placeholder="Nombre de red" value="Mi_Red_Wifi" />
+              </div>
+              <div class="form-row-2">
+                <div class="form-group">
+                  <label class="form-label" for="wifi-pass">Contraseña</label>
+                  <input type="text" id="wifi-pass" class="form-input qr-data-input" placeholder="Clave" value="clave1234" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="wifi-enc">Tipo de Encriptación</label>
+                  <select id="wifi-enc" class="form-select qr-data-input">
+                    <option value="WPA" selected>WPA / WPA2 / WPA3</option>
+                    <option value="WEP">WEP</option>
+                    <option value="nopass">Sin Contraseña</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group checkbox-row">
+                <input type="checkbox" id="wifi-hidden" class="qr-data-input" />
+                <label for="wifi-hidden">Red Wi-Fi oculta</label>
+              </div>
+            </div>
+
+            <div class="tab-panel" data-type="whatsapp">
+              <div class="form-group">
+                <label class="form-label" for="wa-phone">Número de WhatsApp (con código de país)</label>
+                <input type="tel" id="wa-phone" class="form-input qr-data-input" placeholder="Ej. 5491112345678" value="5491112345678" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="wa-msg">Mensaje Inicial (Opcional)</label>
+                <input type="text" id="wa-msg" class="form-input qr-data-input" placeholder="Mensaje predeterminado..." value="Hola, te contacto desde el código QR." />
+              </div>
+            </div>
+
+            <div class="tab-panel" data-type="contact">
+              <div class="form-row-2">
+                <div class="form-group">
+                  <label class="form-label" for="contact-first-name">Nombre</label>
+                  <input type="text" id="contact-first-name" class="form-input qr-data-input" placeholder="Ej. Juan" value="Juan" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="contact-last-name">Apellido</label>
+                  <input type="text" id="contact-last-name" class="form-input qr-data-input" placeholder="Ej. Pérez" value="Pérez" />
+                </div>
+              </div>
+              <div class="form-row-2">
+                <div class="form-group">
+                  <label class="form-label" for="contact-mobile">Móvil / WhatsApp</label>
+                  <input type="tel" id="contact-mobile" class="form-input qr-data-input" placeholder="+54 9 11 1234-5678" value="+5491112345678" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="contact-phone">Teléfono de Trabajo (Opcional)</label>
+                  <input type="tel" id="contact-phone" class="form-input qr-data-input" placeholder="+54 11 4321-0000" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="contact-email">Correo Electrónico (Email)</label>
+                <input type="email" id="contact-email" class="form-input qr-data-input" placeholder="juan.perez@empresa.com" value="juan.perez@empresa.com" />
+              </div>
+              <div class="form-row-2">
+                <div class="form-group">
+                  <label class="form-label" for="contact-org">Empresa u Organización</label>
+                  <input type="text" id="contact-org" class="form-input qr-data-input" placeholder="Ej. Innovación Digital" value="Innovación Digital" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="contact-title">Cargo / Puesto</label>
+                  <input type="text" id="contact-title" class="form-input qr-data-input" placeholder="Ej. Director Comercial" value="Director Comercial" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="contact-url">Página Web (Opcional)</label>
+                <input type="url" id="contact-url" class="form-input qr-data-input" placeholder="https://miempresa.com" value="https://miempresa.com" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="contact-notes">Dirección o Notas Adicionales (Opcional)</label>
+                <input type="text" id="contact-notes" class="form-input qr-data-input" placeholder="Oficina central, Piso 4" />
+              </div>
+            </div>
+
+            <div class="tab-panel" data-type="text">
+              <div class="form-group">
+                <label class="form-label" for="input-text">Contenido del texto</label>
+                <textarea id="input-text" class="form-textarea qr-data-input" placeholder="Escribe el texto aquí...">Información de contacto o texto libre.</textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="customization-section">
+            <div class="section-title">Personalización de Colores y Formato</div>
+            
+            <div class="color-pickers-row">
+              <div class="color-input-wrapper">
+                <input type="color" id="color-dots" class="color-picker" value="#172B4D" />
+                <div class="color-info">
+                  <span class="color-label">Color del Código</span>
+                  <span class="color-sub">Patrón de dibujo</span>
+                </div>
+              </div>
+
+              <div class="color-input-wrapper" id="bg-color-wrapper">
+                <input type="color" id="color-bg" class="color-picker" value="#ffffff" />
+                <div class="color-info">
+                  <span class="color-label">Color de Fondo</span>
+                  <span class="color-sub">Base del QR</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group transparent-toggle-box">
+              <label class="checkbox-row-custom">
+                <input type="checkbox" id="check-transparent-bg" />
+                <span class="checkbox-custom-label">
+                  <strong>Fondo transparente (PNG sin fondo)</strong>
+                  <small>Exporta el archivo PNG con transparencia para montarlo sobre cualquier diseño.</small>
+                </span>
+              </label>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label class="form-label" for="select-dots-style">Estilo de Puntos</label>
+                <select id="select-dots-style" class="form-select">
+                  <option value="rounded" selected>Redondeado</option>
+                  <option value="dots">Puntos Circulares</option>
+                  <option value="square">Cuadrado Estándar</option>
+                  <option value="classy">Líneas Estilizadas</option>
+                  <option value="extra-rounded">Extra Redondeado</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="select-corners-style">Estilo de Esquinas</label>
+                <select id="select-corners-style" class="form-select">
+                  <option value="extra-rounded" selected>Esquinas Redondeadas</option>
+                  <option value="dot">Punto Circular</option>
+                  <option value="square">Cuadrado Estándar</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="select-ecc">
+                <span>Nivel de Corrección de Error</span>
+                <span style="font-size: 0.75rem; color: var(--color-text-muted); font-weight: normal;">Recomendado Alto si usas logo</span>
+              </label>
+              <select id="select-ecc" class="form-select">
+                <option value="L">Bajo (7%)</option>
+                <option value="M">Medio (15%)</option>
+                <option value="Q" selected>Alto (25%) - Recomendado</option>
+                <option value="H">Máximo (30%)</option>
+              </select>
+            </div>
+
+            <div class="pro-feature-box">
+              <div class="pro-feature-header">
+                <span class="pro-feature-title">Logotipo Central</span>
+                <span class="pro-badge-tag">PRO</span>
+              </div>
+              <p id="logo-pro-notice" class="pro-feature-desc">
+                Disponible en versión Pro: añade el logotipo de tu empresa en el centro.
+              </p>
+
+              <div class="logo-uploader-area">
+                <label class="btn-file-upload">
+                  <span>Subir Imagen (PNG/JPG)</span>
+                  <input type="file" id="logo-upload-input" accept="image/*" style="display: none;" />
+                </label>
+                <button type="button" id="btn-remove-logo" class="btn-danger-sm" style="display: none;">
+                  Eliminar logo
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Columna Derecha: Vista Previa y Selector de Formato -->
+        <div class="preview-card glass-card">
+          <div class="preview-header">
+            <span class="preview-title">Vista Previa</span>
+            <span id="status-tier-pill" class="tier-badge free">PLAN GRATUITO</span>
+          </div>
+
+          <div id="qr-canvas-holder" class="qr-canvas-holder">
+            <div id="qr-preview-container"></div>
+          </div>
+
+          <!-- Selector de Formato de Descarga (PNG vs PDF vs SVG) -->
+          <div class="format-choice-wrapper">
+            <span class="format-choice-headline">Elegir formato de descarga:</span>
+            <div class="format-options-grid">
+              
+              <button type="button" class="format-choice-btn active" data-format="png">
+                <div class="format-btn-top">
+                  <span class="format-tag">PNG</span>
+                </div>
+                <span class="format-sub">Imagen Digital</span>
+              </button>
+
+              <button type="button" class="format-choice-btn" data-format="pdf">
+                <div class="format-btn-top">
+                  <span class="format-tag">PDF</span>
+                </div>
+                <span class="format-sub">Hoja A4 Impresión</span>
+              </button>
+
+              <button type="button" class="format-choice-btn" data-format="svg">
+                <div class="format-btn-top">
+                  <span class="format-tag">SVG</span>
+                  <span class="badge-pro">PRO</span>
+                </div>
+                <span class="format-sub">Vectorial</span>
+              </button>
+
+            </div>
+          </div>
+
+          <div class="download-actions-stack">
+            <button type="button" id="btn-main-qr-download" class="btn-download-primary">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              <span id="main-qr-download-label">Descargar imagen PNG</span>
+            </button>
+          </div>
+
+          <div class="privacy-notice">
+            <span>Procesado 100% en tu dispositivo.</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Demostración Visual de QR de Contactos (Exclusivo de QR Studio) -->
+      <div class="tool-showcase-section">
+        <div class="tool-showcase-header">
+          <span class="hero-pill">Demostración en Móvil</span>
+          <h3 class="tool-showcase-title">¿Cómo funciona el QR de Contacto?</h3>
+          <p class="tool-showcase-subtitle">Mira cómo se ve la experiencia real al escanear con la cámara de un smartphone.</p>
+        </div>
+
+        <div class="showcase-card glass-card tool-showcase-card-single">
+          <div class="showcase-image-wrap">
+            <img src="/images/demo-qr-contact.jpg" alt="Muestra de escaneo de QR para añadir contacto en smartphone" class="showcase-img" loading="lazy" />
+            <span class="showcase-tag">QR de Contactos (vCard 3.0)</span>
+          </div>
+          <div class="showcase-body">
+            <h4>Al escanear con la cámara, el móvil abre la ficha para guardar el contacto</h4>
+            <p>
+              Cualquier teléfono inteligente (iPhone con cámara nativa o Android con Google Lens/Cámara) detecta de forma instantánea el formato estándar vCard. Con 1 solo toque en "Guardar", tus clientes y contactos añaden tu nombre, cargo, teléfono y correo a su agenda sin tener que tipear nada a mano.
+            </p>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- =========================================================================
+       VISTA PDF: EDITOR VISUAL DE PÁGINAS PDF (ROTAR, REORDENAR, ELIMINAR)
+       ========================================================================= -->
+  <div id="view-pdf-editor" class="tool-view-section" style="display: none;">
+    
+    <section class="hero">
+      <div class="hero-pill">
+        Mesa de Trabajo Visual • 100% en Memoria Local
+      </div>
+      <h1 class="hero-title">
+        Editor Visual de Páginas PDF
+      </h1>
+      <p class="hero-subtitle">
+        Sube un PDF para rotar hojas individuales, cambiar su orden, eliminar páginas innecesarias y agregar numeración o marca de agua.
+      </p>
+    </section>
+
+    <main class="main-wrapper">
+      
+      <!-- Zona Dropzone Inicial -->
+      <div id="editor-pdf-dropzone" class="pdf-dropzone-box glass-card" style="max-width: 700px; margin: 0 auto;">
+        <div class="dropzone-icon">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+          </svg>
+        </div>
+        <h4>Arrastra tu documento PDF aquí</h4>
+        <p>o haz clic para explorar en tu ordenador</p>
+        <input type="file" id="editor-pdf-file-input" accept="application/pdf" style="display: none;" />
+      </div>
+
+      <!-- Mesa de Trabajo Completa cuando el PDF está cargado -->
+      <div id="editor-pdf-workspace" style="display: none;">
+        
+        <!-- Barra de Herramientas del Documento -->
+        <div class="editor-top-toolbar glass-card">
+          <div class="editor-doc-meta">
+            <span id="editor-doc-title" class="editor-doc-name">documento.pdf</span>
+            <span id="editor-page-count-badge" class="tier-badge free">0 páginas</span>
+          </div>
+          <div class="editor-toolbar-actions">
+            <button type="button" id="btn-editor-rotate-all" class="btn-action-outline">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+              </svg>
+              <span>Rotar Todas 90°</span>
+            </button>
+            <button type="button" id="btn-editor-reset-pages" class="btn-action-outline">
+              <span>Restablecer</span>
+            </button>
+            <button type="button" id="btn-editor-change-doc" class="btn-danger-sm">
+              Cambiar Archivo
+            </button>
+          </div>
+        </div>
+
+        <!-- Cuadrícula Interactiva de Miniaturas -->
+        <div id="editor-pages-grid" class="editor-pages-grid"></div>
+
+        <!-- Panel de Exportación y Opciones -->
+        <div class="editor-export-bar glass-card">
+          <div class="editor-options-row">
+            <label class="checkbox-row">
+              <input type="checkbox" id="check-editor-page-numbers" />
+              <span>Agregar números de página ("Página X / Y")</span>
+            </label>
+            <div class="watermark-input-group">
+              <label class="checkbox-row">
+                <input type="checkbox" id="check-editor-watermark" />
+                <span>Marca de agua de texto:</span>
+              </label>
+              <input type="text" id="input-editor-watermark-text" class="form-input form-input-sm" placeholder="Ej: CONFIDENCIAL" value="CONFIDENCIAL" style="max-width: 180px;" />
+            </div>
+          </div>
+
+          <div class="editor-export-btn-wrap">
+            <button type="button" id="btn-editor-export-pdf" class="btn-download-primary">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              <span>Guardar y Descargar PDF Editado</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- =========================================================================
+       VISTA 2: CONVERTIDOR DE IMÁGENES A PDF
+       ========================================================================= -->
+  <div id="view-images-to-pdf" class="tool-view-section" style="display: none;">
+    
+    <section class="hero">
+      <div class="hero-pill">
+        Sin subir archivos a la nube • 100% Privado
+      </div>
+      <h1 class="hero-title">
+        Convertir Imágenes a Documento PDF
+      </h1>
+      <p class="hero-subtitle">
+        Une múltiples imágenes (PNG, JPG, WebP) en un único archivo PDF ordenado y listo para compartir o imprimir.
+      </p>
+    </section>
+
+    <main class="main-wrapper">
+      <div class="tool-grid">
+        
+        <div class="tool-editor glass-card">
+          <div id="pdf-dropzone" class="pdf-dropzone-box">
+            <div class="dropzone-icon">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="17 8 12 3 7 8"></polyline>
+                <line x1="12" y1="3" x2="12" y2="15"></line>
+              </svg>
+            </div>
+            <h4>Arrastra tus imágenes aquí</h4>
+            <p>o haz clic para explorar en tu equipo (PNG, JPG o WebP)</p>
+            <input type="file" id="pdf-file-input" accept="image/png, image/jpeg, image/webp" multiple style="display: none;" />
+          </div>
+
+          <div class="pdf-list-header">
+            <div class="pdf-list-title-group">
+              <span class="section-title" style="margin-bottom: 0;">Imágenes Añadidas</span>
+              <span id="pdf-images-count-badge" class="tier-badge free">0 imágenes</span>
+            </div>
+            <button type="button" id="btn-clear-pdf-images" class="btn-text-danger" style="display: none;">
+              Vaciar lista
+            </button>
+          </div>
+
+          <div id="pdf-images-list" class="pdf-images-list-grid">
+            <div class="empty-list-notice">
+              No hay imágenes añadidas aún. Selecciona o arrastra fotos para comenzar.
+            </div>
+          </div>
+        </div>
+
+        <div class="preview-card glass-card">
+          <div class="preview-header">
+            <span class="preview-title">Configuración del Documento</span>
+          </div>
+
+          <div class="pdf-options-container">
+            <div class="form-group">
+              <label class="form-label" for="select-pdf-page-size">Tamaño de Hoja</label>
+              <select id="select-pdf-page-size" class="form-select">
+                <option value="A4" selected>A4 Estándar (210 x 297 mm)</option>
+                <option value="LETTER">Carta / Letter (8.5 x 11 pulg)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="select-pdf-orientation">Orientación de Páginas</label>
+              <select id="select-pdf-orientation" class="form-select">
+                <option value="portrait" selected>Vertical (Retrato)</option>
+                <option value="landscape">Horizontal (Paisaje)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="select-pdf-margin">Márgenes</label>
+              <select id="select-pdf-margin" class="form-select">
+                <option value="standard" selected>Margen estándar (0.5 pulg)</option>
+                <option value="none">Sin margen (Ajuste total al borde)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="download-actions-stack">
+            <button type="button" id="btn-convert-pdf" class="btn-download-primary" disabled>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+              </svg>
+              <span>Convertir y Descargar PDF</span>
+            </button>
+          </div>
+
+          <div class="privacy-notice">
+            <span>Las imágenes se procesan 100% en tu navegador.</span>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+  </div>
+
+  <!-- =========================================================================
+       VISTA 3: UNIR ARCHIVOS PDF (MERGE)
+       ========================================================================= -->
+  <div id="view-merge-pdf" class="tool-view-section" style="display: none;">
+    
+    <section class="hero">
+      <div class="hero-pill">
+        Unión local ultra rápida • Sin esperar subida a servidores
+      </div>
+      <h1 class="hero-title">
+        Unir Archivos PDF
+      </h1>
+      <p class="hero-subtitle">
+        Combina varios documentos PDF en un único archivo. Puedes cambiar el orden de las páginas libremente.
+      </p>
+    </section>
+
+    <main class="main-wrapper">
+      <div class="tool-grid">
+        
+        <div class="tool-editor glass-card">
+          <div id="merge-dropzone" class="pdf-dropzone-box">
+            <div class="dropzone-icon">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="12" y1="18" x2="12" y2="12"></line>
+                <line x1="9" y1="15" x2="15" y2="15"></line>
+              </svg>
+            </div>
+            <h4>Arrastra tus documentos PDF aquí</h4>
+            <p>o haz clic para seleccionar 2 o más archivos PDF</p>
+            <input type="file" id="merge-file-input" accept="application/pdf" multiple style="display: none;" />
+          </div>
+
+          <div class="pdf-list-header">
+            <div class="pdf-list-title-group">
+              <span class="section-title" style="margin-bottom: 0;">Documentos para Combinar</span>
+              <span id="merge-count-badge" class="tier-badge free">0 archivos</span>
+            </div>
+            <button type="button" id="btn-clear-merge-files" class="btn-text-danger" style="display: none;">
+              Vaciar lista
+            </button>
+          </div>
+
+          <div id="merge-files-list" class="pdf-images-list-grid">
+            <div class="empty-list-notice">
+              No hay archivos PDF añadidos aún. Selecciona o arrastra al menos 2 documentos para combinarlos.
+            </div>
+          </div>
+        </div>
+
+        <div class="preview-card glass-card">
+          <div class="preview-header">
+            <span class="preview-title">Resultado de Unión</span>
+          </div>
+
+          <div class="pdf-options-container" style="padding-top: 1rem;">
+            <p style="font-size: 0.85rem; color: var(--color-text-muted); line-height: 1.5; margin-bottom: 1.5rem;">
+              Usa las flechas <strong>↑</strong> y <strong>↓</strong> para ordenar qué documento irá primero en el PDF final.
+            </p>
+          </div>
+
+          <div class="download-actions-stack">
+            <button type="button" id="btn-execute-merge" class="btn-download-primary" disabled>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M8 2h8a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"></path>
+                <line x1="12" y1="11" x2="12" y2="17"></line>
+                <line x1="9" y1="14" x2="15" y2="14"></line>
+              </svg>
+              <span>Unir y Descargar PDF</span>
+            </button>
+          </div>
+
+          <div class="privacy-notice">
+            <span>Privacidad garantizada: los archivos no salen de tu equipo.</span>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+  </div>
+
+  <!-- =========================================================================
+       VISTA 4: SEPARAR / DIVIDIR PDF (SPLIT)
+       ========================================================================= -->
+  <div id="view-split-pdf" class="tool-view-section" style="display: none;">
+    
+    <section class="hero">
+      <div class="hero-pill">
+        Extrae solo las hojas que necesitas
+      </div>
+      <h1 class="hero-title">
+        Separar y Extraer Páginas de un PDF
+      </h1>
+      <p class="hero-subtitle">
+        Sube un PDF de múltiples páginas y extrae un rango específico en un nuevo documento ligero.
+      </p>
+    </section>
+
+    <main class="main-wrapper">
+      <div class="tool-grid">
+        
+        <div class="tool-editor glass-card">
+          <div id="split-dropzone" class="pdf-dropzone-box">
+            <div class="dropzone-icon">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="6" cy="6" r="3"></circle>
+                <circle cx="6" cy="18" r="3"></circle>
+                <line x1="20" y1="4" x2="8.12" y2="15.88"></line>
+                <line x1="14.47" y1="14.48" x2="20" y2="20"></line>
+                <line x1="8.12" y1="8.12" x2="12" y2="12"></line>
+              </svg>
+            </div>
+            <h4>Arrastra el archivo PDF aquí</h4>
+            <p>o haz clic para explorar tu documento</p>
+            <input type="file" id="split-file-input" accept="application/pdf" style="display: none;" />
+          </div>
+
+          <!-- Información del documento cargado -->
+          <div id="split-doc-info" style="display: none;">
+            <div class="pdf-image-item" style="margin-bottom: 1.5rem;">
+              <div class="pdf-doc-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                </svg>
+              </div>
+              <div class="pdf-image-meta">
+                <span id="split-doc-name" class="pdf-image-name" style="font-size: 0.95rem;">documento.pdf</span>
+                <span id="split-doc-pages" class="pdf-image-size" style="color: var(--color-primary); font-weight: 600;">Calculando páginas...</span>
+              </div>
+              <button type="button" id="btn-remove-split-file" class="btn-danger-sm">Cambiar archivo</button>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="input-split-range">
+                <span>Rango de páginas a extraer</span>
+                <span style="font-size: 0.75rem; color: var(--color-text-muted);">Ejemplo: 1-3 o 1, 4, 6</span>
+              </label>
+              <input type="text" id="input-split-range" class="form-input" placeholder="Ej: 1-3" />
+            </div>
+          </div>
+        </div>
+
+        <div class="preview-card glass-card">
+          <div class="preview-header">
+            <span class="preview-title">Documento Extraído</span>
+          </div>
+
+          <div class="pdf-options-container" style="padding-top: 1rem;">
+            <p style="font-size: 0.85rem; color: var(--color-text-muted); line-height: 1.5; margin-bottom: 1.5rem;">
+              Solo se guardarán las páginas seleccionadas en el nuevo archivo PDF descargado.
+            </p>
+          </div>
+
+          <div class="download-actions-stack">
+            <button type="button" id="btn-execute-split" class="btn-download-primary" disabled>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <circle cx="6" cy="6" r="3"></circle>
+                <circle cx="6" cy="18" r="3"></circle>
+                <line x1="20" y1="4" x2="8.12" y2="15.88"></line>
+              </svg>
+              <span>Extraer y Descargar PDF</span>
+            </button>
+          </div>
+
+          <div class="privacy-notice">
+            <span>Tus documentos no se almacenan en ningún servidor.</span>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+  </div>
+
+  <!-- =========================================================================
+       VISTA 5: TRANSCRIPTOR DE AUDIO A TEXTO (WHISPER LOCAL & DICTADO)
+       ========================================================================= -->
+  <div id="view-audio-to-text" class="tool-view-section" style="display: none;">
+    
+    <section class="hero">
+      <div class="hero-pill">
+        Inteligencia Artificial Whisper en tu Navegador • 100% Privado
+      </div>
+      <h1 class="hero-title">
+        Transcriptor de Audio a Texto
+      </h1>
+      <p class="hero-subtitle">
+        Carga grabaciones, notas de voz o archivos de audio y conviértelos en texto editable al instante sin enviar datos a servidores externos.
+      </p>
+    </section>
+
+    <main class="main-wrapper">
+      <div class="tool-grid">
+        
+        <!-- Columna Izquierda: Carga del Audio, Configuración y Reproductor -->
+        <div class="tool-editor glass-card">
+          
+          <div class="audio-input-methods">
+            
+            <!-- Zona de Carga de Archivos de Audio -->
+            <div id="audio-dropzone" class="pdf-dropzone-box">
+              <div class="dropzone-icon">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M9 18V5l12-2v13"></path>
+                  <circle cx="6" cy="18" r="3"></circle>
+                  <circle cx="18" cy="16" r="3"></circle>
+                </svg>
+              </div>
+              <h4>Arrastra tu archivo de audio aquí</h4>
+              <p>o haz clic para explorar en tu equipo (.mp3, .wav, .m4a, .ogg, .webm, notas de voz)</p>
+              <input type="file" id="audio-file-input" accept="audio/*, .mp3, .wav, .m4a, .ogg, .aac, .webm, .opus" style="display: none;" />
+            </div>
+
+            <!-- Ficha del archivo cargado y reproductor -->
+            <div id="audio-file-info" class="audio-loaded-card" style="display: none;">
+              <div class="audio-meta-row">
+                <div class="audio-meta-icon">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                  </svg>
+                </div>
+                <div class="audio-meta-details">
+                  <span id="audio-file-name" class="audio-title">archivo-de-audio.mp3</span>
+                  <div class="audio-sub-meta">
+                    <span id="audio-file-size">0 MB</span> &bull;
+                    <span id="audio-file-duration">Duración: 0:00</span>
+                  </div>
+                </div>
+                <button type="button" id="btn-remove-audio" class="btn-danger-sm">Cambiar</button>
+              </div>
+
+              <!-- Reproductor HTML5 -->
+              <div class="audio-player-wrapper">
+                <audio id="audio-preview-player" controls style="width: 100%; border-radius: var(--radius-sm);"></audio>
+              </div>
+            </div>
+
+            <!-- Controles de Configuración de Idioma -->
+            <div class="form-group" style="margin-top: 1.25rem;">
+              <label class="form-label" for="select-audio-language">
+                <span>Idioma del Audio</span>
+                <span style="font-size: 0.75rem; color: var(--color-text-muted);">Español optimizado</span>
+              </label>
+              <select id="select-audio-language" class="form-select">
+                <option value="spanish" selected>Español (Recomendado)</option>
+                <option value="english">Inglés (English)</option>
+                <option value="auto">Detección Automática</option>
+              </select>
+            </div>
+
+            <!-- Botón de Transcripción Principal -->
+            <div class="audio-actions-row">
+              <button type="button" id="btn-execute-transcribe" class="btn-download-primary" disabled>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                </svg>
+                <span>Transcribir Audio a Texto</span>
+              </button>
+            </div>
+
+            <!-- Barra de Progreso y Estado de IA -->
+            <div id="transcribe-progress-container" class="transcribe-progress-box" style="display: none;">
+              <div class="progress-status-row">
+                <span id="transcribe-status-text" class="progress-status-label">Iniciando...</span>
+              </div>
+              <div class="progress-track-large">
+                <div id="transcribe-progress-bar" class="progress-fill-large" style="width: 0%;"></div>
+              </div>
+              <small class="progress-note">
+                El modelo Whisper se ejecuta 100% en la memoria de tu navegador. Tus audios nunca salen de tu ordenador.
+              </small>
+            </div>
+
+            <!-- Separador visual -->
+            <div class="audio-divider">
+              <span>o si prefieres hablar directamente</span>
+            </div>
+
+            <!-- Modo Alternativo: Dictado por Voz en Vivo (Micrófono) -->
+            <div class="live-mic-card">
+              <div class="live-mic-header">
+                <div class="live-mic-title-group">
+                  <span class="live-mic-title">Dictado en Vivo por Micrófono</span>
+                  <span id="mic-status-pill" class="tier-badge free">Micrófono Inactivo</span>
+                </div>
+              </div>
+              <p class="live-mic-desc">
+                Habla por el micrófono y el navegador transcribirá tus palabras en tiempo real.
+              </p>
+              
+              <div class="live-mic-controls">
+                <button type="button" id="btn-toggle-live-mic" class="btn-live-mic">
+                  <svg class="mic-svg-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                    <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                    <line x1="12" y1="19" x2="12" y2="23"></line>
+                    <line x1="8" y1="23" x2="16" y2="23"></line>
+                  </svg>
+                  <span class="btn-mic-label">Iniciar Dictado en Vivo</span>
+                </button>
+
+                <!-- Animación de ondas cuando escucha -->
+                <div id="mic-waveform-animation" class="mic-wave-container" style="display: none;">
+                  <span class="wave-bar"></span>
+                  <span class="wave-bar"></span>
+                  <span class="wave-bar"></span>
+                  <span class="wave-bar"></span>
+                  <span class="wave-bar"></span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Columna Derecha: Texto Transcrito y Exportación -->
+        <div class="preview-card glass-card">
+          <div class="preview-header">
+            <span class="preview-title">Transcripción de Texto</span>
+            <div class="transcript-badges">
+              <span id="transcript-word-count" class="tier-badge free">0 palabras</span>
+              <span id="transcript-char-count" class="tier-badge free">0 caracteres</span>
+            </div>
+          </div>
+
+          <div class="transcript-editor-container">
+            <textarea id="transcript-output-text" class="form-textarea transcript-textarea" placeholder="Aquí aparecerá el texto de tu audio transcrito. También puedes editarlo o escribir notas adicionales libremente..."></textarea>
+          </div>
+
+          <div class="transcript-actions-grid">
+            <button type="button" id="btn-copy-transcript" class="btn-action-outline" disabled>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+              <span class="btn-label">Copiar Texto</span>
+            </button>
+
+            <button type="button" id="btn-download-txt" class="btn-action-outline" disabled>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              <span>Descargar .TXT</span>
+            </button>
+
+            <button type="button" id="btn-clear-transcript" class="btn-action-outline btn-action-danger" disabled>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="3 6 5 6 21 6"></polyline>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+              <span>Limpiar</span>
+            </button>
+          </div>
+
+          <!-- Aviso de precisión / posibles errores de IA -->
+          <div class="transcription-disclaimer-note">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <span><strong>Aviso importante:</strong> La transcripción es generada por IA y puede cometer errores o tener imprecisiones por ruidos de fondo, dicción rápida o mala interpretación acústica. Te recomendamos siempre revisar y corregir el texto final.</span>
+          </div>
+
+          <div class="privacy-notice" style="margin-top: 1.25rem;">
+            <span>Privacidad garantizada: tus audios nunca salen de tu ordenador.</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Demostración Visual de Transcripción de Audio (Exclusivo de Audio a Texto) -->
+      <div class="tool-showcase-section">
+        <div class="tool-showcase-header">
+          <span class="hero-pill">Demostración de IA en Vivo</span>
+          <h3 class="tool-showcase-title">¿Cómo funciona la transcripción con Whisper?</h3>
+          <p class="tool-showcase-subtitle">Procesamiento acústico en tiempo real directamente en tu navegador.</p>
+        </div>
+
+        <div class="showcase-card glass-card tool-showcase-card-single">
+          <div class="showcase-image-wrap">
+            <img src="/images/demo-audio-transcription.jpg" alt="Muestra de transcripción de audio a texto con IA Whisper" class="showcase-img" loading="lazy" />
+            <span class="showcase-tag">Audio a Texto con Whisper IA</span>
+          </div>
+          <div class="showcase-body">
+            <h4>Pasa notas de voz y grabaciones a texto sin salir de tu navegador</h4>
+            <p>
+              El modelo Whisper analiza el archivo de audio (.mp3, .wav, notas de voz de WhatsApp) y transcribe cada frase con puntuación y formato en cuestión de segundos, garantizando un 100% de confidencialidad y procesamiento local en tu propio ordenador.
+            </p>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- =========================================================================
+       VISTA 6: IMAGE STUDIO (COMPRESIÓN, REDIMENSIÓN, FORMATOS, EXIF)
+       ========================================================================= -->
+  <div id="view-image-studio" class="tool-view-section" style="display: none;">
+    
+    <section class="hero">
+      <div class="hero-pill">
+        Laboratorio de Imágenes en Memoria • Calidad y Ahorro en Vivo
+      </div>
+      <h1 class="hero-title">
+        Laboratorio de Imágenes
+      </h1>
+      <p class="hero-subtitle">
+        Comprime fotos, cambia resolución y dimensiones, convierte entre JPG, PNG y WebP, pasa a blanco y negro y remueve metadatos EXIF.
+      </p>
+    </section>
+
+    <main class="main-wrapper">
+      
+      <!-- Dropzone Imagen -->
+      <div id="image-studio-dropzone" class="pdf-dropzone-box glass-card" style="max-width: 700px; margin: 0 auto;">
+        <div class="dropzone-icon">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+            <circle cx="8.5" cy="8.5" r="1.5"></circle>
+            <polyline points="21 15 16 10 5 21"></polyline>
+          </svg>
+        </div>
+        <h4>Arrastra tu imagen aquí</h4>
+        <p>o haz clic para explorar (JPG, PNG, WebP, GIF)</p>
+        <input type="file" id="image-studio-file-input" accept="image/*" style="display: none;" />
+      </div>
+
+      <!-- Espacio de Trabajo Image Studio -->
+      <div id="image-studio-workspace" style="display: none;">
+        <div class="tool-grid">
+          
+          <!-- Columna Izquierda: Ajustes y Controles -->
+          <div class="tool-editor glass-card">
+            
+            <div class="section-title-row">
+              <span class="section-title" style="margin-bottom: 0;">Ajustes de Imagen</span>
+              <button type="button" id="btn-img-change-file" class="btn-danger-sm">Cambiar Foto</button>
+            </div>
+
+            <!-- Calidad / Compresión -->
+            <div class="form-group" style="margin-top: 1.25rem;">
+              <label class="form-label" for="slider-img-quality">
+                <span>Nivel de Calidad y Compresión</span>
+                <span id="img-quality-val" style="color: var(--color-primary); font-weight: 700;">85%</span>
+              </label>
+              <input type="range" id="slider-img-quality" min="10" max="100" value="85" class="custom-range-slider" />
+            </div>
+
+            <!-- Formato de Salida -->
+            <div class="form-group">
+              <label class="form-label" for="select-img-format">Formato de Salida</label>
+              <select id="select-img-format" class="form-select">
+                <option value="image/jpeg" selected>JPG / JPEG (Óptimo para fotos)</option>
+                <option value="image/webp">WebP (Máxima compresión web)</option>
+                <option value="image/png">PNG (Sin pérdida / Transparencia)</option>
+              </select>
+            </div>
+
+            <!-- Redimensionado -->
+            <div class="form-group">
+              <label class="form-label">Redimensionar Píxeles</label>
+              <div class="form-row-2">
+                <div class="dim-input-wrap">
+                  <label class="input-sublabel">Ancho (px)</label>
+                  <input type="number" id="input-img-width" class="form-input form-input-sm" />
+                </div>
+                <div class="dim-input-wrap">
+                  <label class="input-sublabel">Alto (px)</label>
+                  <input type="number" id="input-img-height" class="form-input form-input-sm" />
+                </div>
+              </div>
+              <div class="form-group checkbox-row" style="margin-top: 0.5rem;">
+                <input type="checkbox" id="check-keep-aspect" checked />
+                <label for="check-keep-aspect">Mantener proporción original</label>
+              </div>
+            </div>
+
+            <!-- Escalas Rápidas -->
+            <div class="scale-presets-row">
+              <span class="scale-label">Escala rápida:</span>
+              <button type="button" class="btn-demo-pill img-scale-btn" data-scale="0.25">25%</button>
+              <button type="button" class="btn-demo-pill img-scale-btn" data-scale="0.5">50%</button>
+              <button type="button" class="btn-demo-pill img-scale-btn" data-scale="0.75">75%</button>
+              <button type="button" class="btn-demo-pill img-scale-btn active" data-scale="1">100%</button>
+            </div>
+
+            <!-- Rotación y Volteo -->
+            <div class="form-group" style="margin-top: 1.25rem;">
+              <label class="form-label">Orientación y Giro</label>
+              <div class="orientation-btns-row">
+                <button type="button" id="btn-img-rotate-left" class="btn-action-outline">
+                  <span>Rotar -90°</span>
+                </button>
+                <button type="button" id="btn-img-rotate-right" class="btn-action-outline">
+                  <span>Rotar +90°</span>
+                </button>
+                <button type="button" id="btn-img-flip-h" class="btn-action-outline">
+                  <span>Voltear Horiz.</span>
+                </button>
+                <button type="button" id="btn-img-flip-v" class="btn-action-outline">
+                  <span>Voltear Vert.</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Efectos y Privacidad -->
+            <div class="form-group" style="margin-top: 1.25rem;">
+              <label class="form-label">Filtros y Privacidad</label>
+              <div class="checkbox-stack">
+                <label class="checkbox-row-custom">
+                  <input type="checkbox" id="check-img-grayscale" />
+                  <span class="checkbox-custom-label">
+                    <strong>Filtro Blanco y Negro (Escala de grises)</strong>
+                  </span>
+                </label>
+                <label class="checkbox-row-custom">
+                  <input type="checkbox" id="check-strip-exif" checked disabled />
+                  <span class="checkbox-custom-label">
+                    <strong>Limpieza automática de metadatos EXIF</strong>
+                    <small>Elimina coordenadas GPS, modelo de cámara y fecha para proteger tu privacidad.</small>
+                  </span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Acciones de Descarga -->
+            <div class="download-actions-stack" style="margin-top: 1.5rem;">
+              <button type="button" id="btn-download-processed-img" class="btn-download-primary">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                <span>Descargar Imagen Optimizada</span>
+              </button>
+              <button type="button" id="btn-export-favicons" class="btn-action-outline" style="width: 100%; justify-content: center; margin-top: 0.5rem;">
+                <span>Generar Pack de Favicons Web (.PNGs)</span>
+              </button>
+            </div>
+
+          </div>
+
+          <!-- Columna Derecha: Vista Previa y Comparativa de Peso -->
+          <div class="preview-card glass-card">
+            <div class="preview-header">
+              <span class="preview-title">Vista Previa en Vivo</span>
+              <span id="img-savings-pill" class="tier-badge pro">-0% de ahorro</span>
+            </div>
+
+            <div class="metrics-cards-grid">
+              <div class="metric-mini-card">
+                <span class="metric-sub">Peso Original</span>
+                <span id="img-orig-size" class="metric-val">0 KB</span>
+              </div>
+              <div class="metric-mini-card highlight">
+                <span class="metric-sub">Peso Optimizado</span>
+                <span id="img-est-size" class="metric-val">0 KB</span>
+              </div>
+              <div class="metric-mini-card">
+                <span class="metric-sub">Resolución</span>
+                <span id="img-orig-dim" class="metric-val">0 x 0 px</span>
+              </div>
+            </div>
+
+            <div class="image-preview-canvas-holder">
+              <canvas id="img-preview-canvas" class="image-studio-canvas"></canvas>
+            </div>
+
+            <div class="privacy-notice" style="margin-top: 1.25rem;">
+              <span>Las imágenes se comprimen 100% en la memoria de tu navegador.</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- =========================================================================
+       VISTA 7: OCR STUDIO (RECONOCIMIENTO ÓPTICO DE CARACTERES)
+       ========================================================================= -->
+  <div id="view-ocr-studio" class="tool-view-section" style="display: none;">
+    
+    <section class="hero">
+      <div class="hero-pill">
+        Reconocimiento Óptico de Caracteres en Web Worker • 100% Local
+      </div>
+      <h1 class="hero-title">
+        Reconocimiento de Texto (OCR)
+      </h1>
+      <p class="hero-subtitle">
+        Sube fotos, recibos, facturas, carteles o capturas de pantalla para extraer todo su texto de forma editable sin servidores.
+      </p>
+    </section>
+
+    <main class="main-wrapper">
+      <div class="tool-grid">
+        
+        <div class="tool-editor glass-card">
+          <div id="ocr-dropzone" class="pdf-dropzone-box">
+            <div class="dropzone-icon">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                <line x1="11" y1="8" x2="11" y2="14"></line>
+                <line x1="8" y1="11" x2="14" y2="11"></line>
+              </svg>
+            </div>
+            <h4>Arrastra tu imagen o captura aquí</h4>
+            <p>o haz clic para explorar (PNG, JPG, WebP)</p>
+            <input type="file" id="ocr-file-input" accept="image/*" style="display: none;" />
+          </div>
+
+          <div id="ocr-preview-box" style="display: none;">
+            <div class="ocr-img-wrap">
+              <img id="ocr-image-preview" class="ocr-thumb" alt="Vista previa OCR" />
+              <button type="button" id="btn-ocr-change-image" class="btn-danger-sm" style="margin-top: 0.75rem;">Cambiar Imagen</button>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-top: 1.25rem;">
+            <label class="form-label" for="select-ocr-lang">Idioma del Texto</label>
+            <select id="select-ocr-lang" class="form-select">
+              <option value="spa" selected>Español</option>
+              <option value="eng">Inglés (English)</option>
+            </select>
+          </div>
+
+          <button type="button" id="btn-execute-ocr" class="btn-download-primary" style="margin-top: 1.25rem;" disabled>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <span>Extraer Texto con OCR</span>
+          </button>
+
+          <div id="ocr-progress-box" class="transcribe-progress-box" style="display: none;">
+            <div class="progress-status-row">
+              <span id="ocr-progress-text" class="progress-status-label">Iniciando OCR...</span>
+            </div>
+            <div class="progress-track-large">
+              <div id="ocr-progress-bar" class="progress-fill-large" style="width: 0%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="preview-card glass-card">
+          <div class="preview-header">
+            <span class="preview-title">Texto Extraído</span>
+            <div class="transcript-badges">
+              <span id="ocr-word-count" class="tier-badge free">0 palabras</span>
+              <span id="ocr-char-count" class="tier-badge free">0 caracteres</span>
+            </div>
+          </div>
+
+          <div class="transcript-editor-container">
+            <textarea id="ocr-output-text" class="form-textarea transcript-textarea" placeholder="Aquí se mostrará el texto extraído de la imagen para que puedas copiarlo, editarlo o corregirlo..."></textarea>
+          </div>
+
+          <div class="transcript-actions-grid">
+            <button type="button" id="btn-copy-ocr" class="btn-action-outline" disabled>
+              <span class="btn-label">Copiar Texto</span>
+            </button>
+            <button type="button" id="btn-download-ocr-txt" class="btn-action-outline" disabled>
+              <span>Descargar .TXT</span>
+            </button>
+            <button type="button" id="btn-clear-ocr" class="btn-action-outline btn-action-danger" disabled>
+              <span>Limpiar</span>
+            </button>
+          </div>
+
+          <div class="transcription-disclaimer-note">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+            </svg>
+            <span>La precisión del OCR depende de la nitidez, iluminación y resolución de la foto original.</span>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+  </div>
+
+  <!-- =========================================================================
+       VISTA 8: SECURITY STUDIO (CIFRADO AES-256, HASHES, CONTRASEÑAS)
+       ========================================================================= -->
+  <div id="view-security-studio" class="tool-view-section" style="display: none;">
+    
+    <section class="hero">
+      <div class="hero-pill">
+        Web Crypto API de Nivel Militar • Cero Servidores
+      </div>
+      <h1 class="hero-title">
+        Seguridad y Criptografía
+      </h1>
+      <p class="hero-subtitle">
+        Cifra y descifra cualquier archivo con AES-256-GCM, calcula sumas de verificación SHA y genera contraseñas seguras.
+      </p>
+    </section>
+
+    <main class="main-wrapper">
+      <div class="type-selector-tabs" style="grid-template-columns: repeat(3, 1fr); max-width: 600px; margin: 0 auto 2rem;">
+        <button type="button" class="type-btn sec-tab-btn active" data-sectab="encrypt">
+          <span>Cifrar / Descifrar Archivos</span>
+        </button>
+        <button type="button" class="type-btn sec-tab-btn" data-sectab="hashes">
+          <span>Calculadora de Hashes</span>
+        </button>
+        <button type="button" class="type-btn sec-tab-btn" data-sectab="passwords">
+          <span>Generador Contraseñas</span>
+        </button>
+      </div>
+
+      <!-- Panel 1: Cifrado y Descifrado -->
+      <div class="sec-tab-panel active" data-sectab="encrypt">
+        <div class="tool-grid">
+          
+          <!-- Cifrar -->
+          <div class="tool-editor glass-card">
+            <h3 class="section-title">Cifrar Archivo con Contraseña (AES-256)</h3>
+            <p style="font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 1.25rem;">
+              Protege cualquier archivo (documentos, fotos, balances) convirtiéndolo en un archivo protegido e indescifrable <code>.enc</code>.
+            </p>
+
+            <div id="enc-file-dropzone" class="pdf-dropzone-box" style="padding: 1.5rem 1rem;">
+              <p>Arrastra o selecciona el archivo a proteger</p>
+              <input type="file" id="enc-file-input" style="display: none;" />
+            </div>
+            <span id="enc-file-name" class="color-sub" style="display: block; margin: 0.5rem 0 1rem;"></span>
+
+            <div class="form-group">
+              <label class="form-label" for="enc-password">Contraseña de Cifrado</label>
+              <input type="password" id="enc-password" class="form-input" placeholder="Introduce una clave segura" />
+            </div>
+
+            <button type="button" id="btn-execute-encrypt" class="btn-download-primary">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+              <span>Cifrar y Descargar (.enc)</span>
+            </button>
+          </div>
+
+          <!-- Descifrar -->
+          <div class="tool-editor glass-card">
+            <h3 class="section-title">Descifrar Archivo Protegido (.enc)</h3>
+            <p style="font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 1.25rem;">
+              Recupera el archivo original subiendo tu archivo <code>.enc</code> e ingresando la contraseña con la que fue cifrado.
+            </p>
+
+            <div id="dec-file-dropzone" class="pdf-dropzone-box" style="padding: 1.5rem 1rem;">
+              <p>Arrastra o selecciona tu archivo .enc</p>
+              <input type="file" id="dec-file-input" accept=".enc" style="display: none;" />
+            </div>
+            <span id="dec-file-name" class="color-sub" style="display: block; margin: 0.5rem 0 1rem;"></span>
+
+            <div class="form-group">
+              <label class="form-label" for="dec-password">Contraseña de Descifrado</label>
+              <input type="password" id="dec-password" class="form-input" placeholder="Introduce la clave del archivo" />
+            </div>
+
+            <button type="button" id="btn-execute-decrypt" class="btn-download-primary">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 9.9-1"></path>
+              </svg>
+              <span>Descifrar Archivo</span>
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Panel 2: Hashes y Checksums -->
+      <div class="sec-tab-panel" data-sectab="hashes">
+        <div class="tool-editor glass-card" style="max-width: 800px; margin: 0 auto;">
+          <h3 class="section-title">Verificador de Integridad y Hashes Criptográficos</h3>
+          <p style="font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 1.25rem;">
+            Calcula la huella digital criptográfica de cualquier archivo para verificar que no haya sido alterado.
+          </p>
+
+          <div id="hash-dropzone" class="pdf-dropzone-box" style="padding: 1.5rem 1rem;">
+            <p>Selecciona o arrastra cualquier archivo para calcular su Hash</p>
+            <input type="file" id="hash-file-input" style="display: none;" />
+          </div>
+          <span id="hash-file-name" class="color-sub" style="display: block; margin: 0.5rem 0 1.25rem;"></span>
+
+          <div class="hash-results-stack">
+            <div class="hash-item-box">
+              <div class="hash-item-header">
+                <strong>SHA-256 (Estándar de la Industria)</strong>
+              </div>
+              <code id="hash-sha256" class="hash-code-display">Carga un archivo para calcular...</code>
+            </div>
+
+            <div class="hash-item-box">
+              <div class="hash-item-header">
+                <strong>SHA-512 (Máxima Seguridad)</strong>
+              </div>
+              <code id="hash-sha512" class="hash-code-display">Carga un archivo para calcular...</code>
+            </div>
+
+            <div class="hash-item-box">
+              <div class="hash-item-header">
+                <strong>SHA-1 (Compatibilidad)</strong>
+              </div>
+              <code id="hash-sha1" class="hash-code-display">Carga un archivo para calcular...</code>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel 3: Generador de Contraseñas -->
+      <div class="sec-tab-panel" data-sectab="passwords">
+        <div class="tool-editor glass-card" style="max-width: 650px; margin: 0 auto;">
+          <h3 class="section-title">Generador de Contraseñas Seguras</h3>
+          
+          <div class="pass-output-row">
+            <input type="text" id="generated-pass-input" class="form-input form-input-lg pass-display" readonly />
+            <button type="button" id="btn-copy-pass" class="btn-download-primary" style="padding: 0.75rem 1.25rem;">Copiar</button>
+            <button type="button" id="btn-regen-pass" class="btn-action-outline" style="padding: 0.75rem 1rem;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+              </svg>
+            </button>
+          </div>
+
+          <div class="pass-strength-meter">
+            <div class="strength-labels">
+              <span>Seguridad: <strong id="pass-strength-label">Ultra Segura</strong></span>
+            </div>
+            <div class="mini-progress-track" style="width: 100%; height: 8px;">
+              <div id="pass-strength-bar" class="mini-progress-fill" style="width: 100%; background: var(--color-success);"></div>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-top: 1.5rem;">
+            <label class="form-label">
+              <span>Longitud de la contraseña:</span>
+              <span id="pass-length-val" style="color: var(--color-primary); font-weight: 700;">16</span>
+            </label>
+            <input type="range" id="pass-length-slider" min="8" max="64" value="16" class="custom-range-slider" />
+          </div>
+
+          <div class="checkbox-stack" style="margin-top: 1rem;">
+            <label class="checkbox-row">
+              <input type="checkbox" id="pass-check-upper" checked />
+              <span>Letras Mayúsculas (A-Z)</span>
+            </label>
+            <label class="checkbox-row">
+              <input type="checkbox" id="pass-check-lower" checked />
+              <span>Letras Minúsculas (a-z)</span>
+            </label>
+            <label class="checkbox-row">
+              <input type="checkbox" id="pass-check-num" checked />
+              <span>Números (0-9)</span>
+            </label>
+            <label class="checkbox-row">
+              <input type="checkbox" id="pass-check-sym" checked />
+              <span>Símbolos especiales (!@#$%^&*)</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- =========================================================================
+       VISTA 9: ARCHIVE STUDIO (CREAR Y EXTRAER ZIP, CONVERSOR BASE64)
+       ========================================================================= -->
+  <div id="view-archive-studio" class="tool-view-section" style="display: none;">
+    
+    <section class="hero">
+      <div class="hero-pill">
+        Compresión ZIP y Base64 en el Navegador • Sin Límites de Servidor
+      </div>
+      <h1 class="hero-title">
+        Archivos ZIP y Base64
+      </h1>
+      <p class="hero-subtitle">
+        Empaqueta múltiples archivos en un archivo ZIP comprimido, descomprime archivos ZIP o convierte documentos a Base64.
+      </p>
+    </section>
+
+    <main class="main-wrapper">
+      <div class="type-selector-tabs" style="grid-template-columns: repeat(3, 1fr); max-width: 600px; margin: 0 auto 2rem;">
+        <button type="button" class="type-btn arch-tab-btn active" data-archtab="create-zip">
+          <span>Crear Archivo ZIP</span>
+        </button>
+        <button type="button" class="type-btn arch-tab-btn" data-archtab="extract-zip">
+          <span>Extraer Archivo ZIP</span>
+        </button>
+        <button type="button" class="type-btn arch-tab-btn" data-archtab="base64">
+          <span>Conversor Base64</span>
+        </button>
+      </div>
+
+      <!-- Panel 1: Crear ZIP -->
+      <div class="arch-tab-panel active" data-archtab="create-zip">
+        <div class="tool-grid">
+          
+          <div class="tool-editor glass-card">
+            <div id="zip-create-dropzone" class="pdf-dropzone-box">
+              <div class="dropzone-icon">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="21 8 21 21 3 21 3 8"></polyline>
+                  <rect x="1" y="3" width="22" height="5"></rect>
+                  <line x1="10" y1="12" x2="14" y2="12"></line>
+                </svg>
+              </div>
+              <h4>Arrastra tus archivos aquí</h4>
+              <p>o haz clic para seleccionar cualquier tipo de documento</p>
+              <input type="file" id="zip-create-file-input" multiple style="display: none;" />
+            </div>
+
+            <div class="pdf-list-header">
+              <div class="pdf-list-title-group">
+                <span class="section-title" style="margin-bottom: 0;">Archivos para Empaquetar</span>
+                <span id="zip-files-count-badge" class="tier-badge free">0 archivos</span>
+              </div>
+              <button type="button" id="btn-clear-zip-files" class="btn-text-danger" style="display: none;">Vaciar lista</button>
+            </div>
+
+            <div id="zip-files-list" class="pdf-images-list-grid">
+              <div class="empty-list-notice">No hay archivos añadidos aún.</div>
+            </div>
+          </div>
+
+          <div class="preview-card glass-card">
+            <div class="preview-header">
+              <span class="preview-title">Configuración del Archivo ZIP</span>
+            </div>
+
+            <div class="form-group" style="margin-top: 1.25rem;">
+              <label class="form-label" for="input-zip-filename">Nombre del Archivo ZIP</label>
+              <input type="text" id="input-zip-filename" class="form-input" value="archivos-comprimidos" />
+            </div>
+
+            <div class="download-actions-stack" style="margin-top: 2rem;">
+              <button type="button" id="btn-execute-create-zip" class="btn-download-primary" disabled>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                <span>Comprimir y Descargar ZIP</span>
+              </button>
+            </div>
+
+            <div class="privacy-notice" style="margin-top: 1.25rem;">
+              <span>Tus archivos se comprimen 100% en tu propio ordenador.</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Panel 2: Extraer ZIP -->
+      <div class="arch-tab-panel" data-archtab="extract-zip">
+        <div class="tool-editor glass-card" style="max-width: 800px; margin: 0 auto;">
+          <h3 class="section-title">Descomprimir Archivo ZIP</h3>
+          <p style="font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 1.25rem;">
+            Sube un archivo .zip para explorar sus contenidos y descargar archivos individuales.
+          </p>
+
+          <div id="zip-extract-dropzone" class="pdf-dropzone-box">
+            <p>Arrastra o haz clic para subir tu archivo .zip</p>
+            <input type="file" id="zip-extract-file-input" accept=".zip" style="display: none;" />
+          </div>
+
+          <div id="zip-extracted-files-list" class="pdf-images-list-grid" style="margin-top: 1.5rem;"></div>
+        </div>
+      </div>
+
+      <!-- Panel 3: Base64 -->
+      <div class="arch-tab-panel" data-archtab="base64">
+        <div class="tool-editor glass-card" style="max-width: 800px; margin: 0 auto;">
+          <h3 class="section-title">Conversor Archivo a Base64</h3>
+          <p style="font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 1.25rem;">
+            Convierte cualquier archivo a cadena Base64 / Data URI para incrustar en código HTML, CSS o JSON.
+          </p>
+
+          <div id="b64-dropzone" class="pdf-dropzone-box" style="padding: 1.5rem 1rem;">
+            <p>Selecciona cualquier archivo para convertir a Base64</p>
+            <input type="file" id="b64-file-input" style="display: none;" />
+          </div>
+
+          <div class="form-group" style="margin-top: 1.25rem;">
+            <textarea id="b64-output-text" class="form-textarea" style="min-height: 180px; font-family: monospace; font-size: 0.8rem;" placeholder="La cadena Base64 aparecerá aquí..."></textarea>
+          </div>
+
+          <button type="button" id="btn-copy-b64" class="btn-download-primary">
+            <span>Copiar Cadena Base64</span>
+          </button>
+        </div>
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- Sección de Información, Muestras y Preguntas Frecuentes -->
+  <section class="seo-benefits-section">
+    <div class="benefits-grid">
+      <div class="benefit-card">
+        <h3>100% Privado y Confidencial</h3>
+        <p>
+          A diferencia de otros convertidores, tus documentos y grabaciones nunca se suben a la nube. Todo se procesa de forma segura en la memoria de tu dispositivo.
+        </p>
+      </div>
+
+      <div class="benefit-card">
+        <h3>Sin Publicidad Ni Esperas</h3>
+        <p>
+          Herramientas limpias y rápidas. Sin anuncios molestos ni tiempos de espera para subir archivos pesados por internet.
+        </p>
+      </div>
+
+      <div class="benefit-card">
+        <h3>Formatos Digitales e IA Local</h3>
+        <p>
+          Genera códigos QR de contactos para guardar con un clic, transcribe audios con Whisper de OpenAI o une y separa PDFs con precisión.
+        </p>
+      </div>
+    </div>
+
+    <div class="faq-section">
+      <h2 class="faq-title">Preguntas Frecuentes</h2>
+      <p class="faq-subtitle">Detalles de uso y especificaciones técnicas</p>
+
+      <div class="faq-list">
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>¿Por qué es más seguro usar QRStudio que otras páginas?</span>
+            <span class="faq-toggle-icon">+</span>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              Las páginas tradicionales suben tus contratos, documentos de identidad o balances contables a servidores en el extranjero. QRStudio ejecuta la unión y división directamente en tu navegador web: el archivo nunca viaja por internet.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>¿Cómo funciona el plan mensual?</span>
+            <span class="faq-toggle-icon">+</span>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              Por solo $3.99 al mes obtienes acceso ilimitado a todas las herramientas sin límites diarios de descarga, procesamiento por lote de imágenes y exportación de códigos QR en SVG vectorial con tu logotipo. Puedes cancelar tu suscripción en cualquier momento con un solo clic.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>¿Puedo cambiar el orden al unir PDFs?</span>
+            <span class="faq-toggle-icon">+</span>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              Sí. Con las flechas de subida y bajada puedes reorganizar qué archivo va primero antes de generar el documento final combinado.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modal Pro con Enfoque en Suscripción Mensual -->
+  <div id="pro-modal" class="modal-overlay">
+    <div class="modal-content">
+      <button type="button" id="btn-close-pro-modal" class="modal-close-btn" aria-label="Cerrar">&times;</button>
+
+      <div class="modal-header">
+        <h2 id="pro-modal-title">Todas tus herramientas de archivos en un solo lugar</h2>
+        <p id="pro-modal-desc">
+          QR, PDF, imágenes y audio. Rápido, simple y sin límites.
+        </p>
+      </div>
+
+      <div id="pro-modal-status-bar" class="current-plan-status-bar">
+        <span>Estado de tu cuenta: <strong>Plan Gratuito</strong> (3 descargas diarias)</span>
+      </div>
+
+      <div class="plans-comparison-grid">
+        
+        <!-- Plan Mensual -->
+        <div class="plan-card" data-plan="Monthly">
+          <h4>Plan Mensual</h4>
+          <div class="plan-price">$3.99 <span>/ mes</span></div>
+          <div class="plan-subtitle">Acceso flexible mes a mes</div>
+          <ul class="feature-list">
+            <li class="active-pro">Descargas y conversiones ilimitadas</li>
+            <li class="active-pro">100% privado: nada sale de tu equipo</li>
+            <li class="active-pro">Exportación SVG y logo en QR</li>
+            <li class="active-pro">Audio a texto y PDFs sin límites</li>
+            <li class="active-pro">Cancela cuando quieras en 1 clic</li>
+          </ul>
+          <button type="button" class="btn-plan-action secondary btn-buy-plan" data-plan="Monthly">
+            Elegir Mensual
+          </button>
+        </div>
+
+        <!-- Plan Anual (Destacado) -->
+        <div class="plan-card featured" data-plan="Annual">
+          <span class="popular-badge">MÁS ELEGIDO • AHORRA 37%</span>
+          <h4>Plan Anual</h4>
+          <div class="plan-price">$29.99 <span>/ año</span></div>
+          <div class="plan-subtitle highlight">Solo $2.50 / mes (Facturado anual)</div>
+          <ul class="feature-list">
+            <li class="active-pro"><strong>Todo lo del Plan Mensual</strong></li>
+            <li class="active-pro"><strong>1 año completo de tranquilidad</strong></li>
+            <li class="active-pro"><strong>Ahorras $18 USD vs pago mensual</strong></li>
+            <li class="active-pro">Procesamiento ilimitado y 100% privado</li>
+            <li class="active-pro">Soporte prioritario</li>
+          </ul>
+          <button type="button" class="btn-plan-action primary btn-buy-plan" data-plan="Annual">
+            Elegir Plan Anual
+          </button>
+        </div>
+
+        <!-- Plan Lifetime (De Por Vida) -->
+        <div class="plan-card" data-plan="Lifetime">
+          <span class="popular-badge lifetime-badge">PAGO ÚNICO</span>
+          <h4>Acceso de por Vida</h4>
+          <div class="plan-price">$49.99 <span>/ pago único</span></div>
+          <div class="plan-subtitle highlight">Pagás una vez y te olvidás.</div>
+          <ul class="feature-list">
+            <li class="active-pro"><strong>Un solo pago — tuyo para siempre</strong></li>
+            <li class="active-pro"><strong>Sin suscripciones ni cuotas mensuales</strong></li>
+            <li class="active-pro"><strong>100% privado en tu navegador</strong></li>
+            <li class="active-pro">Todas las herramientas ilimitadas</li>
+            <li class="active-pro">Todas las futuras herramientas gratis</li>
+          </ul>
+          <button type="button" class="btn-plan-action secondary btn-buy-plan" data-plan="Lifetime">
+            Comprar de por Vida
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Aviso de Seguridad Bancaria y Cero Custodia de Datos -->
+      <div class="stripe-trust-notice">
+        <div class="trust-icon-box">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <path d="M9 12l2 2 4-4"/>
+          </svg>
+        </div>
+        <div class="trust-text">
+          <div class="trust-title">Pagos 100% Seguros y Encriptados vía Stripe (PCI-DSS Nivel 1)</div>
+          <p>
+            QRStudio <strong>nunca almacena ni tiene acceso</strong> a los datos de tu tarjeta de crédito o cuenta bancaria. Toda la transacción se procesa de forma directa e independiente en los servidores cifrados de Stripe. Suscripción mensual cancelable en cualquier momento en 1 clic.
+          </p>
+          <div class="trust-links">
+            <a href="#" data-open-legal="stripe">Seguridad Bancaria</a> &bull;
+            <a href="#" data-open-legal="privacy">Política de Privacidad</a> &bull;
+            <a href="#" data-open-legal="terms">Términos de Servicio</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="license-activation-box">
+        <h5>¿Ya tienes una clave de licencia o suscripción activa?</h5>
+        <div class="license-input-row">
+          <input type="text" id="input-license-key" placeholder="Introduce tu código" />
+          <button type="button" id="btn-activate-license" class="btn-activate">Validar</button>
+        </div>
+        <div id="license-feedback-msg" class="license-msg"></div>
+      </div>
+
+      <div class="demo-test-bar">
+        <p>Herramientas de prueba:</p>
+        <div class="demo-buttons">
+          <button type="button" id="btn-toggle-demo-pro" class="btn-demo-pill">
+            Alternar Modo Pro
+          </button>
+          <button type="button" id="btn-reset-demo-usage" class="btn-demo-pill">
+            Restablecer Descargas
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Modal de Términos, Privacidad y Seguridad Legal -->
+  <div id="legal-modal" class="modal-overlay">
+    <div class="modal-content legal-modal-content">
+      <button type="button" id="btn-close-legal-modal" class="modal-close-btn" aria-label="Cerrar">&times;</button>
+      
+      <div class="legal-modal-header">
+        <h2>Marco Legal, Privacidad y Seguridad</h2>
+        <p>Información transparente sobre el tratamiento de archivos, pagos y responsabilidades.</p>
+        
+        <div class="legal-tabs-nav">
+          <button type="button" class="legal-tab-btn active" data-section="privacy">Privacidad y Archivos</button>
+          <button type="button" class="legal-tab-btn" data-section="stripe">Seguridad Bancaria (Stripe)</button>
+          <button type="button" class="legal-tab-btn" data-section="terms">Términos del Servicio</button>
+          <button type="button" class="legal-tab-btn" data-section="disclaimer">Descargo Legal</button>
+        </div>
+      </div>
+
+      <div class="legal-modal-body">
+        <!-- Sección Privacidad -->
+        <div class="legal-section-content active" data-section="privacy">
+          <h3>1. Política de Privacidad y Procesamiento de Archivos</h3>
+          <p><strong>Cero Almacenamiento en Servidor (Zero-Knowledge Architecture):</strong></p>
+          <p>QRStudio opera bajo una arquitectura de computación del lado del cliente (<em>Client-Side Compute</em>). Todos los documentos, imágenes, archivos PDF y textos que utilizas para generar códigos QR, unir, separar o convertir formatos son procesados exclusivamente dentro de la memoria RAM de tu propio navegador web mediante WebAssembly y JavaScript.</p>
+          <p><strong>Bajo ninguna circunstancia tus documentos son transmitidos, leídos, analizados ni alojados en ningún servidor externo o en la nube.</strong> Al cerrar la pestaña o recargar el sitio, la información temporal en memoria se destruye de forma inmediata y definitiva.</p>
+          <p><strong>Cookies y Almacenamiento Local:</strong></p>
+          <p>No utilizamos cookies publicitarias ni de seguimiento invasivo de terceros. Solo empleamos el almacenamiento local de tu navegador (<code>localStorage</code>) para recordar el cupo diario de descargas gratuitas y para conservar activa tu clave de suscripción Pro.</p>
+        </div>
+
+        <!-- Sección Stripe y Pagos -->
+        <div class="legal-section-content" data-section="stripe">
+          <h3>2. Pasarela de Pagos y Seguridad Financiera</h3>
+          <p><strong>Cero Custodia de Datos Bancarios:</strong></p>
+          <p>Para la contratación de la suscripción mensual Pro ($3.99 USD/mes), QRStudio delega el 100% de la operatoria de cobro en <strong>Stripe Inc.</strong>, el procesador de pagos líder a nivel global certificado con el estándar <strong>PCI-DSS Nivel 1</strong> (el nivel de seguridad más riguroso de la industria financiera mundial).</p>
+          <p><strong>QRStudio ni sus administradores tienen acceso, reciben, ni almacenan jamás:</strong></p>
+          <ul>
+            <li>Números de tarjeta de crédito o débito.</li>
+            <li>Códigos de seguridad (CVV / CVC).</li>
+            <li>Fechas de caducidad de tarjetas o credenciales bancarias.</li>
+          </ul>
+          <p>Toda comunicación transaccional se efectúa mediante canales cifrados TLS/SSL de 256 bits directamente entre tu dispositivo y los servidores seguros de Stripe.</p>
+        </div>
+
+        <!-- Sección Términos -->
+        <div class="legal-section-content" data-section="terms">
+          <h3>3. Términos y Condiciones del Servicio</h3>
+          <p><strong>Suscripción Mensual y Cancelación:</strong></p>
+          <p>La suscripción Pro tiene un costo recurrente mensual de $3.99 USD facturado automáticamente al inicio de cada ciclo. Puedes cancelar tu suscripción en cualquier momento desde el enlace de autogestión de Stripe o solicitándolo a nuestro soporte sin ningún cargo extra o penalización. Al cancelar, mantendrás acceso a las funciones Pro hasta el vencimiento del periodo ya abonado.</p>
+          <p><strong>Uso Aceptable:</strong></p>
+          <p>Queda terminantemente prohibido utilizar el Generador QR o cualquiera de las herramientas de la plataforma para fines ilícitos, fraudulentos, esquemas de phishing, distribución de código malicioso o vulneración de derechos de propiedad intelectual de terceros.</p>
+        </div>
+
+        <!-- Sección Descargo Legal -->
+        <div class="legal-section-content" data-section="disclaimer">
+          <h3>4. Limitación de Responsabilidad y Exclusión de Lucro Cesante</h3>
+          
+          <div style="background: #FFF8E6; border: 1px solid #FFE399; border-left: 4px solid #FFAB00; padding: 1rem 1.25rem; border-radius: 4px; margin-bottom: 1.25rem; font-size: 0.88rem; color: #172B4D; line-height: 1.55;">
+            <strong>Aviso Legal Vinculante:</strong><br>
+            Bajo ninguna circunstancia QRStudio, sus desarrolladores, operadores, propietarios o afiliados serán responsables por pérdidas de ganancias comerciales, contratos perdidos, interrupciones de negocios, ventas no concretadas, errores de impresión o lucro cesante derivado directa o indirectamente del uso o de la imposibilidad de uso de esta plataforma.
+          </div>
+
+          <p><strong>Prestación del Software "Tal Cual" (As Is):</strong></p>
+          <p>El software y todas sus utilidades (generación de códigos QR, unión y división de documentos PDF, conversión de imágenes) se proporcionan "tal cual" y según disponibilidad, sin garantías de ningún tipo, ya sean expresas o implícitas, incluyendo, entre otras, garantías de comerciabilidad, idoneidad para un propósito particular o ausencia de interrupciones técnicas.</p>
+
+          <p><strong>Obligación de Verificación Previa por Parte del Usuario:</strong></p>
+          <p>Es responsabilidad total y exclusiva del usuario escanear, inspeccionar y verificar la correcta legibilidad de los códigos QR y la integridad de los archivos PDF generados antes de proceder a su impresión en papel, folletos, cartelería, cartas de restaurantes o distribución digital masiva. QRStudio no asumirá costos de reimpresión ni indemnizaciones de ninguna naturaleza.</p>
+
+          <p><strong>Límite Máximo de Responsabilidad (Liability Cap):</strong></p>
+          <p>En caso de que cualquier autoridad judicial o tribunal competente determine la existencia de alguna responsabilidad imputable a QRStudio o sus creadores, la suma total máxima exigible por cualquier concepto quedará estrictamente limitada al monto efectivamente abonado por el usuario en concepto de su última cuota mensual de suscripción ($3.99 USD).</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="footer-brand-title">QR<span>Studio</span></span>
+        <p class="footer-tagline">Herramientas de oficina y utilidades digitales con procesamiento 100% privado en tu navegador.</p>
+      </div>
+      <div class="footer-links">
+        <a href="#" data-open-legal="privacy">Política de Privacidad</a>
+        <a href="#" data-open-legal="stripe">Seguridad Bancaria (Stripe)</a>
+        <a href="#" data-open-legal="terms">Términos del Servicio</a>
+        <a href="#" data-open-legal="disclaimer">Descargo de Responsabilidad</a>
+      </div>
+      <div class="footer-legal-notice">
+        <p>&copy; 2026 QRStudio. Todos los derechos reservados. Tus archivos nunca salen de tu dispositivo: procesamiento en memoria local sin almacenamiento en servidor. Pagos seguros procesados externamente por Stripe.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
