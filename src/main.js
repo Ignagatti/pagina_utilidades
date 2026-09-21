@@ -1,4 +1,7 @@
 import { getUsageStatus, isProUser, deactivatePro, activateProLicense } from './services/storage.js';
+import { initSmartActions } from './tools/smartActions.js';
+import { initDocDiffStudio } from './tools/docDiffStudio.js';
+import { initRedactionStudio } from './tools/redactionStudio.js';
 import { initQRGenerator } from './tools/qrGenerator.js';
 import { initPdfEditor } from './tools/pdfEditor.js';
 import { initPdfConverter } from './tools/pdfConverter.js';
@@ -80,11 +83,14 @@ function initToolSwitcher() {
   const pdfSubNav = document.getElementById('pdf-subnav-bar');
 
   const views = {
+    'smart-actions': document.getElementById('view-smart-actions'),
     'qr': document.getElementById('view-qr-tool'),
     'pdf-editor': document.getElementById('view-pdf-editor'),
     'images-to-pdf': document.getElementById('view-images-to-pdf'),
     'merge-pdf': document.getElementById('view-merge-pdf'),
     'split-pdf': document.getElementById('view-split-pdf'),
+    'doc-diff-studio': document.getElementById('view-doc-diff-studio'),
+    'redaction-studio': document.getElementById('view-redaction-studio'),
     'image-studio': document.getElementById('view-image-studio'),
     'audio-to-text': document.getElementById('view-audio-to-text'),
     'security-studio': document.getElementById('view-security-studio'),
@@ -142,6 +148,8 @@ function initToolSwitcher() {
       if (tool) switchView(tool);
     };
   });
+
+  return switchView;
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -162,9 +170,28 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // 2. Inicializar Selector de Herramientas y Categorías
-  initToolSwitcher();
+  const switchToolView = initToolSwitcher();
 
-  // 3. Inicializar Generador QR
+  // 3. Inicializar Smart Actions Hub
+  initSmartActions({
+    onNavigateTool: (toolName) => {
+      if (switchToolView) switchToolView(toolName);
+    }
+  });
+
+  // 4. Inicializar DocDiff Studio (Comparador de Documentos / PDF Diff)
+  initDocDiffStudio({
+    onUsageUpdated: () => updateFreemiumUI(false),
+    onProModalRequested: (reason) => openProModal(reason)
+  });
+
+  // 5. Inicializar Redaction Studio (Censura de Información Sensible)
+  initRedactionStudio({
+    onUsageUpdated: () => updateFreemiumUI(false),
+    onProModalRequested: (reason) => openProModal(reason)
+  });
+
+  // 6. Inicializar Generador QR
   qrToolInstance = initQRGenerator({
     onUsageUpdated: () => updateFreemiumUI(false),
     onProModalRequested: (reason) => openProModal(reason)
@@ -194,7 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
     onProModalRequested: (reason) => openProModal(reason)
   });
 
-  // 8. Inicializar Image Studio
+  // 8. Inicializar Image Studio & Conversor Masivo
   initImageStudio({
     onUsageUpdated: () => updateFreemiumUI(false),
     onProModalRequested: (reason) => openProModal(reason)

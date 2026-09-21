@@ -80,7 +80,7 @@ export function updateModalStatusBar() {
   if (isPro) {
     statusBar.innerHTML = `
       <div class="modal-status-pill pro">
-        <span>⭐ Estado actual: <strong>Suscripción Pro Activa (Ilimitada)</strong></span>
+        <span>Estado actual: <strong>Suscripción Pro Activa (Ilimitada)</strong></span>
         <button type="button" id="btn-quick-deactivate-pro" class="btn-status-toggle danger" title="Cambiar a plan gratuito para probar">
           Volver a Plan Gratuito
         </button>
@@ -96,7 +96,7 @@ export function updateModalStatusBar() {
   } else {
     statusBar.innerHTML = `
       <div class="modal-status-pill free">
-        <span>👤 Estado actual: <strong>Plan Gratuito</strong> (${usage.remaining} de ${usage.max} descargas restantes hoy)</span>
+        <span>Estado actual: <strong>Plan Gratuito</strong> (${usage.remaining} de ${usage.max} descargas restantes hoy)</span>
         <button type="button" id="btn-quick-activate-pro" class="btn-status-toggle success" title="Activar modo Pro para probar">
           Probar Modo Pro Gratis
         </button>

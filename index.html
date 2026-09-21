@@ -87,88 +87,116 @@
   <!-- Barra de Navegación Superior -->
   <header class="navbar">
     <div class="nav-container">
-      <a href="/" class="brand-link">
-        <div class="brand-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="3" width="7" height="7"></rect>
-            <rect x="14" y="3" width="7" height="7"></rect>
-            <rect x="14" y="14" width="7" height="7"></rect>
-            <rect x="3" y="14" width="7" height="7"></rect>
-          </svg>
-        </div>
-        <div class="brand-text">QR<span>Studio</span></div>
-      </a>
-
-      <!-- Selector Principal de Categorías de la Suite -->
-      <nav class="tool-switch-nav">
-        <button type="button" class="nav-cat-btn active" data-category="qr" data-tool="qr">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="3" y="3" width="7" height="7"></rect>
-            <rect x="14" y="3" width="7" height="7"></rect>
-            <rect x="14" y="14" width="7" height="7"></rect>
-            <rect x="3" y="14" width="7" height="7"></rect>
-          </svg>
-          <span>QR Studio</span>
-        </button>
-
-        <button type="button" class="nav-cat-btn" data-category="pdf">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-            <polyline points="14 2 14 8 20 8"></polyline>
-          </svg>
-          <span>PDF Studio</span>
-        </button>
-
-        <button type="button" class="nav-cat-btn" data-category="images" data-tool="image-studio">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-            <circle cx="8.5" cy="8.5" r="1.5"></circle>
-            <polyline points="21 15 16 10 5 21"></polyline>
-          </svg>
-          <span>Imágenes</span>
-        </button>
-
-        <button type="button" class="nav-cat-btn" data-category="audio" data-tool="audio-to-text">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
-            <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
-            <line x1="12" y1="19" x2="12" y2="23"></line>
-            <line x1="8" y1="23" x2="16" y2="23"></line>
-          </svg>
-          <span>Audio a Texto</span>
-        </button>
-
-        <button type="button" class="nav-cat-btn" data-category="security" data-tool="security-studio">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-          </svg>
-          <span>Seguridad</span>
-        </button>
-
-        <button type="button" class="nav-cat-btn" data-category="archive" data-tool="archive-studio">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="21 8 21 21 3 21 3 8"></polyline>
-            <rect x="1" y="3" width="22" height="5"></rect>
-            <line x1="10" y1="12" x2="14" y2="12"></line>
-          </svg>
-          <span>Archivos ZIP</span>
-        </button>
-      </nav>
-
-      <div class="nav-actions">
-        <!-- Badge de Límite Diario -->
-        <div id="navbar-usage-badge" class="usage-badge" title="Estado de tu cuenta">
-          <span id="usage-counter-text">3 descargas gratuitas hoy</span>
-          <div class="mini-progress-track">
-            <div id="usage-progress-bar" class="mini-progress-fill" style="width: 0%;"></div>
+      <div class="nav-top-row">
+        <a href="/" class="brand-link">
+          <div class="brand-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="7" height="7"></rect>
+              <rect x="14" y="3" width="7" height="7"></rect>
+              <rect x="14" y="14" width="7" height="7"></rect>
+              <rect x="3" y="14" width="7" height="7"></rect>
+            </svg>
           </div>
-        </div>
+          <div class="brand-text">QR<span>Studio</span></div>
+        </a>
 
-        <!-- Botón Pro -->
-        <button id="navbar-pro-btn" class="btn-pro">
-          Obtener Pro
-        </button>
+        <div class="nav-actions">
+          <!-- Badge de Límite Diario -->
+          <div id="navbar-usage-badge" class="usage-badge" title="Estado de tu cuenta">
+            <span id="usage-counter-text">3 descargas gratuitas hoy</span>
+            <div class="mini-progress-track">
+              <div id="usage-progress-bar" class="mini-progress-fill" style="width: 0%;"></div>
+            </div>
+          </div>
+
+          <!-- Botón Pro -->
+          <button id="navbar-pro-btn" class="btn-pro">
+            Obtener Pro
+          </button>
+        </div>
+      </div>
+
+      <!-- Selector Principal de Herramientas de la Suite -->
+      <div class="nav-tools-scroll-wrapper">
+        <nav class="tool-switch-nav">
+          <button type="button" class="nav-cat-btn active" data-category="smart" data-tool="smart-actions">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+            </svg>
+            <span>Smart Actions</span>
+          </button>
+
+          <button type="button" class="nav-cat-btn" data-category="qr" data-tool="qr">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="7" height="7"></rect>
+              <rect x="14" y="3" width="7" height="7"></rect>
+              <rect x="14" y="14" width="7" height="7"></rect>
+              <rect x="3" y="14" width="7" height="7"></rect>
+            </svg>
+            <span>QR Studio</span>
+          </button>
+
+          <button type="button" class="nav-cat-btn" data-category="pdf">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+            </svg>
+            <span>PDF Studio</span>
+          </button>
+
+          <button type="button" class="nav-cat-btn" data-category="diff" data-tool="doc-diff-studio">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M16 3h5v5"></path>
+              <path d="M8 3H3v5"></path>
+              <path d="M12 22V12"></path>
+              <path d="M21 3l-9 9-9-9"></path>
+            </svg>
+            <span>Comparador PDF</span>
+          </button>
+
+          <button type="button" class="nav-cat-btn" data-category="redact" data-tool="redaction-studio">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+            <span>Redactor Privacidad</span>
+          </button>
+
+          <button type="button" class="nav-cat-btn" data-category="images" data-tool="image-studio">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+              <circle cx="8.5" cy="8.5" r="1.5"></circle>
+              <polyline points="21 15 16 10 5 21"></polyline>
+            </svg>
+            <span>Imágenes & Conversor</span>
+          </button>
+
+          <button type="button" class="nav-cat-btn" data-category="audio" data-tool="audio-to-text">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+              <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+              <line x1="12" y1="19" x2="12" y2="23"></line>
+              <line x1="8" y1="23" x2="16" y2="23"></line>
+            </svg>
+            <span>Audio a Texto</span>
+          </button>
+
+          <button type="button" class="nav-cat-btn" data-category="security" data-tool="security-studio">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+            <span>Seguridad</span>
+          </button>
+
+          <button type="button" class="nav-cat-btn" data-category="archive" data-tool="archive-studio">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="21 8 21 21 3 21 3 8"></polyline>
+              <rect x="1" y="3" width="22" height="5"></rect>
+              <line x1="10" y1="12" x2="14" y2="12"></line>
+            </svg>
+            <span>Archivos ZIP</span>
+          </button>
+        </nav>
       </div>
     </div>
   </header>
@@ -195,9 +223,84 @@
   </div>
 
   <!-- =========================================================================
+       VISTA 0: SMART ACTIONS ("HACÉ ESTO CON MIS ARCHIVOS")
+       ========================================================================= -->
+  <div id="view-smart-actions" class="tool-view-section active">
+    
+    <section class="hero">
+      <div class="hero-pill">
+        Asistente Inteligente • Procesamiento Local Sin Servidores
+      </div>
+      <h1 class="hero-title">
+        Smart Actions
+      </h1>
+      <p class="hero-subtitle">
+        Arrastra cualquier archivo (PDF, Foto, Audio o Datos) y la aplicación analizará en segundos qué puedes hacer con él con recetas en 1 clic.
+      </p>
+    </section>
+
+    <main class="main-wrapper" style="max-width: 820px; margin: 0 auto;">
+      
+      <!-- Dropzone Universal -->
+      <div id="smart-actions-dropzone" class="pdf-dropzone-box glass-card" style="padding: 2.5rem 1.5rem;">
+        <div class="dropzone-icon">
+          <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+          </svg>
+        </div>
+        <h4>Arrastra cualquier archivo aquí</h4>
+        <p>Soporta <strong>PDF, JPG, PNG, WebP, Audio (MP3/WAV), CSV y Documentos</strong></p>
+        <input type="file" id="smart-actions-file-input" style="display: none;" />
+      </div>
+
+      <!-- Tarjeta de Análisis y Acciones Recomendadas -->
+      <div id="smart-actions-card" class="glass-card" style="display: none; margin-top: 1.5rem; padding: 1.75rem;">
+        
+        <div class="smart-file-header" style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid var(--color-border); padding-bottom: 1rem; margin-bottom: 1.25rem;">
+          <div>
+            <span id="smart-file-badge" class="tier-badge pro" style="margin-bottom: 0.35rem; display: inline-block;">Documento PDF</span>
+            <h3 id="smart-file-name" style="font-size: 1.2rem; font-weight: 800; color: var(--color-text-main); margin: 0.2rem 0;">archivo.pdf</h3>
+            <p id="smart-file-meta" style="font-size: 0.85rem; color: var(--color-text-muted); margin: 0;">0 KB</p>
+          </div>
+          <button type="button" id="btn-smart-change-file" class="btn-danger-sm">Analizar Otro Archivo</button>
+        </div>
+
+        <div style="margin-bottom: 1rem;">
+          <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--color-text-main);">Acciones Recomendadas para este Archivo:</h4>
+        </div>
+
+        <div id="smart-actions-list" class="smart-actions-grid" style="display: flex; flex-direction: column; gap: 0.75rem;">
+        </div>
+
+        <div class="privacy-notice" style="margin-top: 1.5rem;">
+          <span>Procesamiento 100% privado en tu navegador: ningún byte del archivo sale de tu equipo.</span>
+        </div>
+      </div>
+
+      <!-- Estado vacío sugerencias -->
+      <div id="smart-actions-empty" style="margin-top: 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem;">
+        <div class="glass-card" style="padding: 1.25rem; text-align: center;">
+          <h5 style="font-weight: 700; margin-bottom: 0.35rem; color: var(--color-primary);">Documentos PDF</h5>
+          <p style="font-size: 0.8rem; color: var(--color-text-muted);">Censurar datos personales, comparar versiones, separar hojas o proteger con clave.</p>
+        </div>
+        <div class="glass-card" style="padding: 1.25rem; text-align: center;">
+          <h5 style="font-weight: 700; margin-bottom: 0.35rem; color: var(--color-primary);">Imágenes y Fotos</h5>
+          <p style="font-size: 0.8rem; color: var(--color-text-muted);">Convertir a JPG con fondo blanco, optimizar tamaño o armar documentos PDF.</p>
+        </div>
+        <div class="glass-card" style="padding: 1.25rem; text-align: center;">
+          <h5 style="font-weight: 700; margin-bottom: 0.35rem; color: var(--color-primary);">Archivos de Audio</h5>
+          <p style="font-size: 0.8rem; color: var(--color-text-muted);">Transcribir grabaciones a texto mediante Whisper local sin límites de tiempo.</p>
+        </div>
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- =========================================================================
        VISTA 1: GENERADOR DE CÓDIGOS QR
        ========================================================================= -->
-  <div id="view-qr-tool" class="tool-view-section active">
+  <div id="view-qr-tool" class="tool-view-section" style="display: none;">
     
     <section class="hero">
       <div class="hero-pill">
@@ -505,6 +608,31 @@
 
       </div>
 
+      <!-- Guía de Uso Rápido -->
+      <div class="tool-guide-section">
+        <div class="tool-guide-header">
+          <h4 class="tool-guide-title">¿Cómo generar tu código QR?</h4>
+          <p class="tool-guide-subtitle">Personalización y descarga en 3 simples pasos</p>
+        </div>
+        <div class="steps-grid-3">
+          <div class="step-card">
+            <div class="step-badge">1</div>
+            <div class="step-title">Elige el Tipo de Contenido</div>
+            <p class="step-desc">Selecciona entre Enlace Web, Red Wi-Fi, Chat directo de WhatsApp, Ficha de Contacto o Texto libre.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-badge">2</div>
+            <div class="step-title">Personaliza el Diseño</div>
+            <p class="step-desc">Ajusta los colores, bordes redondeados, fondo transparente o incorpora tu logotipo de marca.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-badge">3</div>
+            <div class="step-title">Descarga en Alta Calidad</div>
+            <p class="step-desc">Exporta tu código en imagen PNG digital de alta resolución o en documento PDF listo para imprimir.</p>
+          </div>
+        </div>
+      </div>
+
       <!-- Demostración Visual de QR de Contactos (Exclusivo de QR Studio) -->
       <div class="tool-showcase-section">
         <div class="tool-showcase-header">
@@ -623,6 +751,31 @@
 
       </div>
 
+      <!-- Guía de Uso Rápido -->
+      <div class="tool-guide-section">
+        <div class="tool-guide-header">
+          <h4 class="tool-guide-title">¿Cómo editar las páginas de tu PDF?</h4>
+          <p class="tool-guide-subtitle">Organización visual de documentos en 3 simples pasos</p>
+        </div>
+        <div class="steps-grid-3">
+          <div class="step-card">
+            <div class="step-badge">1</div>
+            <div class="step-title">Sube tu Archivo PDF</div>
+            <p class="step-desc">Arrastra el documento a la mesa de trabajo para generar miniaturas interactivas de cada página.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-badge">2</div>
+            <div class="step-title">Reordena, Rota o Elimina</div>
+            <p class="step-desc">Arrastra las tarjetas para cambiar su orden, gira páginas invertidas o quita las hojas que no necesites.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-badge">3</div>
+            <div class="step-title">Guarda el PDF Editado</div>
+            <p class="step-desc">Agrega opcionalmente numeración o marcas de agua y descarga tu nuevo PDF optimizado.</p>
+          </div>
+        </div>
+      </div>
+
     </main>
 
   </div>
@@ -727,6 +880,32 @@
         </div>
 
       </div>
+
+      <!-- Guía de Uso Rápido -->
+      <div class="tool-guide-section">
+        <div class="tool-guide-header">
+          <h4 class="tool-guide-title">¿Cómo convertir imágenes a documento PDF?</h4>
+          <p class="tool-guide-subtitle">Crea documentos profesionales a partir de fotos en 3 simples pasos</p>
+        </div>
+        <div class="steps-grid-3">
+          <div class="step-card">
+            <div class="step-badge">1</div>
+            <div class="step-title">Arrastra tus Fotos</div>
+            <p class="step-desc">Sube una o varias imágenes (JPG, PNG o WebP) desde tu ordenador o teléfono.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-badge">2</div>
+            <div class="step-title">Ordena y Configura Hoja</div>
+            <p class="step-desc">Ajusta el orden de las fotos, tamaño de página (A4 o Carta), orientación y márgenes.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-badge">3</div>
+            <div class="step-title">Genera y Descarga</div>
+            <p class="step-desc">El navegador une todas las fotos en un solo PDF compacto y ordenado listo para enviar.</p>
+          </div>
+        </div>
+      </div>
+
     </main>
 
   </div>
@@ -811,6 +990,32 @@
         </div>
 
       </div>
+
+      <!-- Guía de Uso Rápido -->
+      <div class="tool-guide-section">
+        <div class="tool-guide-header">
+          <h4 class="tool-guide-title">¿Cómo unir varios archivos PDF?</h4>
+          <p class="tool-guide-subtitle">Combina múltiples documentos en 3 simples pasos</p>
+        </div>
+        <div class="steps-grid-3">
+          <div class="step-card">
+            <div class="step-badge">1</div>
+            <div class="step-title">Sube 2 o Más Archivos PDF</div>
+            <p class="step-desc">Arrastra todos los documentos que deseas unificar en el panel izquierdo.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-badge">2</div>
+            <div class="step-title">Establece el Orden</div>
+            <p class="step-desc">Usa las flechas de ordenación para definir qué archivo aparecerá primero en el documento final.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-badge">3</div>
+            <div class="step-title">Descarga el PDF Unificado</div>
+            <p class="step-desc">Obtén un único archivo PDF continuo con todas las páginas combinadas.</p>
+          </div>
+        </div>
+      </div>
+
     </main>
 
   </div>
@@ -905,6 +1110,32 @@
         </div>
 
       </div>
+
+      <!-- Guía de Uso Rápido -->
+      <div class="tool-guide-section">
+        <div class="tool-guide-header">
+          <h4 class="tool-guide-title">¿Cómo separar o extraer páginas de un PDF?</h4>
+          <p class="tool-guide-subtitle">Extrae hojas específicas en 3 simples pasos</p>
+        </div>
+        <div class="steps-grid-3">
+          <div class="step-card">
+            <div class="step-badge">1</div>
+            <div class="step-title">Sube tu Documento PDF</div>
+            <p class="step-desc">Arrastra el archivo PDF del cual deseas extraer páginas específicas.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-badge">2</div>
+            <div class="step-title">Indica el Rango de Páginas</div>
+            <p class="step-desc">Escribe las páginas deseadas (por ejemplo: '1-3' o '1, 4, 7') en el campo de texto.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-badge">3</div>
+            <div class="step-title">Descarga el PDF Extraído</div>
+            <p class="step-desc">El navegador genera un nuevo documento liviano que contiene exclusivamente las hojas elegidas.</p>
+          </div>
+        </div>
+      </div>
+
     </main>
 
   </div>
@@ -1110,6 +1341,31 @@
 
       </div>
 
+      <!-- Guía de Uso Rápido -->
+      <div class="tool-guide-section">
+        <div class="tool-guide-header">
+          <h4 class="tool-guide-title">¿Cómo transcribir grabaciones o audios?</h4>
+          <p class="tool-guide-subtitle">Pasa voz a texto en 3 simples pasos</p>
+        </div>
+        <div class="steps-grid-3">
+          <div class="step-card">
+            <div class="step-badge">1</div>
+            <div class="step-title">Carga tu Grabación o Audio</div>
+            <p class="step-desc">Arrastra un archivo MP3, WAV, M4A o nota de voz de WhatsApp (o usa el botón de dictado en vivo).</p>
+          </div>
+          <div class="step-card">
+            <div class="step-badge">2</div>
+            <div class="step-title">Inicia la Transcripción</div>
+            <p class="step-desc">Presiona 'Transcribir Audio' para que la IA Whisper procese el sonido 100% en la memoria de tu equipo.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-badge">3</div>
+            <div class="step-title">Edita y Exporta</div>
+            <p class="step-desc">Revisa el texto generado, busca palabras clave, copia al portapapeles o descarga en archivo .TXT.</p>
+          </div>
+        </div>
+      </div>
+
       <!-- Demostración Visual de Transcripción de Audio (Exclusivo de Audio a Texto) -->
       <div class="tool-showcase-section">
         <div class="tool-showcase-header">
@@ -1137,190 +1393,911 @@
   </div>
 
   <!-- =========================================================================
-       VISTA 6: IMAGE STUDIO (COMPRESIÓN, REDIMENSIÓN, FORMATOS, EXIF)
+       VISTA: COMPARADOR DE DOCUMENTOS Y PDFS (DOCDIFF STUDIO)
        ========================================================================= -->
-  <div id="view-image-studio" class="tool-view-section" style="display: none;">
+  <div id="view-doc-diff-studio" class="tool-view-section" style="display: none;">
     
     <section class="hero">
       <div class="hero-pill">
-        Laboratorio de Imágenes en Memoria • Calidad y Ahorro en Vivo
+        Comparador Diff Visual • Detección de Cláusulas y Cambios
       </div>
       <h1 class="hero-title">
-        Laboratorio de Imágenes
+        Comparador de Documentos y PDFs
       </h1>
       <p class="hero-subtitle">
-        Comprime fotos, cambia resolución y dimensiones, convierte entre JPG, PNG y WebP, pasa a blanco y negro y remueve metadatos EXIF.
+        Compara dos contratos o documentos (sube PDFs/archivos o pega texto) y detecta al instante cláusulas agregadas, eliminadas o modificadas.
       </p>
     </section>
 
     <main class="main-wrapper">
       
-      <!-- Dropzone Imagen -->
-      <div id="image-studio-dropzone" class="pdf-dropzone-box glass-card" style="max-width: 700px; margin: 0 auto;">
-        <div class="dropzone-icon">
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-            <circle cx="8.5" cy="8.5" r="1.5"></circle>
-            <polyline points="21 15 16 10 5 21"></polyline>
-          </svg>
+      <!-- Selector de Archivo A y Archivo B -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem;">
+        
+        <!-- Documento A (Original / Versión 1) -->
+        <div class="glass-card" style="padding: 1.5rem;">
+          <div class="section-title-row">
+            <span class="section-title" style="color: var(--color-primary); font-weight: 700;">Documento A (Versión Original)</span>
+          </div>
+
+          <div id="diff-dropzone-a" class="pdf-dropzone-box" style="padding: 1.5rem 1rem; margin-top: 0.75rem;">
+            <div class="dropzone-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+              </svg>
+            </div>
+            <h4>Arrastra el Documento A aquí</h4>
+            <p>PDF o Texto (.txt) o pega abajo</p>
+            <input type="file" id="diff-file-a" accept=".pdf,.txt,application/pdf,text/plain" style="display: none;" />
+          </div>
+
+          <div id="diff-meta-a" style="display: none; background: var(--color-bg-section); padding: 0.85rem; border-radius: var(--radius-sm); border: 1px solid var(--color-border); margin-top: 0.75rem;"></div>
+          <button type="button" id="btn-diff-change-a" class="btn-danger-sm" style="margin-top: 0.75rem; display: none;">Cambiar Archivo A</button>
+
+          <div class="form-group" style="margin-top: 1rem;">
+            <label class="form-label" for="diff-text-input-a">O pega el texto del Documento A:</label>
+            <textarea id="diff-text-input-a" class="form-textarea" rows="6" placeholder="Pega el texto del primer contrato o documento aquí..." style="font-size: 0.82rem; font-family: monospace;"></textarea>
+          </div>
         </div>
-        <h4>Arrastra tu imagen aquí</h4>
-        <p>o haz clic para explorar (JPG, PNG, WebP, GIF)</p>
-        <input type="file" id="image-studio-file-input" accept="image/*" style="display: none;" />
+
+        <!-- Documento B (Modificado / Versión 2) -->
+        <div class="glass-card" style="padding: 1.5rem;">
+          <div class="section-title-row">
+            <span class="section-title" style="color: #16A34A; font-weight: 700;">Documento B (Versión Nueva / Modificada)</span>
+          </div>
+
+          <div id="diff-dropzone-b" class="pdf-dropzone-box" style="padding: 1.5rem 1rem; margin-top: 0.75rem;">
+            <div class="dropzone-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+              </svg>
+            </div>
+            <h4>Arrastra el Documento B aquí</h4>
+            <p>PDF o Texto (.txt) o pega abajo</p>
+            <input type="file" id="diff-file-b" accept=".pdf,.txt,application/pdf,text/plain" style="display: none;" />
+          </div>
+
+          <div id="diff-meta-b" style="display: none; background: var(--color-bg-section); padding: 0.85rem; border-radius: var(--radius-sm); border: 1px solid var(--color-border); margin-top: 0.75rem;"></div>
+          <button type="button" id="btn-diff-change-b" class="btn-danger-sm" style="margin-top: 0.75rem; display: none;">Cambiar Archivo B</button>
+
+          <div class="form-group" style="margin-top: 1rem;">
+            <label class="form-label" for="diff-text-input-b">O pega el texto del Documento B:</label>
+            <textarea id="diff-text-input-b" class="form-textarea" rows="6" placeholder="Pega el texto del segundo contrato o documento aquí..." style="font-size: 0.82rem; font-family: monospace;"></textarea>
+          </div>
+        </div>
+
       </div>
 
-      <!-- Espacio de Trabajo Image Studio -->
-      <div id="image-studio-workspace" style="display: none;">
-        <div class="tool-grid">
-          
-          <!-- Columna Izquierda: Ajustes y Controles -->
-          <div class="tool-editor glass-card">
-            
-            <div class="section-title-row">
-              <span class="section-title" style="margin-bottom: 0;">Ajustes de Imagen</span>
-              <button type="button" id="btn-img-change-file" class="btn-danger-sm">Cambiar Foto</button>
-            </div>
+      <!-- Barra de Acciones de Comparación -->
+      <div style="display: flex; gap: 0.75rem; justify-content: center; align-items: center; margin-bottom: 2rem; flex-wrap: wrap;">
+        <button type="button" id="btn-execute-diff" class="btn-download-primary" style="padding: 0.75rem 1.75rem;" disabled>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="16 3 21 3 21 8"></polyline>
+            <line x1="4" y1="20" x2="21" y2="3"></line>
+            <polyline points="21 16 21 21 16 21"></polyline>
+            <line x1="15" y1="15" x2="21" y2="21"></line>
+            <line x1="4" y1="4" x2="9" y2="9"></line>
+          </svg>
+          <span>Comparar Documentos Ahora</span>
+        </button>
 
-            <!-- Calidad / Compresión -->
-            <div class="form-group" style="margin-top: 1.25rem;">
-              <label class="form-label" for="slider-img-quality">
-                <span>Nivel de Calidad y Compresión</span>
-                <span id="img-quality-val" style="color: var(--color-primary); font-weight: 700;">85%</span>
-              </label>
-              <input type="range" id="slider-img-quality" min="10" max="100" value="85" class="custom-range-slider" />
-            </div>
+        <button type="button" id="btn-diff-clear-all" class="btn-action-outline btn-action-danger">
+          <span>Limpiar Todo</span>
+        </button>
+      </div>
 
-            <!-- Formato de Salida -->
-            <div class="form-group">
-              <label class="form-label" for="select-img-format">Formato de Salida</label>
-              <select id="select-img-format" class="form-select">
-                <option value="image/jpeg" selected>JPG / JPEG (Óptimo para fotos)</option>
-                <option value="image/webp">WebP (Máxima compresión web)</option>
-                <option value="image/png">PNG (Sin pérdida / Transparencia)</option>
-              </select>
-            </div>
-
-            <!-- Redimensionado -->
-            <div class="form-group">
-              <label class="form-label">Redimensionar Píxeles</label>
-              <div class="form-row-2">
-                <div class="dim-input-wrap">
-                  <label class="input-sublabel">Ancho (px)</label>
-                  <input type="number" id="input-img-width" class="form-input form-input-sm" />
-                </div>
-                <div class="dim-input-wrap">
-                  <label class="input-sublabel">Alto (px)</label>
-                  <input type="number" id="input-img-height" class="form-input form-input-sm" />
-                </div>
-              </div>
-              <div class="form-group checkbox-row" style="margin-top: 0.5rem;">
-                <input type="checkbox" id="check-keep-aspect" checked />
-                <label for="check-keep-aspect">Mantener proporción original</label>
-              </div>
-            </div>
-
-            <!-- Escalas Rápidas -->
-            <div class="scale-presets-row">
-              <span class="scale-label">Escala rápida:</span>
-              <button type="button" class="btn-demo-pill img-scale-btn" data-scale="0.25">25%</button>
-              <button type="button" class="btn-demo-pill img-scale-btn" data-scale="0.5">50%</button>
-              <button type="button" class="btn-demo-pill img-scale-btn" data-scale="0.75">75%</button>
-              <button type="button" class="btn-demo-pill img-scale-btn active" data-scale="1">100%</button>
-            </div>
-
-            <!-- Rotación y Volteo -->
-            <div class="form-group" style="margin-top: 1.25rem;">
-              <label class="form-label">Orientación y Giro</label>
-              <div class="orientation-btns-row">
-                <button type="button" id="btn-img-rotate-left" class="btn-action-outline">
-                  <span>Rotar -90°</span>
-                </button>
-                <button type="button" id="btn-img-rotate-right" class="btn-action-outline">
-                  <span>Rotar +90°</span>
-                </button>
-                <button type="button" id="btn-img-flip-h" class="btn-action-outline">
-                  <span>Voltear Horiz.</span>
-                </button>
-                <button type="button" id="btn-img-flip-v" class="btn-action-outline">
-                  <span>Voltear Vert.</span>
-                </button>
-              </div>
-            </div>
-
-            <!-- Efectos y Privacidad -->
-            <div class="form-group" style="margin-top: 1.25rem;">
-              <label class="form-label">Filtros y Privacidad</label>
-              <div class="checkbox-stack">
-                <label class="checkbox-row-custom">
-                  <input type="checkbox" id="check-img-grayscale" />
-                  <span class="checkbox-custom-label">
-                    <strong>Filtro Blanco y Negro (Escala de grises)</strong>
-                  </span>
-                </label>
-                <label class="checkbox-row-custom">
-                  <input type="checkbox" id="check-strip-exif" checked disabled />
-                  <span class="checkbox-custom-label">
-                    <strong>Limpieza automática de metadatos EXIF</strong>
-                    <small>Elimina coordenadas GPS, modelo de cámara y fecha para proteger tu privacidad.</small>
-                  </span>
-                </label>
-              </div>
-            </div>
-
-            <!-- Acciones de Descarga -->
-            <div class="download-actions-stack" style="margin-top: 1.5rem;">
-              <button type="button" id="btn-download-processed-img" class="btn-download-primary">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                  <polyline points="7 10 12 15 17 10"></polyline>
-                  <line x1="12" y1="15" x2="12" y2="3"></line>
-                </svg>
-                <span>Descargar Imagen Optimizada</span>
-              </button>
-              <button type="button" id="btn-export-favicons" class="btn-action-outline" style="width: 100%; justify-content: center; margin-top: 0.5rem;">
-                <span>Generar Pack de Favicons Web (.PNGs)</span>
-              </button>
-            </div>
-
+      <!-- Contenedor de Resultados del Diff -->
+      <div id="diff-results-container" class="glass-card" style="display: none; padding: 1.75rem;">
+        
+        <div class="preview-header" style="border-bottom: 1px solid var(--color-border); padding-bottom: 1rem; margin-bottom: 1.25rem;">
+          <div>
+            <span class="preview-title" style="font-size: 1.2rem;">Informe de Diferencias Detectadas</span>
+            <div style="font-size: 0.85rem; color: var(--color-text-muted); margin-top: 0.2rem;">Comparación línea por línea ejecutada 100% en memoria.</div>
           </div>
+          <span id="diff-summary-pill" class="tier-badge pro">Analizando...</span>
+        </div>
 
-          <!-- Columna Derecha: Vista Previa y Comparativa de Peso -->
-          <div class="preview-card glass-card">
-            <div class="preview-header">
-              <span class="preview-title">Vista Previa en Vivo</span>
-              <span id="img-savings-pill" class="tier-badge pro">-0% de ahorro</span>
-            </div>
-
-            <div class="metrics-cards-grid">
-              <div class="metric-mini-card">
-                <span class="metric-sub">Peso Original</span>
-                <span id="img-orig-size" class="metric-val">0 KB</span>
-              </div>
-              <div class="metric-mini-card highlight">
-                <span class="metric-sub">Peso Optimizado</span>
-                <span id="img-est-size" class="metric-val">0 KB</span>
-              </div>
-              <div class="metric-mini-card">
-                <span class="metric-sub">Resolución</span>
-                <span id="img-orig-dim" class="metric-val">0 x 0 px</span>
-              </div>
-            </div>
-
-            <div class="image-preview-canvas-holder">
-              <canvas id="img-preview-canvas" class="image-studio-canvas"></canvas>
-            </div>
-
-            <div class="privacy-notice" style="margin-top: 1.25rem;">
-              <span>Las imágenes se comprimen 100% en la memoria de tu navegador.</span>
-            </div>
+        <!-- Métricas Rápidas -->
+        <div class="metrics-cards-grid" style="margin-bottom: 1.5rem;">
+          <div class="metric-mini-card" style="border-left: 3px solid #16A34A;">
+            <span class="metric-sub">Líneas Agregadas</span>
+            <span id="diff-stat-added" class="metric-val" style="color: #16A34A;">+0</span>
           </div>
+          <div class="metric-mini-card" style="border-left: 3px solid #DC2626;">
+            <span class="metric-sub">Líneas Eliminadas</span>
+            <span id="diff-stat-deleted" class="metric-val" style="color: #DC2626;">-0</span>
+          </div>
+          <div class="metric-mini-card">
+            <span class="metric-sub">Páginas Doc A vs B</span>
+            <span class="metric-val" style="font-size: 1rem;"><span id="diff-stat-pages-a">0</span> vs <span id="diff-stat-pages-b">0</span></span>
+          </div>
+        </div>
 
+        <!-- Desglose por Páginas -->
+        <div style="margin-bottom: 1.5rem;">
+          <h5 style="font-size: 0.9rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--color-text-main);">Estado por Página:</h5>
+          <div id="diff-pages-breakdown" style="display: flex; gap: 0.5rem; flex-wrap: wrap;"></div>
+        </div>
+
+        <!-- Comparador Visual Side-by-Side -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.25rem; margin-bottom: 1.5rem;">
+          <div>
+            <h5 style="font-size: 0.85rem; font-weight: 700; margin-bottom: 0.4rem; color: var(--color-primary);">Texto en Documento A (Original):</h5>
+            <div id="diff-viewer-side-a" class="diff-viewer-box"></div>
+          </div>
+          <div>
+            <h5 style="font-size: 0.85rem; font-weight: 700; margin-bottom: 0.4rem; color: #16A34A;">Texto en Documento B (Modificado):</h5>
+            <div id="diff-viewer-side-b" class="diff-viewer-box"></div>
+          </div>
+        </div>
+
+        <!-- Botones de Exportación -->
+        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+          <button type="button" id="btn-copy-diff" class="btn-action-outline">
+            <span>Copiar Informe Completo</span>
+          </button>
+          <button type="button" id="btn-download-diff-txt" class="btn-action-outline">
+            <span>Descargar Informe (.TXT)</span>
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Guía de Uso Rápido -->
+      <div class="tool-guide-section">
+        <div class="tool-guide-header">
+          <h4 class="tool-guide-title">¿Cómo comparar dos documentos o contratos?</h4>
+          <p class="tool-guide-subtitle">Analiza diferencias legales y técnicas en 3 simples pasos</p>
+        </div>
+        <div class="steps-grid-3">
+          <div class="step-card">
+            <div class="step-badge">1</div>
+            <div class="step-title">Carga el Documento A</div>
+            <p class="step-desc">Arrastra tu archivo PDF original o pega el texto en el panel izquierdo.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-badge">2</div>
+            <div class="step-title">Carga el Documento B</div>
+            <p class="step-desc">Arrastra la versión modificada o actualizada en el panel derecho.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-badge">3</div>
+            <div class="step-title">Revisa las Diferencias</div>
+            <p class="step-desc">Visualiza en tiempo real las cláusulas agregadas (+), eliminadas (-) y páginas alteradas.</p>
+          </div>
         </div>
       </div>
 
     </main>
 
   </div>
+
+  <!-- =========================================================================
+       VISTA: REDACTOR DE INFORMACIÓN SENSIBLE (REDACTION STUDIO)
+       ========================================================================= -->
+  <div id="view-redaction-studio" class="tool-view-section" style="display: none;">
+    
+    <section class="hero">
+      <div class="hero-pill">
+        Privacidad y Censura • Sin Conexión a Servidores
+      </div>
+      <h1 class="hero-title">
+        Redactor de Información Sensible
+      </h1>
+      <p class="hero-subtitle">
+        Oculta automáticamente DNI, CUIT, emails, teléfonos y datos bancarios con barras negras de privacidad (████) antes de compartir contratos o balances.
+      </p>
+    </section>
+
+    <main class="main-wrapper">
+      <div class="tool-grid">
+        
+        <!-- Columna Izquierda: Entrada y Filtros -->
+        <div class="tool-editor glass-card">
+          
+          <div class="section-title-row">
+            <span class="section-title">Documento / Texto a Censurar</span>
+            <span id="badge-total-redacted" class="tier-badge pro">0 datos censurados</span>
+          </div>
+
+          <div id="redact-dropzone" class="pdf-dropzone-box" style="padding: 1.25rem 1rem; margin-top: 0.75rem;">
+            <div class="dropzone-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              </svg>
+            </div>
+            <h4>Arrastra tu PDF o archivo de texto aquí</h4>
+            <p>o pega el texto en el área inferior</p>
+            <input type="file" id="redact-file-input" accept=".pdf,.txt,text/plain,application/pdf" style="display: none;" />
+          </div>
+
+          <div style="display: flex; gap: 0.5rem; margin-top: 0.75rem;">
+            <button type="button" id="btn-redact-clear" class="btn-contract-chip" style="color: var(--color-danger);">Limpiar Todo</button>
+          </div>
+
+          <!-- Texto Original -->
+          <div class="form-group" style="margin-top: 1rem;">
+            <label class="form-label" for="redact-input-text">Texto del Documento a Censurar</label>
+            <textarea id="redact-input-text" class="form-textarea" rows="6" placeholder="Pega o escribe el texto de tu contrato, balance o documento aquí..."></textarea>
+          </div>
+
+          <!-- Interruptores de Datos a Ocultar -->
+          <div class="form-group" style="margin-top: 1.25rem;">
+            <label class="form-label">Selecciona los datos a ocultar con barras negras:</label>
+            <div class="checkbox-stack">
+              <label class="checkbox-row-custom">
+                <input type="checkbox" id="check-redact-dni" checked />
+                <span class="checkbox-custom-label">
+                  <strong>Ocultar Números de DNI</strong>
+                  <small id="badge-count-dni" class="tier-badge free" style="display: inline-block; margin-top: 2px;">0 detectados</small>
+                </span>
+              </label>
+
+              <label class="checkbox-row-custom">
+                <input type="checkbox" id="check-redact-cuit" checked />
+                <span class="checkbox-custom-label">
+                  <strong>Ocultar CUIT / CUIL</strong>
+                  <small id="badge-count-cuit" class="tier-badge free" style="display: inline-block; margin-top: 2px;">0 detectados</small>
+                </span>
+              </label>
+
+              <label class="checkbox-row-custom">
+                <input type="checkbox" id="check-redact-email" checked />
+                <span class="checkbox-custom-label">
+                  <strong>Ocultar Correos Electrónicos</strong>
+                  <small id="badge-count-email" class="tier-badge free" style="display: inline-block; margin-top: 2px;">0 detectados</small>
+                </span>
+              </label>
+
+              <label class="checkbox-row-custom">
+                <input type="checkbox" id="check-redact-phone" checked />
+                <span class="checkbox-custom-label">
+                  <strong>Ocultar Números de Teléfono y WhatsApp</strong>
+                  <small id="badge-count-phone" class="tier-badge free" style="display: inline-block; margin-top: 2px;">0 detectados</small>
+                </span>
+              </label>
+
+              <label class="checkbox-row-custom">
+                <input type="checkbox" id="check-redact-card" checked />
+                <span class="checkbox-custom-label">
+                  <strong>Ocultar Tarjetas de Crédito y CBU</strong>
+                  <small id="badge-count-card" class="tier-badge free" style="display: inline-block; margin-top: 2px;">0 detectados</small>
+                </span>
+              </label>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Columna Derecha: Vista Previa Censurada -->
+        <div class="preview-card glass-card">
+          <div class="preview-header">
+            <span class="preview-title">Documento Seguro (Censurado)</span>
+          </div>
+
+          <div class="transcript-editor-container">
+            <textarea id="redact-output-text" class="form-textarea transcript-textarea" readonly placeholder="Aquí se mostrará el documento con la información confidencial censurada..." style="background: var(--color-bg-section); color: #0F172A; font-family: monospace; font-size: 0.88rem; line-height: 1.6;"></textarea>
+          </div>
+
+          <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+            <button type="button" id="btn-copy-redacted" class="btn-download-primary" style="flex: 1;">
+              <span>Copiar Texto Censurado</span>
+            </button>
+            <button type="button" id="btn-download-redacted-txt" class="btn-action-outline" style="flex: 1;">
+              <span>Descargar .TXT Seguro</span>
+            </button>
+          </div>
+
+          <div class="privacy-notice" style="margin-top: 1.25rem;">
+            <span>Garantía de Privacidad: La censura se ejecuta 100% en la memoria de tu dispositivo sin conexión a servidores.</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Guía de Uso Rápido -->
+      <div class="tool-guide-section">
+        <div class="tool-guide-header">
+          <h4 class="tool-guide-title">¿Cómo censurar datos personales y sensibles?</h4>
+          <p class="tool-guide-subtitle">Protección de privacidad en 3 simples pasos</p>
+        </div>
+        <div class="steps-grid-3">
+          <div class="step-card">
+            <div class="step-badge">1</div>
+            <div class="step-title">Carga tu CV o Documento</div>
+            <p class="step-desc">Arrastra un archivo PDF o pega el texto directamente en el panel de entrada.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-badge">2</div>
+            <div class="step-title">Selecciona los Datos a Ocultar</div>
+            <p class="step-desc">Activa o desactiva qué elementos censurar: Teléfonos, DNI, Email, CUIT/CUIL o Tarjetas.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-badge">3</div>
+            <div class="step-title">Copia o Descarga el Resultado</div>
+            <p class="step-desc">Obtén el texto protegido con barras negras (████) listo para enviar o publicar de forma segura.</p>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- =========================================================================
+       VISTA 6: IMAGE STUDIO & CONVERSOR MASIVO DE FORMATOS
+       ========================================================================= -->
+  <div id="view-image-studio" class="tool-view-section" style="display: none;">
+    
+    <section class="hero">
+      <div class="hero-pill">
+        Conversión Real de Píxeles en Memoria • PNG, JPG, WebP, AVIF & Favicons
+      </div>
+      <h1 class="hero-title">
+        Imágenes & Conversor Masivo
+      </h1>
+      <p class="hero-subtitle">
+        Convierte formatos reales (PNG ⇄ JPG con fondo blanco, WebP, AVIF), comprime por lote y descarga paquetes completos en .ZIP.
+      </p>
+    </section>
+
+    <main class="main-wrapper">
+      
+      <!-- Pestañas de modo -->
+      <div class="type-selector-tabs" style="grid-template-columns: repeat(2, 1fr); max-width: 540px; margin: 0 auto 1.75rem;">
+        <button type="button" id="btn-img-tab-single" class="type-btn active">
+          <span>Editor & Conversor Individual</span>
+        </button>
+        <button type="button" id="btn-img-tab-batch" class="type-btn">
+          <span>Conversor Masivo por Lote</span>
+        </button>
+      </div>
+
+      <!-- PANEL 1: MODO INDIVIDUAL -->
+      <div id="img-panel-single">
+        <!-- Dropzone Imagen Individual -->
+        <div id="image-studio-dropzone" class="pdf-dropzone-box glass-card" style="max-width: 700px; margin: 0 auto;">
+          <div class="dropzone-icon">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+              <circle cx="8.5" cy="8.5" r="1.5"></circle>
+              <polyline points="21 15 16 10 5 21"></polyline>
+            </svg>
+          </div>
+          <h4>Arrastra una imagen aquí para editar o convertir</h4>
+          <p>Soporta PNG, JPG, WebP, AVIF y GIF</p>
+          <input type="file" id="image-studio-file-input" accept="image/*" style="display: none;" />
+        </div>
+
+        <!-- Espacio de Trabajo Individual -->
+        <div id="image-studio-workspace" style="display: none;">
+          <div class="tool-grid">
+            
+            <!-- Columna Izquierda: Ajustes y Controles -->
+            <div class="tool-editor glass-card">
+              
+              <div class="section-title-row">
+                <span class="section-title" style="margin-bottom: 0;">Conversión y Ajustes</span>
+                <button type="button" id="btn-img-change-file" class="btn-danger-sm">Cambiar Foto</button>
+              </div>
+
+              <!-- Atajos rápidos de conversión -->
+              <div class="form-group" style="margin-top: 1.25rem;">
+                <label class="form-label">Convertir Rápidamente A:</label>
+                <div class="contract-search-chips" style="margin-top: 0.35rem;">
+                  <button type="button" class="btn-contract-chip btn-format-preset" data-format="image/jpeg">JPG (Fondo blanco)</button>
+                  <button type="button" class="btn-contract-chip btn-format-preset" data-format="image/png">PNG (Transparente)</button>
+                  <button type="button" class="btn-contract-chip btn-format-preset" data-format="image/webp">WebP (Ligero)</button>
+                  <button type="button" class="btn-contract-chip btn-format-preset" data-format="image/avif">AVIF (Ultra)</button>
+                </div>
+              </div>
+
+              <!-- Formato de Salida -->
+              <div class="form-group" style="margin-top: 1rem;">
+                <label class="form-label" for="select-img-format">Formato Destino</label>
+                <select id="select-img-format" class="form-select">
+                  <option value="image/jpeg" selected>JPG / JPEG (Fotografía / Compatible)</option>
+                  <option value="image/webp">WebP (Máxima compresión web)</option>
+                  <option value="image/png">PNG (Sin pérdida / Transparencia)</option>
+                  <option value="image/avif">AVIF (Alta fidelidad moderna)</option>
+                </select>
+              </div>
+
+              <!-- Color de fondo para JPG (transparencia) -->
+              <div id="wrap-img-bg-color" class="form-group" style="margin-top: 1rem;">
+                <label class="form-label" for="input-img-bg-color">Fondo para Transparencias (PNG a JPG)</label>
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                  <input type="color" id="input-img-bg-color" value="#ffffff" style="width: 42px; height: 38px; border: 1px solid var(--color-border); border-radius: var(--radius-sm); cursor: pointer; background: transparent; padding: 2px;" />
+                  <span style="font-size: 0.85rem; color: var(--color-text-muted);">Blanco puro por defecto (evita bordes negros).</span>
+                </div>
+              </div>
+
+              <!-- Calidad / Compresión -->
+              <div class="form-group" style="margin-top: 1.25rem;">
+                <label class="form-label" for="slider-img-quality">
+                  <span>Nivel de Calidad y Compresión</span>
+                  <span id="img-quality-val" style="color: var(--color-primary); font-weight: 700;">85%</span>
+                </label>
+                <input type="range" id="slider-img-quality" min="10" max="100" value="85" class="custom-range-slider" />
+              </div>
+
+              <!-- Redimensionado -->
+              <div class="form-group">
+                <label class="form-label">Redimensionar Píxeles</label>
+                <div class="form-row-2">
+                  <div class="dim-input-wrap">
+                    <label class="input-sublabel">Ancho (px)</label>
+                    <input type="number" id="input-img-width" class="form-input form-input-sm" />
+                  </div>
+                  <div class="dim-input-wrap">
+                    <label class="input-sublabel">Alto (px)</label>
+                    <input type="number" id="input-img-height" class="form-input form-input-sm" />
+                  </div>
+                </div>
+                <div class="form-group checkbox-row" style="margin-top: 0.5rem;">
+                  <input type="checkbox" id="check-keep-aspect" checked />
+                  <label for="check-keep-aspect">Mantener proporción original</label>
+                </div>
+              </div>
+
+              <!-- Escalas Rápidas y Super-Resolución -->
+              <div class="scale-presets-row">
+                <span class="scale-label">Escala rápida:</span>
+                <button type="button" class="btn-demo-pill img-scale-btn" data-scale="0.25">25%</button>
+                <button type="button" class="btn-demo-pill img-scale-btn" data-scale="0.5">50%</button>
+                <button type="button" class="btn-demo-pill img-scale-btn" data-scale="0.75">75%</button>
+                <button type="button" class="btn-demo-pill img-scale-btn active" data-scale="1">100%</button>
+                <button type="button" class="btn-demo-pill img-scale-btn" data-scale="2" style="font-weight: 700; color: var(--color-primary);">200% (2x HD)</button>
+                <button type="button" class="btn-demo-pill img-scale-btn" data-scale="4" style="font-weight: 700; color: var(--color-primary);">400% (4x)</button>
+              </div>
+
+              <!-- Rotación y Volteo -->
+              <div class="form-group" style="margin-top: 1.25rem;">
+                <label class="form-label">Orientación y Giro</label>
+                <div class="orientation-btns-row">
+                  <button type="button" id="btn-img-rotate-left" class="btn-action-outline">
+                    <span>Rotar -90°</span>
+                  </button>
+                  <button type="button" id="btn-img-rotate-right" class="btn-action-outline">
+                    <span>Rotar +90°</span>
+                  </button>
+                  <button type="button" id="btn-img-flip-h" class="btn-action-outline">
+                    <span>Voltear Horiz.</span>
+                  </button>
+                  <button type="button" id="btn-img-flip-v" class="btn-action-outline">
+                    <span>Voltear Vert.</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Mejoras de Calidad y Enfoque -->
+              <div class="form-group" style="margin-top: 1.25rem;">
+                <label class="form-label">Mejoras de Calidad y Enfoque</label>
+                
+                <div class="checkbox-stack">
+                  <label class="checkbox-row-custom">
+                    <input type="checkbox" id="check-img-auto-enhance" />
+                    <span class="checkbox-custom-label">
+                      <strong>Auto-Realce Inteligente</strong>
+                      <small>Equilibra automáticamente luz, contraste y vivacidad de color.</small>
+                    </span>
+                  </label>
+
+                  <label class="checkbox-row-custom">
+                    <input type="checkbox" id="check-img-doc-mode" />
+                    <span class="checkbox-custom-label">
+                      <strong>Modo Documento / Texto Nítido</strong>
+                      <small>Limpia sombras de fondo y resalta letras oscuras para contratos o DNI.</small>
+                    </span>
+                  </label>
+
+                  <label class="checkbox-row-custom">
+                    <input type="checkbox" id="check-img-grayscale" />
+                    <span class="checkbox-custom-label">
+                      <strong>Filtro Blanco y Negro (Escala de grises)</strong>
+                    </span>
+                  </label>
+                </div>
+
+                <!-- Control de Nitidez (Quitar Borrosidad) -->
+                <div class="form-group" style="margin-top: 1rem;">
+                  <label class="form-label" for="slider-img-sharpen">
+                    <span>Nitidez y Enfoque (Quitar borrosidad)</span>
+                    <span id="img-sharpen-val" style="color: var(--color-primary); font-weight: 700;">0%</span>
+                  </label>
+                  <input type="range" id="slider-img-sharpen" min="0" max="100" value="0" class="custom-range-slider" />
+                </div>
+
+                <!-- Brillo y Contraste -->
+                <div class="form-row-2" style="margin-top: 0.75rem;">
+                  <div>
+                    <label class="input-sublabel" for="slider-img-brightness">Brillo: <span id="img-brightness-val">0</span></label>
+                    <input type="range" id="slider-img-brightness" min="-50" max="50" value="0" class="custom-range-slider" />
+                  </div>
+                  <div>
+                    <label class="input-sublabel" for="slider-img-contrast">Contraste: <span id="img-contrast-val">0</span></label>
+                    <input type="range" id="slider-img-contrast" min="-50" max="50" value="0" class="custom-range-slider" />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Acciones de Descarga -->
+              <div class="download-actions-stack" style="margin-top: 1.5rem;">
+                <button type="button" id="btn-download-processed-img" class="btn-download-primary">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                  </svg>
+                  <span>Descargar Imagen Convertida</span>
+                </button>
+                <button type="button" id="btn-export-favicons" class="btn-action-outline" style="width: 100%; justify-content: center; margin-top: 0.5rem;">
+                  <span>Generar Pack de Favicons Web (.ZIP)</span>
+                </button>
+              </div>
+
+            </div>
+
+            <!-- Columna Derecha: Vista Previa y Comparativa de Peso -->
+            <div class="preview-card glass-card">
+              <div class="preview-header">
+                <span class="preview-title">Vista Previa en Vivo</span>
+                <span id="img-savings-pill" class="tier-badge pro">-0% de ahorro</span>
+              </div>
+
+              <div class="metrics-cards-grid">
+                <div class="metric-mini-card">
+                  <span class="metric-sub">Peso Original</span>
+                  <span id="img-orig-size" class="metric-val">0 KB</span>
+                </div>
+                <div class="metric-mini-card highlight">
+                  <span class="metric-sub">Peso Convertido</span>
+                  <span id="img-est-size" class="metric-val">0 KB</span>
+                </div>
+                <div class="metric-mini-card">
+                  <span class="metric-sub">Resolución</span>
+                  <span id="img-orig-dim" class="metric-val">0 x 0 px</span>
+                </div>
+              </div>
+
+              <div class="image-preview-canvas-holder">
+                <canvas id="img-preview-canvas" class="image-studio-canvas"></canvas>
+              </div>
+
+              <div class="privacy-notice" style="margin-top: 1.25rem;">
+                <span>Las imágenes se procesan y convierten 100% en la memoria de tu navegador.</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- PANEL 2: MODO CONVERSOR MASIVO POR LOTE -->
+      <div id="img-panel-batch" style="display: none;">
+        
+        <div class="tool-grid">
+          
+          <!-- Columna Izquierda: Configuración del Lote -->
+          <div class="tool-editor glass-card">
+            <div class="section-title-row">
+              <span class="section-title">Ajustes de Conversión Masiva</span>
+              <span id="img-batch-count-badge" class="tier-badge free">0 imágenes</span>
+            </div>
+
+            <div id="img-batch-dropzone" class="pdf-dropzone-box" style="margin-top: 1rem;">
+              <div class="dropzone-icon">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="17 8 12 3 7 8"></polyline>
+                  <line x1="12" y1="3" x2="12" y2="15"></line>
+                </svg>
+              </div>
+              <h4>Arrastra múltiples fotos aquí</h4>
+              <p>o haz clic para seleccionar varias imágenes a la vez</p>
+              <input type="file" id="img-batch-file-input" accept="image/*" multiple style="display: none;" />
+            </div>
+
+            <!-- Selector de formato destino para todo el lote -->
+            <div class="form-group" style="margin-top: 1.25rem;">
+              <label class="form-label" for="select-batch-format">Convertir Todo el Lote A:</label>
+              <select id="select-batch-format" class="form-select">
+                <option value="image/jpeg" selected>JPG / JPEG (Óptimo para fotos / WhatsApp / Mail)</option>
+                <option value="image/png">PNG (Sin pérdida de calidad)</option>
+                <option value="image/webp">WebP (Máxima compresión web)</option>
+                <option value="image/avif">AVIF (Siguiente generación)</option>
+              </select>
+            </div>
+
+            <!-- Calidad general -->
+            <div class="form-group" style="margin-top: 1.25rem;">
+              <label class="form-label" for="slider-batch-quality">
+                <span>Calidad de compresión</span>
+                <span id="batch-quality-val" style="color: var(--color-primary); font-weight: 700;">85%</span>
+              </label>
+              <input type="range" id="slider-batch-quality" min="10" max="100" value="85" class="custom-range-slider" />
+            </div>
+
+            <!-- Redimensionado masivo opcional -->
+            <div class="form-group" style="margin-top: 1.25rem;">
+              <label class="form-label" for="select-batch-resize">Límite de Resolución Máxima</label>
+              <select id="select-batch-resize" class="form-select">
+                <option value="0" selected>Tamaño original (Sin reducir dimensiones)</option>
+                <option value="1920">Full HD (Máx 1920 px - Ideal para web y mail)</option>
+                <option value="1280">HD (Máx 1280 px - Ideal para WhatsApp)</option>
+                <option value="800">Compacto (Máx 800 px - Catálogos rápidos)</option>
+              </select>
+            </div>
+
+            <!-- Relleno de fondo blanco -->
+            <div class="form-group" style="margin-top: 1.25rem;">
+              <label class="checkbox-row-custom">
+                <input type="checkbox" id="check-batch-white-bg" checked />
+                <span class="checkbox-custom-label">
+                  <strong>Rellenar fondo blanco en transparencias</strong>
+                  <small>Evita fondos negros en imágenes PNG transparentes convertidas a JPG.</small>
+                </span>
+              </label>
+            </div>
+
+            <!-- Botones de Acción Masiva -->
+            <div style="margin-top: 1.5rem; display: flex; flex-direction: column; gap: 0.6rem;">
+              <button type="button" id="btn-convert-batch-all" class="btn-download-primary">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                <span>Convertir y Descargar Todo en .ZIP</span>
+              </button>
+
+              <button type="button" id="btn-clear-batch" class="btn-action-outline btn-action-danger" style="width: 100%; justify-content: center;">
+                <span>Limpiar Lista de Imágenes</span>
+              </button>
+            </div>
+
+            <!-- Barra de Progreso Masivo -->
+            <div id="batch-progress-box" class="transcribe-progress-box" style="display: none; margin-top: 1.25rem;">
+              <div class="progress-status-row">
+                <span id="batch-progress-text" class="progress-status-label">Convirtiendo imágenes...</span>
+              </div>
+              <div class="progress-track-large">
+                <div id="batch-progress-bar" class="progress-fill-large" style="width: 0%;"></div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Columna Derecha: Lista de Archivos en el Lote -->
+          <div class="preview-card glass-card">
+            <div class="preview-header">
+              <span class="preview-title">Cola de Conversión por Lotes</span>
+            </div>
+
+            <div id="img-batch-list-container" style="display: none; max-height: 520px; overflow-y: auto;">
+              <table class="batch-table" style="width: 100%; border-collapse: collapse;">
+                <thead>
+                  <tr style="border-bottom: 1px solid var(--color-border); font-size: 0.8rem; color: var(--color-text-muted); text-align: left;">
+                    <th style="padding: 0.5rem;">Foto</th>
+                    <th style="padding: 0.5rem;">Nombre / Peso</th>
+                    <th style="padding: 0.5rem; text-align: center;">Destino</th>
+                    <th style="padding: 0.5rem;">Estado</th>
+                    <th style="padding: 0.5rem; text-align: right;">Acción</th>
+                  </tr>
+                </thead>
+                <tbody id="img-batch-table-body">
+                </tbody>
+              </table>
+            </div>
+
+            <div id="img-batch-empty-placeholder" class="batch-empty-state" style="padding: 3rem 1rem; text-align: center; color: var(--color-text-muted);">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin: 0 auto 0.75rem; opacity: 0.5;">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                <polyline points="21 15 16 10 5 21"></polyline>
+              </svg>
+              <p>Aún no has agregado imágenes. Arrastra varios archivos a la vez en la columna izquierda.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Guía de Uso Rápido en 3 Pasos -->
+      <div class="tool-guide-section" style="margin-top: 2.5rem;">
+        <div class="tool-guide-header">
+          <h4 class="tool-guide-title">¿Cómo convertir y comprimir imágenes?</h4>
+          <p class="tool-guide-subtitle">Conversión real de formatos en 3 simples pasos</p>
+        </div>
+        <div class="steps-grid-3">
+          <div class="step-card">
+            <div class="step-badge">1</div>
+            <div class="step-title">Sube tu Imagen o Lote</div>
+            <p class="step-desc">Arrastra una imagen individual o pasa a la pestaña 'Conversor Masivo' para subir decenas de fotos a la vez.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-badge">2</div>
+            <div class="step-title">Elige Formato y Calidad</div>
+            <p class="step-desc">Selecciona JPG (ideal con fondo blanco para transparencias), PNG, WebP o AVIF y ajusta la compresión.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-badge">3</div>
+            <div class="step-title">Descarga el Resultado</div>
+            <p class="step-desc">Descarga la imagen procesada individualmente o el paquete completo optimizado en formato .ZIP.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- =====================================================================
+           SECCIÓN EXPLICATIVA DETALLADA: GUÍA COMPLETA DE USO Y FORMATOS
+           ===================================================================== -->
+      <div class="tool-showcase-section" style="margin-top: 2.5rem;">
+        <div class="tool-showcase-header">
+          <span class="hero-pill">Manual Práctico Paso a Paso</span>
+          <h3 class="tool-showcase-title">¿Cómo funciona y cómo usar cada opción correctamente?</h3>
+          <p class="tool-showcase-subtitle">Guía clara con ejemplos reales para que obtengas el mejor resultado sin conocimientos técnicos.</p>
+        </div>
+
+        <!-- 1. Casos de Uso Cotidianos ("¿Qué necesitas hacer hoy?") -->
+        <div style="margin-bottom: 2rem;">
+          <h4 style="font-size: 1.15rem; font-weight: 800; color: var(--color-text-main); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 14 14"></polyline>
+            </svg>
+            ¿Qué necesitas hacer? Elige tu situación:
+          </h4>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem;">
+            
+            <div class="glass-card" style="padding: 1.5rem; border-top: 3px solid #2563eb;">
+              <h5 style="font-size: 1rem; font-weight: 700; color: var(--color-text-main); margin-bottom: 0.5rem;">
+                Subir una foto a un trámite o portal web
+              </h5>
+              <p style="font-size: 0.85rem; color: var(--color-text-muted); line-height: 1.55; margin-bottom: 0.75rem;">
+                Portales como AFIP, ANSES, bancos, embajadas o universidades suelen exigir fotos en formato <strong>JPG</strong> con un límite estricto de peso (ej. menos de 2 MB).
+              </p>
+              <div style="background: rgba(37, 99, 235, 0.08); padding: 0.75rem; border-radius: var(--radius-sm); font-size: 0.8rem; color: var(--color-text-main);">
+                <strong>Cómo hacerlo:</strong><br>
+                1. Sube tu imagen y selecciona formato <strong>JPG</strong>.<br>
+                2. Pon la calidad en <strong>80%</strong>.<br>
+                3. En escala rápida presiona <strong>50%</strong> o <strong>75%</strong> si fue sacada con un celular moderno.<br>
+                4. Mira el recuadro "Peso Convertido" a la derecha y descarga cuando esté en el peso deseado.
+              </div>
+            </div>
+
+            <div class="glass-card" style="padding: 1.5rem; border-top: 3px solid #10b981;">
+              <h5 style="font-size: 1rem; font-weight: 700; color: var(--color-text-main); margin-bottom: 0.5rem;">
+                Contrato, DNI o Recibo borroso o con sombras
+              </h5>
+              <p style="font-size: 0.85rem; color: var(--color-text-muted); line-height: 1.55; margin-bottom: 0.75rem;">
+                Fotos de documentos tomadas con mala luz suelen tener partes oscuras, sombras de la mano o texto gris difícil de leer.
+              </p>
+              <div style="background: rgba(16, 185, 129, 0.08); padding: 0.75rem; border-radius: var(--radius-sm); font-size: 0.8rem; color: var(--color-text-main);">
+                <strong>Cómo hacerlo:</strong><br>
+                1. Marca la casilla <strong>'Modo Documento / Texto Nítido'</strong>: blanqueará el papel y oscurecerá la tinta.<br>
+                2. Mueve la barra de <strong>'Nitidez y Enfoque'</strong> entre 30% y 60% para resaltar los bordes de cada letra.<br>
+                3. Si la foto quedó torcida, usa los botones de <strong>Rotar (+90° / -90°)</strong>.
+              </div>
+            </div>
+
+            <div class="glass-card" style="padding: 1.5rem; border-top: 3px solid #8b5cf6;">
+              <h5 style="font-size: 1rem; font-weight: 700; color: var(--color-text-main); margin-bottom: 0.5rem;">
+                Logos, Firmas y Sellos Transparentes
+              </h5>
+              <p style="font-size: 0.85rem; color: var(--color-text-muted); line-height: 1.55; margin-bottom: 0.75rem;">
+                Si tienes una firma o logotipo sin fondo, no todos los formatos guardan la transparencia.
+              </p>
+              <div style="background: rgba(139, 92, 246, 0.08); padding: 0.75rem; border-radius: var(--radius-sm); font-size: 0.8rem; color: var(--color-text-main);">
+                <strong>Cómo hacerlo:</strong><br>
+                • Si quieres <strong>mantener la transparencia</strong>: Elige formato <strong>PNG</strong>.<br>
+                • Si vas a convertir a <strong>JPG</strong>: El formato JPG no soporta transparencias por estándar. Este conversor le colocará automáticamente un <strong>fondo blanco puro</strong> para que no aparezca el típico fondo negro arruinado.
+              </div>
+            </div>
+
+            <div class="glass-card" style="padding: 1.5rem; border-top: 3px solid #f59e0b;">
+              <h5 style="font-size: 1rem; font-weight: 700; color: var(--color-text-main); margin-bottom: 0.5rem;">
+                Agrandar fotos chicas para imprimir o ver en TV
+              </h5>
+              <p style="font-size: 0.85rem; color: var(--color-text-muted); line-height: 1.55; margin-bottom: 0.75rem;">
+                Si tienes una imagen pequeña y la estiras normalmente, se ven píxeles borrosos o dientes de sierra.
+              </p>
+              <div style="background: rgba(245, 158, 11, 0.08); padding: 0.75rem; border-radius: var(--radius-sm); font-size: 0.8rem; color: var(--color-text-main);">
+                <strong>Cómo hacerlo:</strong><br>
+                1. Presiona el botón <strong>'200% (2x HD)'</strong> o <strong>'400% (4x)'</strong>.<br>
+                2. El motor aplica un filtro de interpolación bicúbica de alta calidad.<br>
+                3. Sube la <strong>Nitidez</strong> un 20% para compensar y descarga en formato PNG o JPG al 95% de calidad.
+              </div>
+            </div>
+
+            <div class="glass-card" style="padding: 1.5rem; border-top: 3px solid #06b6d4;">
+              <h5 style="font-size: 1rem; font-weight: 700; color: var(--color-text-main); margin-bottom: 0.5rem;">
+                Mandar 20 o 50 fotos por WhatsApp o Mail sin saturar
+              </h5>
+              <p style="font-size: 0.85rem; color: var(--color-text-muted); line-height: 1.55; margin-bottom: 0.75rem;">
+                Las fotos directas de cámara pueden pesar 12 MB cada una, haciendo imposible mandarlas por correo o consumiendo todos tus datos móviles.
+              </p>
+              <div style="background: rgba(6, 182, 212, 0.08); padding: 0.75rem; border-radius: var(--radius-sm); font-size: 0.8rem; color: var(--color-text-main);">
+                <strong>Cómo hacerlo:</strong><br>
+                1. Haz clic en la pestaña superior <strong>'Conversor Masivo por Lote'</strong>.<br>
+                2. Arrastra todas las fotos juntas.<br>
+                3. En 'Límite de Resolución' elige <strong>Full HD (1920 px)</strong> o <strong>HD (1280 px)</strong>.<br>
+                4. Presiona <strong>'Convertir y Descargar Todo en .ZIP'</strong>: se descargará un único archivo comprimido ultra liviano listo para compartir.
+              </div>
+            </div>
+
+            <div class="glass-card" style="padding: 1.5rem; border-top: 3px solid #ec4899;">
+              <h5 style="font-size: 1rem; font-weight: 700; color: var(--color-text-main); margin-bottom: 0.5rem;">
+                Optimizar imágenes para tu Sitio Web o Tienda Online
+              </h5>
+              <p style="font-size: 0.85rem; color: var(--color-text-muted); line-height: 1.55; margin-bottom: 0.75rem;">
+                Google penaliza páginas web lentas. Usar fotos pesadas hace que los visitantes abandonen tu tienda online.
+              </p>
+              <div style="background: rgba(236, 72, 153, 0.08); padding: 0.75rem; border-radius: var(--radius-sm); font-size: 0.8rem; color: var(--color-text-main);">
+                <strong>Cómo hacerlo:</strong><br>
+                1. Selecciona formato <strong>WebP</strong> o <strong>AVIF</strong>.<br>
+                2. Ajusta la calidad al <strong>82%</strong>.<br>
+                3. Tu imagen pesará hasta un <strong>70% menos</strong> que un JPG tradicional conservando exactamente la misma nitidez visual.
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- 2. Glosario de Formatos y Controles -->
+        <div style="margin-bottom: 1.5rem;">
+          <h4 style="font-size: 1.15rem; font-weight: 800; color: var(--color-text-main); margin-bottom: 1rem;">
+            Guía de Formatos y Ajustes del Panel
+          </h4>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem;">
+            
+            <div class="glass-card" style="padding: 1.25rem;">
+              <h5 style="font-weight: 700; color: var(--color-primary); margin-bottom: 0.35rem;">¿Qué formato elegir?</h5>
+              <p style="font-size: 0.82rem; color: var(--color-text-muted); line-height: 1.5; margin: 0;">
+                • <strong>JPG:</strong> Compatibilidad absoluta. Ideal para fotos, impresiones y trámites oficiales.<br>
+                • <strong>PNG:</strong> Máxima definición y soporte de transparencia. Ideal para logos, iconos y capturas.<br>
+                • <strong>WebP:</strong> El estándar moderno de internet. Pesa la mitad que un JPG con idéntica calidad.<br>
+                • <strong>AVIF:</strong> La compresión más avanzada del mercado, perfecta para catálogos y e-commerce.
+              </p>
+            </div>
+
+            <div class="glass-card" style="padding: 1.25rem;">
+              <h5 style="font-weight: 700; color: var(--color-primary); margin-bottom: 0.35rem;">¿Qué es el Nivel de Calidad (%)?</h5>
+              <p style="font-size: 0.82rem; color: var(--color-text-muted); line-height: 1.5; margin: 0;">
+                Los algoritmos de compresión eliminan información invisible para el ojo humano.<br>
+                • <strong>85% - 90%:</strong> Punto dulce recomendado. La imagen reduce su peso entre 50% y 80% sin pérdida visual apreciable.<br>
+                • <strong>100%:</strong> Sin compresión (archivo más pesado).<br>
+                • <strong>60% - 70%:</strong> Para cuando necesitas que pese lo mínimo indispensable.
+              </p>
+            </div>
+
+            <div class="glass-card" style="padding: 1.25rem;">
+              <h5 style="font-weight: 700; color: var(--color-primary); margin-bottom: 0.35rem;">¿Por qué no sirve renombrar la extensión?</h5>
+              <p style="font-size: 0.82rem; color: var(--color-text-muted); line-height: 1.5; margin: 0;">
+                Cambiarle el nombre a un archivo (por ejemplo, escribir <code>.jpg</code> al final de una foto PNG) no transforma su estructura interna. Los servidores detectan el engaño y dan error al subir. Este conversor decodifica los píxeles reales y los vuelve a empaquetar en la estructura legítima del nuevo formato.
+              </p>
+            </div>
+
+            <div class="glass-card" style="padding: 1.25rem;">
+              <h5 style="font-weight: 700; color: var(--color-primary); margin-bottom: 0.35rem;">Privacidad y Seguridad Garantizada</h5>
+              <p style="font-size: 0.82rem; color: var(--color-text-muted); line-height: 1.5; margin: 0;">
+                A diferencia de otros conversores online que suben tus fotos a servidores desconocidos en la nube, QRStudio procesa todo en la <strong>memoria RAM de tu propio navegador web</strong>. Si desconectas tu internet, la herramienta sigue funcionando exactamente igual.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+
+
 
 
 
@@ -1507,6 +2484,31 @@
         </div>
       </div>
 
+      <!-- Guía de Uso Rápido -->
+      <div class="tool-guide-section">
+        <div class="tool-guide-header">
+          <h4 class="tool-guide-title">¿Cómo proteger o descifrar archivos confidenciales?</h4>
+          <p class="tool-guide-subtitle">Criptografía militar AES-256 en 3 simples pasos</p>
+        </div>
+        <div class="steps-grid-3">
+          <div class="step-card">
+            <div class="step-badge">1</div>
+            <div class="step-title">Elige Cifrar o Descifrar</div>
+            <p class="step-desc">Selecciona si deseas proteger un documento nuevo o abrir un archivo .enc previamente cifrado.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-badge">2</div>
+            <div class="step-title">Ingresa tu Contraseña</div>
+            <p class="step-desc">Introduce una clave segura. El algoritmo deriva una llave criptográfica de 256 bits mediante PBKDF2.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-badge">3</div>
+            <div class="step-title">Descarga el Archivo</div>
+            <p class="step-desc">Obtén el archivo cifrado o restaurado. Solo quien tenga la clave exacta podrá volver a abrirlo.</p>
+          </div>
+        </div>
+      </div>
+
     </main>
 
   </div>
@@ -1638,6 +2640,31 @@
           <button type="button" id="btn-copy-b64" class="btn-download-primary">
             <span>Copiar Cadena Base64</span>
           </button>
+        </div>
+      </div>
+
+      <!-- Guía de Uso Rápido -->
+      <div class="tool-guide-section">
+        <div class="tool-guide-header">
+          <h4 class="tool-guide-title">¿Cómo crear y extraer archivos ZIP?</h4>
+          <p class="tool-guide-subtitle">Gestión masiva de archivos en 3 simples pasos</p>
+        </div>
+        <div class="steps-grid-3">
+          <div class="step-card">
+            <div class="step-badge">1</div>
+            <div class="step-title">Arrastra tus Archivos</div>
+            <p class="step-desc">Selecciona o arrastra cualquier cantidad de fotos, PDFs o documentos sin límite de tamaño.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-badge">2</div>
+            <div class="step-title">Asigna un Nombre</div>
+            <p class="step-desc">Escribe el nombre con el que deseas empaquetar tu carpeta comprimida .ZIP.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-badge">3</div>
+            <div class="step-title">Descarga el ZIP</div>
+            <p class="step-desc">El navegador empaqueta todo en memoria instantáneamente listo para compartir por mail o WhatsApp.</p>
+          </div>
         </div>
       </div>
 
