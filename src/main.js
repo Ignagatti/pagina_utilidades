@@ -105,7 +105,7 @@ function initToolSwitcher() {
     });
 
     // Mostrar sub-barra solo para herramientas de PDF
-    const isPdfTool = ['pdf-editor', 'images-to-pdf', 'merge-pdf', 'split-pdf'].includes(targetTool);
+    const isPdfTool = ['pdf-editor', 'images-to-pdf', 'merge-pdf', 'split-pdf', 'doc-diff-studio', 'redaction-studio'].includes(targetTool);
     if (pdfSubNav) {
       pdfSubNav.style.display = isPdfTool ? 'flex' : 'none';
     }
@@ -289,8 +289,66 @@ document.addEventListener('DOMContentLoaded', () => {
   // 8. Detección de retorno de pasarela de pagos (Stripe / Lemon Squeezy)
   checkPaymentReturnUrl();
 
+  // 9. Inicializar Instalador PWA (Google Chrome / Desktop / Móvil)
+  initPwaInstaller();
+
   updateFreemiumUI(false);
 });
+
+/**
+ * Registra el Service Worker y gestiona el botón de instalación nativo PWA
+ */
+function initPwaInstaller() {
+  // Si se ejecuta dentro de la aplicación de escritorio Electron, no mostrar botón PWA
+  if (window.electronAPI?.isElectron) {
+    const installBtn = document.getElementById('btn-install-pwa');
+    if (installBtn) installBtn.style.display = 'none';
+    return;
+  }
+
+  // Registro de Service Worker para soporte Offline y PWA
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js').catch((err) => {
+        console.warn('SW registration warning:', err);
+      });
+    });
+  }
+
+  let deferredPrompt = null;
+  const installBtn = document.getElementById('btn-install-pwa');
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    // Previene que el mini-infobar por defecto aparezca inmediatamente
+    e.preventDefault();
+    deferredPrompt = e;
+    if (installBtn) {
+      installBtn.style.display = 'inline-flex';
+    }
+  });
+
+  if (installBtn) {
+    installBtn.addEventListener('click', async () => {
+      if (!deferredPrompt) {
+        alert('Para instalar Nuvexa en tu sistema:\n\n1. En Google Chrome: haz clic en el ícono de instalar en la barra de direcciones o en el menú (tres puntos) > "Instalar Nuvexa".\n2. En móviles: Pulsa "Compartir" o Menú > "Añadir a pantalla de inicio".');
+        return;
+      }
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === 'accepted') {
+        installBtn.style.display = 'none';
+      }
+      deferredPrompt = null;
+    });
+  }
+
+  window.addEventListener('appinstalled', () => {
+    if (installBtn) {
+      installBtn.style.display = 'none';
+    }
+    deferredPrompt = null;
+  });
+}
 
 /**
  * Procesa retornos de pasarela de pago o enlaces mágicos con clave de licencia

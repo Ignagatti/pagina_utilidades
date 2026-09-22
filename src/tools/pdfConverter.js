@@ -1,6 +1,7 @@
 import { PDFDocument } from 'pdf-lib';
 import { isProUser, canPerformDownload, consumeDailyUse } from '../services/storage.js';
 import { validateImageFile } from '../utils/security.js';
+import { normalizeImageFile, isHeicFile } from '../utils/imageDecoder.js';
 
 let images = [];
 let isConverting = false;
@@ -11,9 +12,15 @@ const PAGE_SIZES = {
 };
 
 /**
- * Convierte cualquier archivo de imagen (PNG, JPG, WebP) a PNG o JPG buffer
+ * Convierte cualquier archivo de imagen (PNG, JPG, WebP, HEIC) a PNG o JPG buffer
  */
 async function processImageToEmbeddable(file) {
+  let targetFile = file;
+  if (isHeicFile(file)) {
+    const res = await normalizeImageFile(file);
+    targetFile = res.file;
+  }
+
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => {
@@ -26,7 +33,7 @@ async function processImageToEmbeddable(file) {
         ctx.drawImage(img, 0, 0);
 
         // Si es JPEG original lo conservamos como JPEG, sino exportamos como PNG
-        const isJpg = file.type === 'image/jpeg' || file.name.match(/\.jpe?g$/i);
+        const isJpg = targetFile.type === 'image/jpeg' || targetFile.name.match(/\.jpe?g$/i);
         const format = isJpg ? 'image/jpeg' : 'image/png';
         const dataUrl = canvas.toDataURL(format, 0.95);
 
@@ -48,7 +55,7 @@ async function processImageToEmbeddable(file) {
       img.src = reader.result;
     };
     reader.onerror = reject;
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(targetFile);
   });
 }
 

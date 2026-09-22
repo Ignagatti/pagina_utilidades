@@ -7,6 +7,8 @@
 
 import JSZip from 'jszip';
 import { canPerformDownload, consumeDailyUse, isProUser } from '../services/storage.js';
+import { isImageFile, isHeicFile, normalizeImageFile } from '../utils/imageDecoder.js';
+import { createIcoBlob } from '../utils/icoEncoder.js';
 
 let originalImage = null;
 let originalFile = null;
@@ -53,6 +55,10 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
   const selectFormat = document.getElementById('select-img-format');
   const inputBgColor = document.getElementById('input-img-bg-color');
   const wrapBgColor = document.getElementById('wrap-img-bg-color');
+  const wrapIcoSizes = document.getElementById('wrap-ico-sizes');
+  const btnIcoSelectAll = document.getElementById('btn-ico-select-all-sizes');
+  const checkIcoSizes = document.querySelectorAll('.check-ico-size');
+  const btnExportIco = document.getElementById('btn-export-ico');
   const inputWidth = document.getElementById('input-img-width');
   const inputHeight = document.getElementById('input-img-height');
   const checkKeepAspect = document.getElementById('check-keep-aspect');
@@ -98,6 +104,22 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
   const batchProgressBar = document.getElementById('batch-progress-bar');
   const batchProgressText = document.getElementById('batch-progress-text');
 
+
+  function getSelectedIcoSizes() {
+    const sizes = [];
+    document.querySelectorAll('.check-ico-size').forEach(cb => {
+      if (cb.checked) {
+        const val = parseInt(cb.value);
+        if (!isNaN(val)) sizes.push(val);
+      }
+    });
+    return sizes.length > 0 ? sizes : [16, 32, 48, 64, 128, 256];
+  }
+
+  btnIcoSelectAll?.addEventListener('click', () => {
+    document.querySelectorAll('.check-ico-size').forEach(cb => cb.checked = true);
+  });
+
   // 1. Cambio de pestañas
   tabBtnSingle?.addEventListener('click', () => {
     tabBtnSingle.classList.add('active');
@@ -114,15 +136,22 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
   });
 
   // 2. Procesamiento Individual
-  function handleSingleFile(file) {
-    if (!file || !file.type.startsWith('image/')) {
-      alert('Por favor selecciona una imagen válida (JPG, PNG, WebP, AVIF).');
+  async function handleSingleFile(file) {
+    if (!file || !isImageFile(file)) {
+      alert('Por favor selecciona una imagen válida (JPG, PNG, WebP, AVIF, HEIC, etc.).');
       return;
     }
 
     originalFile = file;
-    const reader = new FileReader();
-    reader.onload = (e) => {
+    const isHeic = isHeicFile(file);
+
+    if (dropzoneSingle && isHeic) {
+      const p = dropzoneSingle.querySelector('p');
+      if (p) p.textContent = '⏳ Decodificando foto HEIC de Apple en el navegador...';
+    }
+
+    try {
+      const { url } = await normalizeImageFile(file);
       const img = new Image();
       img.onload = () => {
         originalImage = img;
@@ -140,19 +169,37 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
         if (selectFormat) {
           if (file.type === 'image/png') selectFormat.value = 'image/jpeg'; // Sugerir conversión a JPG
           else if (file.type === 'image/webp') selectFormat.value = 'image/jpeg';
+          else if (isHeic) selectFormat.value = 'image/jpeg';
           else selectFormat.value = 'image/webp';
         }
 
         checkBgColorVisibility();
 
-        if (dropzoneSingle) dropzoneSingle.style.display = 'none';
+        if (dropzoneSingle) {
+          dropzoneSingle.style.display = 'none';
+          const p = dropzoneSingle.querySelector('p');
+          if (p) p.textContent = 'Soporta PNG, JPG, WebP, AVIF, HEIC / iPhone, GIF y BMP';
+        }
         if (workspaceSingle) workspaceSingle.style.display = 'block';
 
         updateProcessedImage();
       };
-      img.src = e.target.result;
-    };
-    reader.readAsDataURL(file);
+      img.onerror = () => {
+        alert('No se pudo cargar la imagen.');
+        if (dropzoneSingle) {
+          const p = dropzoneSingle.querySelector('p');
+          if (p) p.textContent = 'Soporta PNG, JPG, WebP, AVIF, HEIC / iPhone, GIF y BMP';
+        }
+      };
+      img.src = url;
+    } catch (err) {
+      console.error('Error procesando imagen individual:', err);
+      alert('No se pudo procesar la imagen: ' + (err.message || 'Error desconocido'));
+      if (dropzoneSingle) {
+        const p = dropzoneSingle.querySelector('p');
+        if (p) p.textContent = 'Soporta PNG, JPG, WebP, AVIF, HEIC / iPhone, GIF y BMP';
+      }
+    }
   }
 
   function checkBgColorVisibility() {
@@ -499,7 +546,7 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
     if (dropzoneSingle) dropzoneSingle.style.display = 'block';
   });
 
-  btnDownloadImage?.addEventListener('click', () => {
+  btnDownloadImage?.addEventListener('click', async () => {
     const canvas = getProcessedCanvas();
     if (!canvas) return;
 
@@ -511,12 +558,32 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
     const format = selectFormat?.value || 'image/jpeg';
     const quality = (parseInt(sliderQuality?.value) || 85) / 100;
 
+    const cleanBaseName = (originalFile?.name || 'imagen').replace(/\.[^/.]+$/, '');
+
+    if (format === 'image/x-icon') {
+      const icoSizes = getSelectedIcoSizes();
+      const icoBlob = await createIcoBlob(canvas, icoSizes);
+      const url = URL.createObjectURL(icoBlob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${cleanBaseName}.ico`;
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => {
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }, 1000);
+
+      consumeDailyUse();
+      if (onUsageUpdated) onUsageUpdated();
+      return;
+    }
+
     let ext = 'jpg';
     if (format === 'image/png') ext = 'png';
     else if (format === 'image/webp') ext = 'webp';
     else if (format === 'image/avif') ext = 'avif';
 
-    const cleanBaseName = (originalFile?.name || 'imagen').replace(/\.[^/.]+$/, '');
     const outFileName = `${cleanBaseName}-convertido.${ext}`;
 
     canvas.toBlob((blob) => {
@@ -537,7 +604,7 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
     }, format, quality);
   });
 
-  btnExportFavicons?.addEventListener('click', async () => {
+  btnExportIco?.addEventListener('click', async () => {
     if (!originalImage) return;
 
     if (!canPerformDownload()) {
@@ -545,25 +612,15 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
       return;
     }
 
-    const zip = new JSZip();
-    const sizes = [16, 32, 48, 64, 180, 512];
+    const canvas = previewImg;
+    const cleanBaseName = (originalFile?.name || 'icono').replace(/\.[^/.]+$/, '');
+    const icoSizes = getSelectedIcoSizes();
+    const icoBlob = await createIcoBlob(canvas, icoSizes);
 
-    for (const s of sizes) {
-      const c = document.createElement('canvas');
-      c.width = s;
-      c.height = s;
-      const ctx = c.getContext('2d');
-      ctx.drawImage(originalImage, 0, 0, s, s);
-
-      const blob = await new Promise(res => c.toBlob(res, 'image/png'));
-      zip.file(`favicon-${s}x${s}.png`, blob);
-    }
-
-    const zipContent = await zip.generateAsync({ type: 'blob' });
-    const url = URL.createObjectURL(zipContent);
+    const url = URL.createObjectURL(icoBlob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `pack-favicons.zip`;
+    a.download = `${cleanBaseName}.ico`;
     document.body.appendChild(a);
     a.click();
     setTimeout(() => {
@@ -575,13 +632,74 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
     if (onUsageUpdated) onUsageUpdated();
   });
 
+  btnExportFavicons?.addEventListener('click', async () => {
+    if (!originalImage) return;
+
+    if (!canPerformDownload()) {
+      if (onProModalRequested) onProModalRequested('daily_limit');
+      return;
+    }
+
+    const zip = new JSZip();
+
+    // 1. Generar archivo .ico multi-resolución (16, 32, 48)
+    try {
+      const icoBlob = await createIcoBlob(originalImage, [16, 32, 48]);
+      zip.file('favicon.ico', icoBlob);
+    } catch (err) {
+      console.warn('No se pudo generar favicon.ico en el zip', err);
+    }
+
+    // 2. Generar tamaños PNG estándar
+    const sizes = [16, 32, 48, 64, 180, 512];
+    for (const s of sizes) {
+      const c = document.createElement('canvas');
+      c.width = s;
+      c.height = s;
+      const ctx = c.getContext('2d');
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = 'high';
+      ctx.drawImage(originalImage, 0, 0, s, s);
+
+      const blob = await new Promise(res => c.toBlob(res, 'image/png'));
+      if (s === 180) {
+        zip.file('apple-touch-icon.png', blob);
+      } else {
+        zip.file(`favicon-${s}x${s}.png`, blob);
+      }
+    }
+
+    // 3. Snippet HTML listo para copiar en la web
+    const htmlSnippet = `<!-- Nuvexa Favicon Pack -->
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+`;
+    zip.file('instrucciones-html.txt', htmlSnippet);
+
+    const zipContent = await zip.generateAsync({ type: 'blob' });
+    const url = URL.createObjectURL(zipContent);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `pack-favicons-completo.zip`;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => {
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }, 1000);
+
+    consumeDailyUse();
+  });
+
   // ==========================================
   // 3. MODO CONVERSOR MASIVO POR LOTES (BATCH)
   // ==========================================
   dropzoneBatch?.addEventListener('click', () => fileInputBatch?.click());
 
   fileInputBatch?.addEventListener('change', (e) => {
-    const files = Array.from(e.target.files || []);
+    const files = Array.from(e.target.files || []).filter(f => isImageFile(f));
     if (files.length > 0) {
       addBatchFiles(files);
     }
@@ -602,7 +720,7 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
   });
 
   dropzoneBatch?.addEventListener('drop', (e) => {
-    const files = Array.from(e.dataTransfer.files || []).filter(f => f.type.startsWith('image/'));
+    const files = Array.from(e.dataTransfer.files || []).filter(f => isImageFile(f));
     if (files.length > 0) {
       addBatchFiles(files);
     }
@@ -614,19 +732,33 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
 
   function addBatchFiles(files) {
     files.forEach(file => {
-      if (!file.type.startsWith('image/')) return;
+      if (!isImageFile(file)) return;
+      const isHeic = isHeicFile(file);
       const id = 'batch-' + Math.random().toString(36).substring(2, 9);
       const fileObj = {
         id,
         file,
         name: file.name,
         origSize: file.size,
-        thumbUrl: URL.createObjectURL(file),
-        status: 'pending', // pending, converting, done, error
+        thumbUrl: isHeic ? '' : URL.createObjectURL(file),
+        status: isHeic ? 'heic_loading' : 'pending',
         convertedBlob: null,
         outName: ''
       };
       batchFiles.push(fileObj);
+
+      if (isHeic) {
+        normalizeImageFile(file).then(res => {
+          fileObj.thumbUrl = res.url;
+          fileObj.status = 'pending';
+          fileObj.normalizedFile = res.file;
+          renderBatchList();
+        }).catch(err => {
+          console.warn('Error decodificando miniatura HEIC:', err);
+          fileObj.status = 'error';
+          renderBatchList();
+        });
+      }
     });
 
     renderBatchList();
@@ -652,14 +784,16 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
 
     batchTableBody.innerHTML = '';
 
-    batchFiles.forEach((item, index) => {
+    batchFiles.forEach((item) => {
       const tr = document.createElement('tr');
       tr.className = 'batch-table-row';
 
       let statusHtml = `<span class="tier-badge free">Listo para convertir</span>`;
       let actionBtnHtml = `<button type="button" class="btn-danger-sm btn-batch-remove" data-id="${item.id}" title="Quitar">Eliminar</button>`;
 
-      if (item.status === 'converting') {
+      if (item.status === 'heic_loading') {
+        statusHtml = `<span class="tier-badge free" style="background:#fef3c7; color:#b45309;">Decodificando HEIC...</span>`;
+      } else if (item.status === 'converting') {
         statusHtml = `<span class="tier-badge free" style="background:#e0f2fe; color:#0369a1;">Convirtiendo...</span>`;
       } else if (item.status === 'done') {
         const outSize = item.convertedBlob ? formatBytes(item.convertedBlob.size) : '';
@@ -670,11 +804,17 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
           </button>
           <button type="button" class="btn-danger-sm btn-batch-remove" data-id="${item.id}" title="Quitar">Eliminar</button>
         `;
+      } else if (item.status === 'error') {
+        statusHtml = `<span class="tier-badge free" style="background:#fee2e2; color:#b91c1c;">Error al decodificar</span>`;
       }
+
+      const thumbImgHtml = item.thumbUrl
+        ? `<img src="${item.thumbUrl}" class="batch-thumb-img" alt="${item.name}" />`
+        : `<div class="batch-thumb-img" style="display:flex;align-items:center;justify-content:center;background:var(--color-surface);font-size:0.65rem;color:var(--color-primary);font-weight:700;">HEIC</div>`;
 
       tr.innerHTML = `
         <td style="width: 50px;">
-          <img src="${item.thumbUrl}" class="batch-thumb-img" alt="${item.name}" />
+          ${thumbImgHtml}
         </td>
         <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
           <strong>${item.name}</strong>
@@ -748,6 +888,7 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
 
     let targetExt = 'jpg';
     if (targetFormat === 'image/png') targetExt = 'png';
+    else if (targetFormat === 'image/x-icon') targetExt = 'ico';
     else if (targetFormat === 'image/webp') targetExt = 'webp';
     else if (targetFormat === 'image/avif') targetExt = 'avif';
 
@@ -769,7 +910,8 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
       }
 
       try {
-        const convertedBlob = await convertSingleImageBlob(item.file, {
+        const fileToConvert = item.normalizedFile || item.file;
+        const convertedBlob = await convertSingleImageBlob(fileToConvert, {
           targetFormat,
           quality,
           maxDimension,
@@ -821,6 +963,12 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
    * Decodifica y recodifica una imagen en memoria
    */
   async function convertSingleImageBlob(file, { targetFormat, quality, maxDimension, forceWhiteBg }) {
+    let sourceFile = file;
+    if (isHeicFile(file)) {
+      const res = await normalizeImageFile(file);
+      sourceFile = res.file;
+    }
+
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onload = (e) => {
@@ -852,6 +1000,13 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
 
           ctx.drawImage(img, 0, 0, w, h);
 
+          if (targetFormat === 'image/x-icon') {
+            createIcoBlob(canvas, [16, 32, 48, 64, 128, 256])
+              .then(resolve)
+              .catch(reject);
+            return;
+          }
+
           canvas.toBlob((blob) => {
             if (blob) resolve(blob);
             else reject(new Error('Fallo en la compresión'));
@@ -861,7 +1016,7 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
         img.src = e.target.result;
       };
       reader.onerror = reject;
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(sourceFile);
     });
   }
 }

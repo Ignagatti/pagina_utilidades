@@ -1,0 +1,77 @@
+{
+  "name": "Nuvexa - Herramientas Digitales Privadas",
+  "short_name": "Nuvexa",
+  "description": "Herramientas digitales. Privadas. En un solo lugar. Editor PDF, conversor de imágenes, QR, audio a texto y cifrado local.",
+  "start_url": "/",
+  "id": "/",
+  "display": "standalone",
+  "background_color": "#F8FAFC",
+  "theme_color": "#2563EB",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-maskable-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-maskable-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ],
+  "categories": [
+    "productivity",
+    "utilities",
+    "business"
+  ],
+  "shortcuts": [
+    {
+      "name": "Smart Actions",
+      "short_name": "Smart Actions",
+      "description": "Analiza y transforma cualquier archivo",
+      "url": "/?tool=smart-actions",
+      "icons": [{ "src": "/icons/icon-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Documentos PDF",
+      "short_name": "PDF Studio",
+      "description": "Editor visual, unir y separar páginas PDF",
+      "url": "/?tool=pdf-editor",
+      "icons": [{ "src": "/icons/icon-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Conversor de Imágenes & ICO",
+      "short_name": "Imágenes",
+      "description": "Convierte PNG, JPG, HEIC e Iconos ICO",
+      "url": "/?tool=image-studio",
+      "icons": [{ "src": "/icons/icon-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Generador de Códigos QR",
+      "short_name": "Códigos QR",
+      "description": "Crea códigos QR con logo y vector SVG",
+      "url": "/?tool=qr",
+      "icons": [{ "src": "/icons/icon-192x192.png", "sizes": "192x192" }]
+    }
+  ]
+}

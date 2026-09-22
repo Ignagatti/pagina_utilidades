@@ -5,6 +5,7 @@
  */
 
 import { PDFDocument } from 'pdf-lib';
+import { isImageFile, isHeicFile, normalizeImageFile } from '../utils/imageDecoder.js';
 
 function formatBytes(bytes) {
   if (bytes === 0) return '0 B';
@@ -35,7 +36,8 @@ export function initSmartActions({ onNavigateTool }) {
     if (cardResult) cardResult.style.display = 'block';
 
     const isPdf = file.type === 'application/pdf' || file.name.endsWith('.pdf');
-    const isImage = file.type.startsWith('image/');
+    const isImage = isImageFile(file);
+    const isHeic = isHeicFile(file);
     const isAudio = file.type.startsWith('audio/') || file.name.match(/\.(mp3|wav|m4a|ogg|aac|flac)$/i);
     const isCsvOrText = file.type === 'text/csv' || file.name.endsWith('.csv') || file.name.endsWith('.txt');
 
@@ -87,23 +89,33 @@ export function initSmartActions({ onNavigateTool }) {
         }
       ];
     } else if (isImage) {
-      badgeText = 'Imagen';
-      const img = new Image();
-      const objUrl = URL.createObjectURL(file);
-      await new Promise(r => {
-        img.onload = () => {
-          metaDetails += ` • ${img.naturalWidth} × ${img.naturalHeight} px`;
-          r();
-        };
-        img.onerror = r;
-        img.src = objUrl;
-      });
+      badgeText = isHeic ? 'Foto Apple HEIC' : 'Imagen';
+      try {
+        let previewFile = file;
+        if (isHeic) {
+          const res = await normalizeImageFile(file);
+          previewFile = res.file;
+          metaDetails += ' • Formato Apple HEIC/HEIF';
+        }
+        const img = new Image();
+        const objUrl = URL.createObjectURL(previewFile);
+        await new Promise(r => {
+          img.onload = () => {
+            metaDetails += ` • ${img.naturalWidth} × ${img.naturalHeight} px`;
+            r();
+          };
+          img.onerror = r;
+          img.src = objUrl;
+        });
+      } catch (e) {
+        console.warn('SmartActions img decode:', e);
+      }
 
       actions = [
         {
           icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>',
-          title: 'Convertir Formato Real (PNG ⇄ JPG / WebP / AVIF)',
-          desc: 'Cambia a JPG con fondo blanco limpio o a WebP para máxima compresión.',
+          title: isHeic ? 'Convertir HEIC a JPG / PNG / WebP' : 'Convertir Formato Real (PNG ⇄ JPG / WebP / AVIF)',
+          desc: isHeic ? 'Transforma fotos de iPhone en formatos universales JPG o PNG sin perder nitidez.' : 'Cambia a JPG con fondo blanco limpio o a WebP para máxima compresión.',
           tool: 'image-studio'
         },
         {
@@ -113,9 +125,9 @@ export function initSmartActions({ onNavigateTool }) {
           tool: 'images-to-pdf'
         },
         {
-          icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>',
-          title: 'Generar Pack de Favicons Web (.PNGs / .ZIP)',
-          desc: 'Exporta automáticamente en tamaños 16x16, 32x32, 64x64 y 180x180.',
+          icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>',
+          title: 'Convertir a Icono .ICO y Favicons Web',
+          desc: 'Genera un archivo .ico auténtico con todas las medidas (16 a 256px) para Windows o tu web.',
           tool: 'image-studio'
         },
         {

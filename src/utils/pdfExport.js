@@ -73,7 +73,7 @@ export async function generateQRPdf(pngDataUrl, { title = '', subtitle = '' } = 
   });
 
   // Pie de página sutil
-  const footerText = 'Documento generado con QRStudio';
+  const footerText = 'Documento generado con Nuvexa • Herramientas Digitales Privadas';
   const footerFontSize = 9;
   const footerWidth = fontHelvetica.widthOfTextAtSize(footerText, footerFontSize);
 

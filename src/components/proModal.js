@@ -26,17 +26,17 @@ const PLAN_DETAILS = {
 };
 
 const REASON_TITLES = {
-  daily_limit: 'Descargas sin límites',
+  daily_limit: 'Descargas ilimitadas con Nuvexa Pro',
   logo: 'Personalización con tu Logotipo',
   svg: 'Exportación Vectorial SVG',
-  general: 'Todas tus herramientas de archivos en un solo lugar'
+  general: 'Nuvexa Pro • Herramientas digitales. Privadas. En un solo lugar.'
 };
 
 const REASON_DESCRIPTIONS = {
-  daily_limit: 'Has completado tus descargas gratuitas de hoy. Elige un plan Pro o continúa en modo gratuito mañana.',
-  logo: 'Añade el logotipo de tu marca en tus códigos QR y trabaja sin límites en todas las herramientas.',
+  daily_limit: 'Has completado tus descargas gratuitas de hoy. Pasa a Nuvexa Pro o continúa en modo gratuito mañana.',
+  logo: 'Añade el logotipo de tu marca en tus códigos QR y trabaja sin límites en todas las herramientas de Nuvexa.',
   svg: 'Descarga códigos QR en formato SVG vectorial de máxima nitidez para cartelería e imprenta.',
-  general: 'QR, PDF, imágenes y audio. Rápido, simple y sin límites.'
+  general: 'Todas las herramientas de Nuvexa (QR, PDF, imágenes, audio y seguridad) 100% privadas y sin límites.'
 };
 
 /**

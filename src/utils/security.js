@@ -141,8 +141,12 @@ export async function validateImageFile(file) {
   const isWebp = bytes[0] === 0x52 && bytes[1] === 0x49 && bytes[2] === 0x46 && bytes[3] === 0x46 &&
                  bytes[8] === 0x57 && bytes[9] === 0x45 && bytes[10] === 0x42 && bytes[11] === 0x50;
 
-  if (!isPng && !isJpg && !isWebp) {
-    throw new Error('Firma de archivo inválida. Solo se admiten imágenes legítimas PNG, JPG o WebP.');
+  // HEIC / HEIF / ISO Base Media: bytes 4..7 'ftyp' y marcas 'heic', 'heix', 'mif1', 'msf1', 'hevc'
+  const isFtyp = bytes[4] === 0x66 && bytes[5] === 0x74 && bytes[6] === 0x79 && bytes[7] === 0x70;
+  const isHeic = isFtyp || /\.(heic|heif)$/i.test(file.name || '');
+
+  if (!isPng && !isJpg && !isWebp && !isHeic) {
+    throw new Error('Firma de archivo inválida. Solo se admiten imágenes legítimas JPG, PNG, WebP o HEIC.');
   }
 
   return true;

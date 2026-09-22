@@ -3,78 +3,57 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>QRStudio | Generador de Códigos QR y Utilidades PDF 100% Privadas</title>
-  <meta name="description" content="Genera códigos QR profesionales con logotipo y formato SVG, une múltiples PDFs, extrae páginas y convierte imágenes a PDF sin subir tus archivos a la nube. 100% privado en tu navegador." />
-  <meta name="keywords" content="generador codigo qr gratis, crear qr con logo, qr transparente png, unir pdf gratis, separar paginas pdf, imagenes a pdf, editor pdf privado, sin subir a la nube" />
-  <meta name="author" content="QRStudio" />
+  <title>Nuvexa | Herramientas digitales. Privadas. En un solo lugar.</title>
+  <meta name="description" content="Nuvexa: Herramientas digitales. Privadas. En un solo lugar. Códigos QR con logo, editor y comparador de PDF, conversor de imágenes con soporte HEIC / Apple, transcripción de voz con IA Whisper, cifrado AES-256 y ZIPs sin servidores." />
+  <meta name="keywords" content="nuvexa, herramientas digitales privadas, creador qr con logo, editor pdf privado, unir pdf, separar pdf, comparador pdf, censurar pdf, convertir heic a jpg, comprimir imagenes, transcribir audio a texto whisper, cifrado aes-256" />
+  <meta name="author" content="Nuvexa" />
   <meta name="robots" content="index, follow" />
-  <link rel="canonical" href="https://qrstudio.vercel.app/" />
+  <link rel="canonical" href="https://nuvexa.app/" />
 
-  <!-- Favicon e Iconografía -->
+  <!-- Favicon, Manifest e Iconografía PWA -->
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <meta name="theme-color" content="#2563EB" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Nuvexa" />
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <meta name="theme-color" content="#0052CC" />
 
   <!-- Open Graph / Redes Sociales (WhatsApp, Facebook, LinkedIn) -->
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://qrstudio.vercel.app/" />
-  <meta property="og:title" content="QRStudio | Generador QR y Herramientas PDF 100% Privadas" />
-  <meta property="og:description" content="Tus archivos nunca salen de tu dispositivo. Genera códigos QR con logo, une y separa PDFs de forma instantánea y confidencial." />
-  <meta property="og:site_name" content="QRStudio" />
+  <meta property="og:url" content="https://nuvexa.app/" />
+  <meta property="og:title" content="Nuvexa | Herramientas digitales. Privadas. En un solo lugar." />
+  <meta property="og:description" content="Tus archivos nunca salen de tu dispositivo. Genera códigos QR, edita PDFs, convierte fotos HEIC, transcribe audios y protege archivos con 100% de privacidad." />
+  <meta property="og:site_name" content="Nuvexa" />
   <meta property="og:locale" content="es_ES" />
 
   <!-- Twitter Cards -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="QRStudio | Suite de Códigos QR y PDFs Privados" />
-  <meta name="twitter:description" content="100% confidencial en tu navegador. Genera QRs y procesa documentos sin servidores intermedios." />
+  <meta name="twitter:title" content="Nuvexa | Suite Digital 100% Privada" />
+  <meta name="twitter:description" content="Herramientas digitales. Privadas. En un solo lugar. Procesamiento instantáneo en tu navegador." />
 
-  <!-- Datos Estructurados Schema.org (Google Rich Snippets & Precios) -->
+  <!-- Datos Estructurados Schema.org -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@type": "WebApplication",
-        "name": "QRStudio",
-        "url": "https://qrstudio.vercel.app/",
-        "description": "Suite de herramientas de oficina para generar códigos QR y procesar archivos PDF 100% en el navegador con privacidad total.",
+        "name": "Nuvexa",
+        "url": "https://nuvexa.app/",
+        "description": "Suite de herramientas digitales de oficina con procesamiento 100% en el navegador con privacidad total: QR, PDF, imágenes, audio y seguridad.",
         "applicationCategory": "BusinessApplication",
         "operatingSystem": "All",
         "offers": {
           "@type": "Offer",
           "price": "3.99",
           "priceCurrency": "USD",
-          "priceValidUntil": "2027-12-31",
+          "priceValidUntil": "2028-12-31",
           "availability": "https://schema.org/InStock"
         }
-      },
-      {
-        "@type": "FAQPage",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "¿Por qué es más seguro usar QRStudio que otras páginas?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Las páginas tradicionales suben tus contratos o balances a servidores externos. QRStudio ejecuta el procesamiento directamente en tu navegador web mediante WebAssembly y JavaScript: el archivo nunca viaja por internet."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "¿Cómo funciona el plan mensual?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Por solo $3.99 al mes obtienes acceso ilimitado a todas las herramientas sin límites diarios, procesamiento masivo y exportación en SVG con logo. Puedes cancelar en cualquier momento con 1 solo clic."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "¿Los códigos QR creados vencen con el tiempo?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "No. Todos los códigos QR generados en QRStudio son estáticos y permanentes. Nunca caducan ni dependen de un servidor para funcionar."
-            }
-          }
-        ]
       }
     ]
   }
@@ -87,36 +66,15 @@
   <!-- Barra de Navegación Superior -->
   <header class="navbar">
     <div class="nav-container">
-      <div class="nav-top-row">
-        <a href="/" class="brand-link">
-          <div class="brand-icon">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="3" y="3" width="7" height="7"></rect>
-              <rect x="14" y="3" width="7" height="7"></rect>
-              <rect x="14" y="14" width="7" height="7"></rect>
-              <rect x="3" y="14" width="7" height="7"></rect>
-            </svg>
-          </div>
-          <div class="brand-text">QR<span>Studio</span></div>
-        </a>
-
-        <div class="nav-actions">
-          <!-- Badge de Límite Diario -->
-          <div id="navbar-usage-badge" class="usage-badge" title="Estado de tu cuenta">
-            <span id="usage-counter-text">3 descargas gratuitas hoy</span>
-            <div class="mini-progress-track">
-              <div id="usage-progress-bar" class="mini-progress-fill" style="width: 0%;"></div>
-            </div>
-          </div>
-
-          <!-- Botón Pro -->
-          <button id="navbar-pro-btn" class="btn-pro">
-            Obtener Pro
-          </button>
+      <!-- Marca / Logo a la izquierda -->
+      <a href="/" class="brand-link" title="Nuvexa - Herramientas digitales. Privadas. En un solo lugar.">
+        <div class="brand-icon">
+          <img src="/logo.png" alt="Nuvexa Logo" class="brand-logo-img" />
         </div>
-      </div>
+        <div class="brand-text">Nuve<span>xa</span></div>
+      </a>
 
-      <!-- Selector Principal de Herramientas de la Suite -->
+      <!-- Selector Central de Herramientas de la Suite -->
       <div class="nav-tools-scroll-wrapper">
         <nav class="tool-switch-nav">
           <button type="button" class="nav-cat-btn active" data-category="smart" data-tool="smart-actions">
@@ -133,7 +91,7 @@
               <rect x="14" y="14" width="7" height="7"></rect>
               <rect x="3" y="14" width="7" height="7"></rect>
             </svg>
-            <span>QR Studio</span>
+            <span>Códigos QR</span>
           </button>
 
           <button type="button" class="nav-cat-btn" data-category="pdf">
@@ -141,24 +99,7 @@
               <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
               <polyline points="14 2 14 8 20 8"></polyline>
             </svg>
-            <span>PDF Studio</span>
-          </button>
-
-          <button type="button" class="nav-cat-btn" data-category="diff" data-tool="doc-diff-studio">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M16 3h5v5"></path>
-              <path d="M8 3H3v5"></path>
-              <path d="M12 22V12"></path>
-              <path d="M21 3l-9 9-9-9"></path>
-            </svg>
-            <span>Comparador PDF</span>
-          </button>
-
-          <button type="button" class="nav-cat-btn" data-category="redact" data-tool="redaction-studio">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-            </svg>
-            <span>Redactor Privacidad</span>
+            <span>Documentos PDF</span>
           </button>
 
           <button type="button" class="nav-cat-btn" data-category="images" data-tool="image-studio">
@@ -198,6 +139,32 @@
           </button>
         </nav>
       </div>
+
+      <!-- Acciones de Usuario a la derecha -->
+      <div class="nav-actions">
+        <!-- Botón Instalar App PWA (Google / Chrome) -->
+        <button type="button" id="btn-install-pwa" class="btn-install-pwa" style="display: none;" title="Instalar Nuvexa en tu ordenador o dispositivo">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          <span>Instalar</span>
+        </button>
+
+        <!-- Badge de Límite Diario -->
+        <div id="navbar-usage-badge" class="usage-badge" title="Estado de tu cuenta">
+          <span id="usage-counter-text">3 descargas gratuitas hoy</span>
+          <div class="mini-progress-track">
+            <div id="usage-progress-bar" class="mini-progress-fill" style="width: 0%;"></div>
+          </div>
+        </div>
+
+        <!-- Botón Pro -->
+        <button id="navbar-pro-btn" class="btn-pro">
+          Obtener Pro
+        </button>
+      </div>
     </div>
   </header>
 
@@ -218,6 +185,12 @@
         <button type="button" class="nav-tool-btn" data-tool="images-to-pdf">
           <span>Imágenes a PDF</span>
         </button>
+        <button type="button" class="nav-tool-btn" data-tool="doc-diff-studio">
+          <span>Comparador (Diff)</span>
+        </button>
+        <button type="button" class="nav-tool-btn" data-tool="redaction-studio">
+          <span>Censurar Privacidad</span>
+        </button>
       </div>
     </div>
   </div>
@@ -229,47 +202,50 @@
     
     <section class="hero">
       <div class="hero-pill">
-        Asistente Inteligente • Procesamiento Local Sin Servidores
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+        </svg>
+        <span>Nuvexa Suite • Herramientas digitales. Privadas. En un solo lugar.</span>
       </div>
       <h1 class="hero-title">
-        Smart Actions
+        ¿Qué quieres hacer hoy con tus archivos?
       </h1>
       <p class="hero-subtitle">
-        Arrastra cualquier archivo (PDF, Foto, Audio o Datos) y la aplicación analizará en segundos qué puedes hacer con él con recetas en 1 clic.
+        Arrastra cualquier documento, foto o audio. Nuvexa analiza tu archivo en memoria y te ofrece soluciones instantáneas con 1 clic y privacidad absoluta.
       </p>
     </section>
 
-    <main class="main-wrapper" style="max-width: 820px; margin: 0 auto;">
+    <main class="main-wrapper" style="max-width: 860px; margin: 0 auto;">
       
       <!-- Dropzone Universal -->
-      <div id="smart-actions-dropzone" class="pdf-dropzone-box glass-card" style="padding: 2.5rem 1.5rem;">
+      <div id="smart-actions-dropzone" class="pdf-dropzone-box glass-card" style="padding: 2.75rem 1.5rem;">
         <div class="dropzone-icon">
           <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
           </svg>
         </div>
-        <h4>Arrastra cualquier archivo aquí</h4>
-        <p>Soporta <strong>PDF, JPG, PNG, WebP, Audio (MP3/WAV), CSV y Documentos</strong></p>
+        <h4 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 0.4rem;">Arrastra cualquier archivo aquí para comenzar</h4>
+        <p style="color: var(--color-text-muted); font-size: 0.9rem;">Soporta <strong>PDF, JPG, PNG, WebP, HEIC (iPhone), Audio (MP3/WAV), CSV y Documentos</strong></p>
         <input type="file" id="smart-actions-file-input" style="display: none;" />
       </div>
 
       <!-- Tarjeta de Análisis y Acciones Recomendadas -->
-      <div id="smart-actions-card" class="glass-card" style="display: none; margin-top: 1.5rem; padding: 1.75rem;">
+      <div id="smart-actions-card" class="glass-card" style="display: none; margin-top: 1.5rem; padding: 1.85rem;">
         
         <div class="smart-file-header" style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid var(--color-border); padding-bottom: 1rem; margin-bottom: 1.25rem;">
           <div>
             <span id="smart-file-badge" class="tier-badge pro" style="margin-bottom: 0.35rem; display: inline-block;">Documento PDF</span>
-            <h3 id="smart-file-name" style="font-size: 1.2rem; font-weight: 800; color: var(--color-text-main); margin: 0.2rem 0;">archivo.pdf</h3>
+            <h3 id="smart-file-name" style="font-size: 1.25rem; font-weight: 800; color: var(--color-text-main); margin: 0.2rem 0;">archivo.pdf</h3>
             <p id="smart-file-meta" style="font-size: 0.85rem; color: var(--color-text-muted); margin: 0;">0 KB</p>
           </div>
           <button type="button" id="btn-smart-change-file" class="btn-danger-sm">Analizar Otro Archivo</button>
         </div>
 
         <div style="margin-bottom: 1rem;">
-          <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--color-text-main);">Acciones Recomendadas para este Archivo:</h4>
+          <h4 style="font-size: 1rem; font-weight: 700; color: var(--color-text-main);">Acciones Recomendadas para este Archivo:</h4>
         </div>
 
-        <div id="smart-actions-list" class="smart-actions-grid" style="display: flex; flex-direction: column; gap: 0.75rem;">
+        <div id="smart-actions-list" class="smart-actions-grid" style="display: flex; flex-direction: column; gap: 0.85rem;">
         </div>
 
         <div class="privacy-notice" style="margin-top: 1.5rem;">
@@ -278,18 +254,27 @@
       </div>
 
       <!-- Estado vacío sugerencias -->
-      <div id="smart-actions-empty" style="margin-top: 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem;">
-        <div class="glass-card" style="padding: 1.25rem; text-align: center;">
-          <h5 style="font-weight: 700; margin-bottom: 0.35rem; color: var(--color-primary);">Documentos PDF</h5>
-          <p style="font-size: 0.8rem; color: var(--color-text-muted);">Censurar datos personales, comparar versiones, separar hojas o proteger con clave.</p>
+      <div id="smart-actions-empty" style="margin-top: 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.25rem;">
+        <div class="glass-card" style="padding: 1.5rem; text-align: center;">
+          <div style="width: 36px; height: 36px; border-radius: 8px; background: var(--color-primary-light); color: var(--color-primary); display: flex; align-items: center; justify-content: center; margin: 0 auto 0.75rem;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+          </div>
+          <h5 style="font-weight: 700; margin-bottom: 0.35rem; color: var(--color-text-main);">Documentos PDF</h5>
+          <p style="font-size: 0.82rem; color: var(--color-text-muted); line-height: 1.5;">Censurar datos personales, comparar contratos, separar páginas o unir documentos.</p>
         </div>
-        <div class="glass-card" style="padding: 1.25rem; text-align: center;">
-          <h5 style="font-weight: 700; margin-bottom: 0.35rem; color: var(--color-primary);">Imágenes y Fotos</h5>
-          <p style="font-size: 0.8rem; color: var(--color-text-muted);">Convertir a JPG con fondo blanco, optimizar tamaño o armar documentos PDF.</p>
+        <div class="glass-card" style="padding: 1.5rem; text-align: center;">
+          <div style="width: 36px; height: 36px; border-radius: 8px; background: var(--color-primary-light); color: var(--color-primary); display: flex; align-items: center; justify-content: center; margin: 0 auto 0.75rem;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+          </div>
+          <h5 style="font-weight: 700; margin-bottom: 0.35rem; color: var(--color-text-main);">Imágenes & Fotos</h5>
+          <p style="font-size: 0.82rem; color: var(--color-text-muted); line-height: 1.5;">Convertir HEIC de iPhone a JPG, optimizar tamaño masivo o generar favicons.</p>
         </div>
-        <div class="glass-card" style="padding: 1.25rem; text-align: center;">
-          <h5 style="font-weight: 700; margin-bottom: 0.35rem; color: var(--color-primary);">Archivos de Audio</h5>
-          <p style="font-size: 0.8rem; color: var(--color-text-muted);">Transcribir grabaciones a texto mediante Whisper local sin límites de tiempo.</p>
+        <div class="glass-card" style="padding: 1.5rem; text-align: center;">
+          <div style="width: 36px; height: 36px; border-radius: 8px; background: var(--color-primary-light); color: var(--color-primary); display: flex; align-items: center; justify-content: center; margin: 0 auto 0.75rem;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line></svg>
+          </div>
+          <h5 style="font-weight: 700; margin-bottom: 0.35rem; color: var(--color-text-main);">Audio a Texto</h5>
+          <p style="font-size: 0.82rem; color: var(--color-text-muted); line-height: 1.5;">Transcribir notas de voz o reuniones grabadas con Inteligencia Artificial Whisper local.</p>
         </div>
       </div>
 
@@ -304,13 +289,16 @@
     
     <section class="hero">
       <div class="hero-pill">
-        Procesamiento local sin servidores
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect>
+        </svg>
+        <span>Nuvexa QR • Generación Vectorial y Logotipo</span>
       </div>
       <h1 class="hero-title">
         Generador de Códigos QR
       </h1>
       <p class="hero-subtitle">
-        Crea códigos QR y descárgalos en PNG (con o sin fondo transparente) o en documento PDF listo para imprimir.
+        Crea códigos QR permanentes con logotipo y descárgalos en PNG transparente o en documento PDF listo para imprimir.
       </p>
     </section>
 
@@ -666,7 +654,11 @@
     
     <section class="hero">
       <div class="hero-pill">
-        Mesa de Trabajo Visual • 100% en Memoria Local
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+        </svg>
+        <span>Nuvexa PDF • Editor Visual & Organización de Páginas</span>
       </div>
       <h1 class="hero-title">
         Editor Visual de Páginas PDF
@@ -787,7 +779,12 @@
     
     <section class="hero">
       <div class="hero-pill">
-        Sin subir archivos a la nube • 100% Privado
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <circle cx="8.5" cy="8.5" r="1.5"></circle>
+          <polyline points="21 15 16 10 5 21"></polyline>
+        </svg>
+        <span>Nuvexa PDF • Convertidor de Imágenes a Documento</span>
       </div>
       <h1 class="hero-title">
         Convertir Imágenes a Documento PDF
@@ -917,7 +914,13 @@
     
     <section class="hero">
       <div class="hero-pill">
-        Unión local ultra rápida • Sin esperar subida a servidores
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+          <line x1="12" y1="18" x2="12" y2="12"></line>
+          <line x1="9" y1="15" x2="15" y2="15"></line>
+        </svg>
+        <span>Nuvexa PDF • Unión Masiva Ultrarrápida</span>
       </div>
       <h1 class="hero-title">
         Unir Archivos PDF
@@ -1027,7 +1030,14 @@
     
     <section class="hero">
       <div class="hero-pill">
-        Extrae solo las hojas que necesitas
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <circle cx="6" cy="6" r="3"></circle>
+          <circle cx="6" cy="18" r="3"></circle>
+          <line x1="20" y1="4" x2="8.12" y2="15.88"></line>
+          <line x1="14.47" y1="14.48" x2="20" y2="20"></line>
+          <line x1="8.12" y1="8.12" x2="12" y2="12"></line>
+        </svg>
+        <span>Nuvexa PDF • Extracción y División de Hojas</span>
       </div>
       <h1 class="hero-title">
         Separar y Extraer Páginas de un PDF
@@ -1147,7 +1157,12 @@
     
     <section class="hero">
       <div class="hero-pill">
-        Inteligencia Artificial Whisper en tu Navegador • 100% Privado
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+          <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+          <line x1="12" y1="19" x2="12" y2="23"></line>
+        </svg>
+        <span>Nuvexa Audio • Whisper IA Local & Dictado de Voz</span>
       </div>
       <h1 class="hero-title">
         Transcriptor de Audio a Texto
@@ -1399,7 +1414,12 @@
     
     <section class="hero">
       <div class="hero-pill">
-        Comparador Diff Visual • Detección de Cláusulas y Cambios
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <polyline points="16 3 21 3 21 8"></polyline>
+          <line x1="4" y1="20" x2="21" y2="3"></line>
+          <polyline points="21 16 21 21 16 21"></polyline>
+        </svg>
+        <span>Nuvexa PDF • Comparador Inteligente de Contratos</span>
       </div>
       <h1 class="hero-title">
         Comparador de Documentos y PDFs
@@ -1581,7 +1601,10 @@
     
     <section class="hero">
       <div class="hero-pill">
-        Privacidad y Censura • Sin Conexión a Servidores
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+        </svg>
+        <span>Nuvexa Privacidad • Censura Automática de Datos Sensibles</span>
       </div>
       <h1 class="hero-title">
         Redactor de Información Sensible
@@ -1733,7 +1756,12 @@
     
     <section class="hero">
       <div class="hero-pill">
-        Conversión Real de Píxeles en Memoria • PNG, JPG, WebP, AVIF & Favicons
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <circle cx="8.5" cy="8.5" r="1.5"></circle>
+          <polyline points="21 15 16 10 5 21"></polyline>
+        </svg>
+        <span>Nuvexa Imágenes • Conversión HEIC, JPG, PNG, WebP & Lotes</span>
       </div>
       <h1 class="hero-title">
         Imágenes & Conversor Masivo
@@ -1767,8 +1795,8 @@
             </svg>
           </div>
           <h4>Arrastra una imagen aquí para editar o convertir</h4>
-          <p>Soporta PNG, JPG, WebP, AVIF y GIF</p>
-          <input type="file" id="image-studio-file-input" accept="image/*" style="display: none;" />
+          <p>Soporta JPG, PNG, WebP, AVIF, HEIC / iPhone, GIF, BMP y SVG</p>
+          <input type="file" id="image-studio-file-input" accept="image/*, .heic, .heif, .HEIC, .HEIF, .avif, .webp, .png, .jpg, .jpeg, .bmp, .gif, .svg" style="display: none;" />
         </div>
 
         <!-- Espacio de Trabajo Individual -->
@@ -1789,6 +1817,7 @@
                 <div class="contract-search-chips" style="margin-top: 0.35rem;">
                   <button type="button" class="btn-contract-chip btn-format-preset" data-format="image/jpeg">JPG (Fondo blanco)</button>
                   <button type="button" class="btn-contract-chip btn-format-preset" data-format="image/png">PNG (Transparente)</button>
+                  <button type="button" class="btn-contract-chip btn-format-preset" data-format="image/x-icon">ICO (Icono / Favicon)</button>
                   <button type="button" class="btn-contract-chip btn-format-preset" data-format="image/webp">WebP (Ligero)</button>
                   <button type="button" class="btn-contract-chip btn-format-preset" data-format="image/avif">AVIF (Ultra)</button>
                 </div>
@@ -1799,10 +1828,45 @@
                 <label class="form-label" for="select-img-format">Formato Destino</label>
                 <select id="select-img-format" class="form-select">
                   <option value="image/jpeg" selected>JPG / JPEG (Fotografía / Compatible)</option>
-                  <option value="image/webp">WebP (Máxima compresión web)</option>
                   <option value="image/png">PNG (Sin pérdida / Transparencia)</option>
+                  <option value="image/x-icon">ICO (Icono Windows / Favicon Multi-resolución)</option>
+                  <option value="image/webp">WebP (Máxima compresión web)</option>
                   <option value="image/avif">AVIF (Alta fidelidad moderna)</option>
                 </select>
+              </div>
+
+              <!-- Selector de Medidas para archivo .ICO -->
+              <div id="wrap-ico-sizes" class="form-group" style="display: none; margin-top: 1rem; background: var(--color-bg-section); padding: 0.85rem; border-radius: var(--radius-sm); border: 1px solid var(--color-border);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                  <label class="form-label" style="margin-bottom: 0; font-weight: 700;">Medidas a incluir en el .ICO:</label>
+                  <button type="button" id="btn-ico-select-all-sizes" class="btn-demo-pill" style="font-size: 0.72rem; padding: 0.15rem 0.5rem;">Marcar Todas</button>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.4rem; font-size: 0.82rem;">
+                  <label class="checkbox-row" style="margin: 0;">
+                    <input type="checkbox" class="check-ico-size" value="16" checked />
+                    <span>16x16 (Pestaña navegador)</span>
+                  </label>
+                  <label class="checkbox-row" style="margin: 0;">
+                    <input type="checkbox" class="check-ico-size" value="32" checked />
+                    <span>32x32 (Acceso directo / Retina)</span>
+                  </label>
+                  <label class="checkbox-row" style="margin: 0;">
+                    <input type="checkbox" class="check-ico-size" value="48" checked />
+                    <span>48x48 (Explorador Windows)</span>
+                  </label>
+                  <label class="checkbox-row" style="margin: 0;">
+                    <input type="checkbox" class="check-ico-size" value="64" checked />
+                    <span>64x64 (Alta resolución)</span>
+                  </label>
+                  <label class="checkbox-row" style="margin: 0;">
+                    <input type="checkbox" class="check-ico-size" value="128" checked />
+                    <span>128x128 (Icono escritorio)</span>
+                  </label>
+                  <label class="checkbox-row" style="margin: 0;">
+                    <input type="checkbox" class="check-ico-size" value="256" checked />
+                    <span>256x256 (Resolución Full HD)</span>
+                  </label>
+                </div>
               </div>
 
               <!-- Color de fondo para JPG (transparencia) -->
@@ -1933,8 +1997,17 @@
                   </svg>
                   <span>Descargar Imagen Convertida</span>
                 </button>
+                <button type="button" id="btn-export-ico" class="btn-action-outline" style="width: 100%; justify-content: center; margin-top: 0.5rem;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 0.35rem;">
+                    <rect x="3" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="14" width="7" height="7"></rect>
+                    <rect x="3" y="14" width="7" height="7"></rect>
+                  </svg>
+                  <span>Descargar Archivo .ICO Multi-medida (16 a 256px)</span>
+                </button>
                 <button type="button" id="btn-export-favicons" class="btn-action-outline" style="width: 100%; justify-content: center; margin-top: 0.5rem;">
-                  <span>Generar Pack de Favicons Web (.ZIP)</span>
+                  <span>Generar Pack Favicons Web (.ZIP con .ICO + PNGs)</span>
                 </button>
               </div>
 
@@ -1996,8 +2069,8 @@
                 </svg>
               </div>
               <h4>Arrastra múltiples fotos aquí</h4>
-              <p>o haz clic para seleccionar varias imágenes a la vez</p>
-              <input type="file" id="img-batch-file-input" accept="image/*" multiple style="display: none;" />
+              <p>Soporta JPG, PNG, WebP, AVIF, HEIC (iPhone) y GIF por lotes</p>
+              <input type="file" id="img-batch-file-input" accept="image/*, .heic, .heif, .HEIC, .HEIF, .avif, .webp, .png, .jpg, .jpeg, .bmp, .gif, .svg" multiple style="display: none;" />
             </div>
 
             <!-- Selector de formato destino para todo el lote -->
@@ -2006,6 +2079,7 @@
               <select id="select-batch-format" class="form-select">
                 <option value="image/jpeg" selected>JPG / JPEG (Óptimo para fotos / WhatsApp / Mail)</option>
                 <option value="image/png">PNG (Sin pérdida de calidad)</option>
+                <option value="image/x-icon">ICO (Iconos Windows / Favicons Multi-medida)</option>
                 <option value="image/webp">WebP (Máxima compresión web)</option>
                 <option value="image/avif">AVIF (Siguiente generación)</option>
               </select>
@@ -2284,7 +2358,7 @@
             <div class="glass-card" style="padding: 1.25rem;">
               <h5 style="font-weight: 700; color: var(--color-primary); margin-bottom: 0.35rem;">Privacidad y Seguridad Garantizada</h5>
               <p style="font-size: 0.82rem; color: var(--color-text-muted); line-height: 1.5; margin: 0;">
-                A diferencia de otros conversores online que suben tus fotos a servidores desconocidos en la nube, QRStudio procesa todo en la <strong>memoria RAM de tu propio navegador web</strong>. Si desconectas tu internet, la herramienta sigue funcionando exactamente igual.
+                A diferencia de otros conversores online que suben tus fotos a servidores desconocidos en la nube, Nuvexa procesa todo en la <strong>memoria RAM de tu propio navegador web</strong>. Si desconectas tu internet, la herramienta sigue funcionando exactamente igual.
               </p>
             </div>
 
@@ -2308,7 +2382,11 @@
     
     <section class="hero">
       <div class="hero-pill">
-        Web Crypto API de Nivel Militar • Cero Servidores
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+        </svg>
+        <span>Nuvexa Seguridad • Cifrado Militar AES-256 & Hashes</span>
       </div>
       <h1 class="hero-title">
         Seguridad y Criptografía
@@ -2520,7 +2598,11 @@
     
     <section class="hero">
       <div class="hero-pill">
-        Compresión ZIP y Base64 en el Navegador • Sin Límites de Servidor
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <polyline points="21 8 21 21 3 21 3 8"></polyline>
+          <rect x="1" y="3" width="22" height="5"></rect>
+        </svg>
+        <span>Nuvexa Archivos • Compresión ZIP & Conversor Base64</span>
       </div>
       <h1 class="hero-title">
         Archivos ZIP y Base64
@@ -2704,12 +2786,12 @@
       <div class="faq-list">
         <div class="faq-item">
           <div class="faq-question">
-            <span>¿Por qué es más seguro usar QRStudio que otras páginas?</span>
+            <span>¿Por qué es más seguro usar Nuvexa que otras páginas?</span>
             <span class="faq-toggle-icon">+</span>
           </div>
           <div class="faq-answer">
             <div class="faq-answer-inner">
-              Las páginas tradicionales suben tus contratos, documentos de identidad o balances contables a servidores en el extranjero. QRStudio ejecuta la unión y división directamente en tu navegador web: el archivo nunca viaja por internet.
+              Las páginas tradicionales suben tus contratos, documentos de identidad o balances contables a servidores en el extranjero. Nuvexa ejecuta la unión, división, transcripción y cifrado directamente en la memoria de tu navegador web: el archivo nunca viaja por internet.
             </div>
           </div>
         </div>
@@ -2749,7 +2831,7 @@
       <div class="modal-header">
         <h2 id="pro-modal-title">Todas tus herramientas de archivos en un solo lugar</h2>
         <p id="pro-modal-desc">
-          QR, PDF, imágenes y audio. Rápido, simple y sin límites.
+          QR, PDF, imágenes, audio y seguridad. Rápido, simple y 100% privado.
         </p>
       </div>
 
@@ -2825,7 +2907,7 @@
         <div class="trust-text">
           <div class="trust-title">Pagos 100% Seguros y Encriptados vía Stripe (PCI-DSS Nivel 1)</div>
           <p>
-            QRStudio <strong>nunca almacena ni tiene acceso</strong> a los datos de tu tarjeta de crédito o cuenta bancaria. Toda la transacción se procesa de forma directa e independiente en los servidores cifrados de Stripe. Suscripción mensual cancelable en cualquier momento en 1 clic.
+            Nuvexa <strong>nunca almacena ni tiene acceso</strong> a los datos de tu tarjeta de crédito o cuenta bancaria. Toda la transacción se procesa de forma directa e independiente en los servidores cifrados de Stripe. Suscripción mensual cancelable en cualquier momento en 1 clic.
           </p>
           <div class="trust-links">
             <a href="#" data-open-legal="stripe">Seguridad Bancaria</a> &bull;
@@ -2881,7 +2963,7 @@
         <div class="legal-section-content active" data-section="privacy">
           <h3>1. Política de Privacidad y Procesamiento de Archivos</h3>
           <p><strong>Cero Almacenamiento en Servidor (Zero-Knowledge Architecture):</strong></p>
-          <p>QRStudio opera bajo una arquitectura de computación del lado del cliente (<em>Client-Side Compute</em>). Todos los documentos, imágenes, archivos PDF y textos que utilizas para generar códigos QR, unir, separar o convertir formatos son procesados exclusivamente dentro de la memoria RAM de tu propio navegador web mediante WebAssembly y JavaScript.</p>
+          <p>Nuvexa opera bajo una arquitectura de computación del lado del cliente (<em>Client-Side Compute</em>). Todos los documentos, imágenes, archivos PDF y textos que utilizas para generar códigos QR, unir, separar o convertir formatos son procesados exclusivamente dentro de la memoria RAM de tu propio navegador web mediante WebAssembly y JavaScript.</p>
           <p><strong>Bajo ninguna circunstancia tus documentos son transmitidos, leídos, analizados ni alojados en ningún servidor externo o en la nube.</strong> Al cerrar la pestaña o recargar el sitio, la información temporal en memoria se destruye de forma inmediata y definitiva.</p>
           <p><strong>Cookies y Almacenamiento Local:</strong></p>
           <p>No utilizamos cookies publicitarias ni de seguimiento invasivo de terceros. Solo empleamos el almacenamiento local de tu navegador (<code>localStorage</code>) para recordar el cupo diario de descargas gratuitas y para conservar activa tu clave de suscripción Pro.</p>
@@ -2891,8 +2973,8 @@
         <div class="legal-section-content" data-section="stripe">
           <h3>2. Pasarela de Pagos y Seguridad Financiera</h3>
           <p><strong>Cero Custodia de Datos Bancarios:</strong></p>
-          <p>Para la contratación de la suscripción mensual Pro ($3.99 USD/mes), QRStudio delega el 100% de la operatoria de cobro en <strong>Stripe Inc.</strong>, el procesador de pagos líder a nivel global certificado con el estándar <strong>PCI-DSS Nivel 1</strong> (el nivel de seguridad más riguroso de la industria financiera mundial).</p>
-          <p><strong>QRStudio ni sus administradores tienen acceso, reciben, ni almacenan jamás:</strong></p>
+          <p>Para la contratación de la suscripción mensual Pro ($3.99 USD/mes), Nuvexa delega el 100% de la operatoria de cobro en <strong>Stripe Inc.</strong>, el procesador de pagos líder a nivel global certificado con el estándar <strong>PCI-DSS Nivel 1</strong> (el nivel de seguridad más riguroso de la industria financiera mundial).</p>
+          <p><strong>Nuvexa ni sus administradores tienen acceso, reciben, ni almacenan jamás:</strong></p>
           <ul>
             <li>Números de tarjeta de crédito o débito.</li>
             <li>Códigos de seguridad (CVV / CVC).</li>
@@ -2916,17 +2998,17 @@
           
           <div style="background: #FFF8E6; border: 1px solid #FFE399; border-left: 4px solid #FFAB00; padding: 1rem 1.25rem; border-radius: 4px; margin-bottom: 1.25rem; font-size: 0.88rem; color: #172B4D; line-height: 1.55;">
             <strong>Aviso Legal Vinculante:</strong><br>
-            Bajo ninguna circunstancia QRStudio, sus desarrolladores, operadores, propietarios o afiliados serán responsables por pérdidas de ganancias comerciales, contratos perdidos, interrupciones de negocios, ventas no concretadas, errores de impresión o lucro cesante derivado directa o indirectamente del uso o de la imposibilidad de uso de esta plataforma.
+            Bajo ninguna circunstancia Nuvexa, sus desarrolladores, operadores, propietarios o afiliados serán responsables por pérdidas de ganancias comerciales, contratos perdidos, interrupciones de negocios, ventas no concretadas, errores de impresión o lucro cesante derivado directa o indirectamente del uso o de la imposibilidad de uso de esta plataforma.
           </div>
 
           <p><strong>Prestación del Software "Tal Cual" (As Is):</strong></p>
-          <p>El software y todas sus utilidades (generación de códigos QR, unión y división de documentos PDF, conversión de imágenes) se proporcionan "tal cual" y según disponibilidad, sin garantías de ningún tipo, ya sean expresas o implícitas, incluyendo, entre otras, garantías de comerciabilidad, idoneidad para un propósito particular o ausencia de interrupciones técnicas.</p>
+          <p>El software y todas sus utilidades (generación de códigos QR, edición y división de documentos PDF, conversión de imágenes) se proporcionan "tal cual" y según disponibilidad, sin garantías de ningún tipo, ya sean expresas o implícitas, incluyendo, entre otras, garantías de comerciabilidad, idoneidad para un propósito particular o ausencia de interrupciones técnicas.</p>
 
           <p><strong>Obligación de Verificación Previa por Parte del Usuario:</strong></p>
-          <p>Es responsabilidad total y exclusiva del usuario escanear, inspeccionar y verificar la correcta legibilidad de los códigos QR y la integridad de los archivos PDF generados antes de proceder a su impresión en papel, folletos, cartelería, cartas de restaurantes o distribución digital masiva. QRStudio no asumirá costos de reimpresión ni indemnizaciones de ninguna naturaleza.</p>
+          <p>Es responsabilidad total y exclusiva del usuario escanear, inspeccionar y verificar la correcta legibilidad de los códigos QR y la integridad de los archivos PDF generados antes de proceder a su impresión en papel, folletos, cartelería o distribución digital. Nuvexa no asumirá costos de reimpresión ni indemnizaciones de ninguna naturaleza.</p>
 
           <p><strong>Límite Máximo de Responsabilidad (Liability Cap):</strong></p>
-          <p>En caso de que cualquier autoridad judicial o tribunal competente determine la existencia de alguna responsabilidad imputable a QRStudio o sus creadores, la suma total máxima exigible por cualquier concepto quedará estrictamente limitada al monto efectivamente abonado por el usuario en concepto de su última cuota mensual de suscripción ($3.99 USD).</p>
+          <p>En caso de que cualquier autoridad judicial o tribunal competente determine la existencia de alguna responsabilidad imputable a Nuvexa o sus creadores, la suma total máxima exigible por cualquier concepto quedará estrictamente limitada al monto efectivamente abonado por el usuario en concepto de su última cuota mensual de suscripción ($3.99 USD).</p>
         </div>
       </div>
     </div>
@@ -2935,17 +3017,20 @@
   <footer class="footer">
     <div class="footer-inner">
       <div class="footer-brand">
-        <span class="footer-brand-title">QR<span>Studio</span></span>
-        <p class="footer-tagline">Herramientas de oficina y utilidades digitales con procesamiento 100% privado en tu navegador.</p>
+        <span class="footer-brand-title">Nuve<span>xa</span></span>
+        <p class="footer-tagline">Herramientas digitales. Privadas. En un solo lugar.</p>
+        <p class="footer-subtext">Procesamiento 100% en la memoria de tu navegador. Tus archivos nunca se suben a ningún servidor.</p>
       </div>
+
       <div class="footer-links">
         <a href="#" data-open-legal="privacy">Política de Privacidad</a>
         <a href="#" data-open-legal="stripe">Seguridad Bancaria (Stripe)</a>
         <a href="#" data-open-legal="terms">Términos del Servicio</a>
         <a href="#" data-open-legal="disclaimer">Descargo de Responsabilidad</a>
       </div>
+
       <div class="footer-legal-notice">
-        <p>&copy; 2026 QRStudio. Todos los derechos reservados. Tus archivos nunca salen de tu dispositivo: procesamiento en memoria local sin almacenamiento en servidor. Pagos seguros procesados externamente por Stripe.</p>
+        <p>&copy; 2026 Nuvexa. Todos los derechos reservados. &bull; Desarrollado por <a href="https://www.instagram.com/igna.gatti/" target="_blank" rel="noopener noreferrer" class="dev-inline-link">Ignacio Gatti</a></p>
       </div>
     </div>
   </footer>

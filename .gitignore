@@ -26,3 +26,9 @@ Thumbs.db
 # Environment & secrets
 .env
 .env*.local
+
+# Build & Release outputs
+release/
+dist-electron/
+scratch/
+*.nupkg
