@@ -29,6 +29,9 @@ Thumbs.db
 
 # Build & Release outputs
 release/
+release-installer/
 dist-electron/
 scratch/
 *.nupkg
+*.blockmap
+
