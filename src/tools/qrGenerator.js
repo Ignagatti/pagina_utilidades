@@ -2,6 +2,7 @@ import QRCodeStyling from 'qr-code-styling';
 import { isProUser, canPerformDownload, consumeDailyUse } from '../services/storage.js';
 import { sanitizeQRInput, validateImageFile } from '../utils/security.js';
 import { generateQRPdf } from '../utils/pdfExport.js';
+import { showToast } from '../utils/dialog.js';
 
 let qrCodeInstance = null;
 let currentLogoUrl = null;
@@ -267,7 +268,7 @@ export function initQRGenerator({ onUsageUpdated, onProModalRequested }) {
       try {
         await validateImageFile(file);
       } catch (validationErr) {
-        alert(`Archivo no válido: ${validationErr.message}`);
+        showToast({ message: `Archivo no válido: ${validationErr.message}`, type: 'error' });
         logoInput.value = '';
         return;
       }
@@ -396,7 +397,7 @@ export function initQRGenerator({ onUsageUpdated, onProModalRequested }) {
         }, 1500);
       } catch (err) {
         console.error('Error al generar la descarga:', err);
-        alert('Hubo un error al procesar el archivo. Por favor intenta de nuevo.');
+        showToast({ message: 'Hubo un error al procesar el archivo. Por favor intenta de nuevo.', type: 'error' });
         if (btnDownloadLabel) btnDownloadLabel.textContent = originalText;
       } finally {
         btnDownloadAction.style.pointerEvents = '';

@@ -2,6 +2,7 @@ import { PDFDocument } from 'pdf-lib';
 import { isProUser, canPerformDownload, consumeDailyUse } from '../services/storage.js';
 import { validateImageFile } from '../utils/security.js';
 import { normalizeImageFile, isHeicFile } from '../utils/imageDecoder.js';
+import { showToast } from '../utils/dialog.js';
 
 let images = [];
 let isConverting = false;
@@ -156,7 +157,7 @@ export function initPdfConverter({ onUsageUpdated, onProModalRequested }) {
           previewUrl
         });
       } catch (err) {
-        alert(`No se pudo añadir "${file.name}": ${err.message}`);
+        showToast({ message: `No se pudo añadir "${file.name}": ${err.message}`, type: 'error' });
       }
     }
 
@@ -277,7 +278,7 @@ export function initPdfConverter({ onUsageUpdated, onProModalRequested }) {
         }, 1500);
       } catch (err) {
         console.error('Error al generar PDF:', err);
-        alert('Ocurrió un error al procesar las imágenes en PDF.');
+        showToast({ message: 'Ocurrió un error al procesar las imágenes en PDF.', type: 'error' });
         btnConvertPdf.textContent = originalText;
       } finally {
         btnConvertPdf.style.pointerEvents = '';

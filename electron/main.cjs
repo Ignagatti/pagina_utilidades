@@ -1,5 +1,19 @@
-const { app, BrowserWindow, shell, Menu } = require('electron');
+const { app, BrowserWindow, shell, Menu, dialog } = require('electron');
 const path = require('path');
+
+// Prevenir cualquier cuadro de diálogo de error nativo de Windows en la versión de escritorio
+dialog.showErrorBox = (title, content) => {
+  console.error(`[Nuvexa Desktop - Cuadro Nativo Suprimido] ${title}: ${content}`);
+};
+
+// Evitar que excepciones no controladas generen ventanas emergentes de Windows
+process.on('uncaughtException', (err) => {
+  console.error('[Nuvexa Desktop uncaughtException]', err);
+});
+
+process.on('unhandledRejection', (reason) => {
+  console.error('[Nuvexa Desktop unhandledRejection]', reason);
+});
 
 const isDev = process.env.NODE_ENV === 'development' || !app.isPackaged;
 
@@ -31,11 +45,20 @@ function createWindow() {
   // Quitar menú nativo básico para look limpio y moderno
   Menu.setApplicationMenu(null);
 
-  // Mostrar cuando el contenido esté listo para evitar flash blanco
+  // Abrir en pantalla completa (maximizada) inmediatamente cuando el contenido esté listo
   mainWindow.once('ready-to-show', () => {
+    mainWindow.maximize();
     mainWindow.show();
     if (isDev) {
       // mainWindow.webContents.openDevTools();
+    }
+  });
+
+  // Permitir alternar pantalla completa total con F11
+  mainWindow.webContents.on('before-input-event', (event, input) => {
+    if (input.key === 'F11' && input.type === 'keyDown') {
+      mainWindow.setFullScreen(!mainWindow.isFullScreen());
+      event.preventDefault();
     }
   });
 
@@ -46,6 +69,14 @@ function createWindow() {
       return { action: 'deny' };
     }
     return { action: 'allow' };
+  });
+
+  // Permitir automáticamente el acceso al micrófono para grabación y dictado de voz
+  mainWindow.webContents.session.setPermissionRequestHandler((webContents, permission, callback) => {
+    if (permission === 'media') {
+      return callback(true);
+    }
+    callback(true);
   });
 
   if (isDev && process.env.ELECTRON_START_URL) {

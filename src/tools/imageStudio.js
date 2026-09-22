@@ -9,6 +9,7 @@ import JSZip from 'jszip';
 import { canPerformDownload, consumeDailyUse, isProUser } from '../services/storage.js';
 import { isImageFile, isHeicFile, normalizeImageFile } from '../utils/imageDecoder.js';
 import { createIcoBlob } from '../utils/icoEncoder.js';
+import { showToast } from '../utils/dialog.js';
 
 let originalImage = null;
 let originalFile = null;
@@ -138,7 +139,7 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
   // 2. Procesamiento Individual
   async function handleSingleFile(file) {
     if (!file || !isImageFile(file)) {
-      alert('Por favor selecciona una imagen válida (JPG, PNG, WebP, AVIF, HEIC, etc.).');
+      showToast({ message: 'Por favor selecciona una imagen válida (JPG, PNG, WebP, AVIF, HEIC, etc.).', type: 'warning' });
       return;
     }
 
@@ -147,7 +148,7 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
 
     if (dropzoneSingle && isHeic) {
       const p = dropzoneSingle.querySelector('p');
-      if (p) p.textContent = '⏳ Decodificando foto HEIC de Apple en el navegador...';
+      if (p) p.textContent = 'Decodificando foto HEIC de Apple en el navegador...';
     }
 
     try {
@@ -185,7 +186,7 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
         updateProcessedImage();
       };
       img.onerror = () => {
-        alert('No se pudo cargar la imagen.');
+        showToast({ message: 'No se pudo cargar la imagen.', type: 'error' });
         if (dropzoneSingle) {
           const p = dropzoneSingle.querySelector('p');
           if (p) p.textContent = 'Soporta PNG, JPG, WebP, AVIF, HEIC / iPhone, GIF y BMP';
@@ -194,7 +195,7 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
       img.src = url;
     } catch (err) {
       console.error('Error procesando imagen individual:', err);
-      alert('No se pudo procesar la imagen: ' + (err.message || 'Error desconocido'));
+      showToast({ message: 'No se pudo procesar la imagen: ' + (err.message || 'Error desconocido'), type: 'error' });
       if (dropzoneSingle) {
         const p = dropzoneSingle.querySelector('p');
         if (p) p.textContent = 'Soporta PNG, JPG, WebP, AVIF, HEIC / iPhone, GIF y BMP';
@@ -872,7 +873,7 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
   // Convertir todo el lote y descargar en ZIP
   btnConvertBatchAll?.addEventListener('click', async () => {
     if (batchFiles.length === 0) {
-      alert('Por favor agrega imágenes para convertir.');
+      showToast({ message: 'Por favor agrega imágenes para convertir.', type: 'warning' });
       return;
     }
 

@@ -142,7 +142,7 @@ export function initSmartActions({ onNavigateTool }) {
       actions = [
         {
           icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>',
-          title: 'Transcribir a Texto con IA Whisper Local',
+          title: 'Transcribir Audio a Texto',
           desc: 'Convierte voz a texto 100% en tu navegador con exportación a TXT.',
           tool: 'audio-to-text'
         },

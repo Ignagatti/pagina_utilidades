@@ -7,6 +7,7 @@
 import * as pdfjsLib from 'pdfjs-dist';
 import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 import { canPerformDownload, consumeDailyUse, isProUser } from '../services/storage.js';
+import { showToast } from '../utils/dialog.js';
 
 // Configuración de Worker PDF.js
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
@@ -164,7 +165,7 @@ export function initRedactionStudio({ onUsageUpdated, onProModalRequested }) {
         inputTextarea.value = pages.join('\n\n');
       } catch (err) {
         console.error('Error leyendo PDF para redacción:', err);
-        alert('Error al leer el texto del PDF.');
+        showToast({ message: 'Error al leer el texto del PDF.', type: 'error' });
       }
     } else {
       inputTextarea.value = await file.text();

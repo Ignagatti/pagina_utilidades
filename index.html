@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Nuvexa | Herramientas digitales. Privadas. En un solo lugar.</title>
-  <meta name="description" content="Nuvexa: Herramientas digitales. Privadas. En un solo lugar. Códigos QR con logo, editor y comparador de PDF, conversor de imágenes con soporte HEIC / Apple, transcripción de voz con IA Whisper, cifrado AES-256 y ZIPs sin servidores." />
-  <meta name="keywords" content="nuvexa, herramientas digitales privadas, creador qr con logo, editor pdf privado, unir pdf, separar pdf, comparador pdf, censurar pdf, convertir heic a jpg, comprimir imagenes, transcribir audio a texto whisper, cifrado aes-256" />
+  <meta name="description" content="Nuvexa: Herramientas digitales. Privadas. En un solo lugar. Códigos QR con logo, editor y comparador de PDF, conversor de imágenes con soporte HEIC / Apple, transcripción y dictado de voz, cifrado AES-256 y ZIPs sin servidores." />
+  <meta name="keywords" content="nuvexa, herramientas digitales privadas, creador qr con logo, editor pdf privado, unir pdf, separar pdf, comparador pdf, censurar pdf, convertir heic a jpg, comprimir imagenes, transcribir audio a texto, cifrado aes-256" />
   <meta name="author" content="Nuvexa" />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://nuvexa.app/" />
@@ -79,7 +79,9 @@
         <nav class="tool-switch-nav">
           <button type="button" class="nav-cat-btn active" data-category="smart" data-tool="smart-actions">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+              <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+              <polyline points="2 17 12 22 22 17"></polyline>
+              <polyline points="2 12 12 17 22 12"></polyline>
             </svg>
             <span>Smart Actions</span>
           </button>
@@ -142,16 +144,6 @@
 
       <!-- Acciones de Usuario a la derecha -->
       <div class="nav-actions">
-        <!-- Botón Instalar App PWA (Google / Chrome) -->
-        <button type="button" id="btn-install-pwa" class="btn-install-pwa" style="display: none;" title="Instalar Nuvexa en tu ordenador o dispositivo">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-            <polyline points="7 10 12 15 17 10"></polyline>
-            <line x1="12" y1="15" x2="12" y2="3"></line>
-          </svg>
-          <span>Instalar</span>
-        </button>
-
         <!-- Badge de Límite Diario -->
         <div id="navbar-usage-badge" class="usage-badge" title="Estado de tu cuenta">
           <span id="usage-counter-text">3 descargas gratuitas hoy</span>
@@ -202,8 +194,10 @@
     
     <section class="hero">
       <div class="hero-pill">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+          <polyline points="2 17 12 22 22 17"></polyline>
+          <polyline points="2 12 12 17 22 12"></polyline>
         </svg>
         <span>Nuvexa Suite • Herramientas digitales. Privadas. En un solo lugar.</span>
       </div>
@@ -221,7 +215,9 @@
       <div id="smart-actions-dropzone" class="pdf-dropzone-box glass-card" style="padding: 2.75rem 1.5rem;">
         <div class="dropzone-icon">
           <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+            <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+            <polyline points="2 17 12 22 22 17"></polyline>
+            <polyline points="2 12 12 17 22 12"></polyline>
           </svg>
         </div>
         <h4 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 0.4rem;">Arrastra cualquier archivo aquí para comenzar</h4>
@@ -274,7 +270,7 @@
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line></svg>
           </div>
           <h5 style="font-weight: 700; margin-bottom: 0.35rem; color: var(--color-text-main);">Audio a Texto</h5>
-          <p style="font-size: 0.82rem; color: var(--color-text-muted); line-height: 1.5;">Transcribir notas de voz o reuniones grabadas con Inteligencia Artificial Whisper local.</p>
+          <p style="font-size: 0.82rem; color: var(--color-text-muted); line-height: 1.5;">Transcribir notas de voz o reuniones grabadas en texto editable de forma local.</p>
         </div>
       </div>
 
@@ -1162,7 +1158,7 @@
           <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
           <line x1="12" y1="19" x2="12" y2="23"></line>
         </svg>
-        <span>Nuvexa Audio • Whisper IA Local & Dictado de Voz</span>
+        <span>Nuvexa Audio • Transcripción & Dictado de Voz</span>
       </div>
       <h1 class="hero-title">
         Transcriptor de Audio a Texto
@@ -1242,7 +1238,7 @@
               </button>
             </div>
 
-            <!-- Barra de Progreso y Estado de IA -->
+            <!-- Barra de Progreso y Estado -->
             <div id="transcribe-progress-container" class="transcribe-progress-box" style="display: none;">
               <div class="progress-status-row">
                 <span id="transcribe-status-text" class="progress-status-label">Iniciando...</span>
@@ -1251,7 +1247,7 @@
                 <div id="transcribe-progress-bar" class="progress-fill-large" style="width: 0%;"></div>
               </div>
               <small class="progress-note">
-                El modelo Whisper se ejecuta 100% en la memoria de tu navegador. Tus audios nunca salen de tu ordenador.
+                El procesamiento se ejecuta 100% en la memoria de tu navegador. Tus audios nunca salen de tu ordenador.
               </small>
             </div>
 
@@ -1339,14 +1335,14 @@
             </button>
           </div>
 
-          <!-- Aviso de precisión / posibles errores de IA -->
+          <!-- Aviso de precisión / posibles errores de transcripción -->
           <div class="transcription-disclaimer-note">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <circle cx="12" cy="12" r="10"></circle>
               <line x1="12" y1="8" x2="12" y2="12"></line>
               <line x1="12" y1="16" x2="12.01" y2="16"></line>
             </svg>
-            <span><strong>Aviso importante:</strong> La transcripción es generada por IA y puede cometer errores o tener imprecisiones por ruidos de fondo, dicción rápida o mala interpretación acústica. Te recomendamos siempre revisar y corregir el texto final.</span>
+            <span><strong>Aviso importante:</strong> La transcripción automática puede cometer errores o tener imprecisiones por ruidos de fondo, dicción rápida o mala interpretación acústica. Te recomendamos siempre revisar y corregir el texto final.</span>
           </div>
 
           <div class="privacy-notice" style="margin-top: 1.25rem;">
@@ -1371,7 +1367,7 @@
           <div class="step-card">
             <div class="step-badge">2</div>
             <div class="step-title">Inicia la Transcripción</div>
-            <p class="step-desc">Presiona 'Transcribir Audio' para que la IA Whisper procese el sonido 100% en la memoria de tu equipo.</p>
+            <p class="step-desc">Presiona 'Transcribir Audio' para procesar el sonido 100% en la memoria de tu equipo.</p>
           </div>
           <div class="step-card">
             <div class="step-badge">3</div>
@@ -1384,20 +1380,20 @@
       <!-- Demostración Visual de Transcripción de Audio (Exclusivo de Audio a Texto) -->
       <div class="tool-showcase-section">
         <div class="tool-showcase-header">
-          <span class="hero-pill">Demostración de IA en Vivo</span>
-          <h3 class="tool-showcase-title">¿Cómo funciona la transcripción con Whisper?</h3>
+          <span class="hero-pill">Demostración en Vivo</span>
+          <h3 class="tool-showcase-title">¿Cómo funciona la transcripción de audio?</h3>
           <p class="tool-showcase-subtitle">Procesamiento acústico en tiempo real directamente en tu navegador.</p>
         </div>
 
         <div class="showcase-card glass-card tool-showcase-card-single">
           <div class="showcase-image-wrap">
-            <img src="/images/demo-audio-transcription.jpg" alt="Muestra de transcripción de audio a texto con IA Whisper" class="showcase-img" loading="lazy" />
-            <span class="showcase-tag">Audio a Texto con Whisper IA</span>
+            <img src="/images/demo-audio-transcription.jpg" alt="Muestra de transcripción de audio a texto" class="showcase-img" loading="lazy" />
+            <span class="showcase-tag">Audio a Texto</span>
           </div>
           <div class="showcase-body">
             <h4>Pasa notas de voz y grabaciones a texto sin salir de tu navegador</h4>
             <p>
-              El modelo Whisper analiza el archivo de audio (.mp3, .wav, notas de voz de WhatsApp) y transcribe cada frase con puntuación y formato en cuestión de segundos, garantizando un 100% de confidencialidad y procesamiento local en tu propio ordenador.
+              El sistema analiza el archivo de audio (.mp3, .wav, notas de voz de WhatsApp) y transcribe cada frase con puntuación y formato en cuestión de segundos, garantizando un 100% de confidencialidad y procesamiento local en tu propio ordenador.
             </p>
           </div>
         </div>
@@ -2772,9 +2768,9 @@
       </div>
 
       <div class="benefit-card">
-        <h3>Formatos Digitales e IA Local</h3>
+        <h3>Formatos Digitales y Procesamiento Local</h3>
         <p>
-          Genera códigos QR de contactos para guardar con un clic, transcribe audios con Whisper de OpenAI o une y separa PDFs con precisión.
+          Genera códigos QR de contactos para guardar con un clic, transcribe audios y notas de voz o une y separa PDFs con precisión.
         </p>
       </div>
     </div>

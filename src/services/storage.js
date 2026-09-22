@@ -4,6 +4,17 @@ const PRO_KEY = 'quicktools_pro_license';
 const MAX_FREE_DAILY_USES = 3;
 
 /**
+ * Detecta si la aplicación se está ejecutando en la versión de escritorio (Electron)
+ */
+export function isElectronEnv() {
+  return typeof window !== 'undefined' && (
+    Boolean(window.electronAPI?.isElectron) ||
+    (typeof navigator !== 'undefined' && navigator.userAgent.toLowerCase().includes('electron')) ||
+    (typeof window.process !== 'undefined' && Boolean(window.process?.versions?.electron))
+  );
+}
+
+/**
  * Obtiene la fecha actual en formato YYYY-MM-DD
  */
 function getTodayString() {
@@ -13,8 +24,14 @@ function getTodayString() {
 
 /**
  * Verifica si el usuario tiene el pase PRO activo
+ * En la versión de escritorio siempre es true ya que es distribuida libremente.
+ * En la versión web (npm run dev) evalúa la licencia freemium.
  */
 export function isProUser() {
+  if (isElectronEnv()) {
+    return true;
+  }
+
   try {
     const proData = localStorage.getItem(PRO_KEY);
     if (!proData) return false;
@@ -30,12 +47,14 @@ export function isProUser() {
  * Obtiene la información del uso diario actual
  */
 export function getUsageStatus() {
+  const isElectron = isElectronEnv();
   const isPro = isProUser();
   const today = getTodayString();
 
-  if (isPro) {
+  if (isElectron || isPro) {
     return {
       isPro: true,
+      isElectron,
       count: 0,
       max: Infinity,
       remaining: Infinity,
@@ -65,6 +84,7 @@ export function getUsageStatus() {
 
   return {
     isPro: false,
+    isElectron: false,
     count: usage.count,
     max: MAX_FREE_DAILY_USES,
     remaining,
@@ -76,7 +96,7 @@ export function getUsageStatus() {
  * Valida si el usuario puede realizar una acción protegida (descargar)
  */
 export function canPerformDownload() {
-  if (isProUser()) return true;
+  if (isElectronEnv() || isProUser()) return true;
   const status = getUsageStatus();
   return status.remaining > 0;
 }
@@ -85,7 +105,7 @@ export function canPerformDownload() {
  * Registra y descuenta un uso diario
  */
 export function consumeDailyUse() {
-  if (isProUser()) {
+  if (isElectronEnv() || isProUser()) {
     return getUsageStatus();
   }
 

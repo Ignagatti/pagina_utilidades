@@ -6,6 +6,7 @@
 
 import { PDFDocument, degrees, rgb, StandardFonts } from 'pdf-lib';
 import { canPerformDownload, consumeDailyUse, isProUser } from '../services/storage.js';
+import { showToast } from '../utils/dialog.js';
 
 let loadedPdfBytes = null;
 let pdfFileName = 'documento.pdf';
@@ -53,7 +54,7 @@ export function initPdfEditor({ onUsageUpdated, onProModalRequested }) {
   // Manejo de carga de documento
   async function loadPdfFile(file) {
     if (!file || file.type !== 'application/pdf' && !file.name.endsWith('.pdf')) {
-      alert('Por favor selecciona un archivo PDF válido.');
+      showToast({ message: 'Por favor selecciona un archivo PDF válido.', type: 'warning' });
       return;
     }
 
@@ -87,7 +88,7 @@ export function initPdfEditor({ onUsageUpdated, onProModalRequested }) {
       renderPagesGrid();
     } catch (err) {
       console.error('Error al cargar PDF:', err);
-      alert('No se pudo abrir el PDF. Si está protegido por contraseña, desbloquéalo antes.');
+      showToast({ message: 'No se pudo abrir el PDF. Si está protegido por contraseña, desbloquéalo antes.', type: 'error' });
     }
   }
 
@@ -254,7 +255,7 @@ export function initPdfEditor({ onUsageUpdated, onProModalRequested }) {
 
       const activePages = pagesState.filter(p => !p.isDeleted);
       if (activePages.length === 0) {
-        alert('Debes conservar al menos una página para exportar.');
+        showToast({ message: 'Debes conservar al menos una página para exportar.', type: 'warning' });
         return;
       }
 
@@ -330,7 +331,7 @@ export function initPdfEditor({ onUsageUpdated, onProModalRequested }) {
 
       } catch (err) {
         console.error('Error al exportar PDF:', err);
-        alert('Ocurrió un error al guardar el documento. Intenta nuevamente.');
+        showToast({ message: 'Ocurrió un error al guardar el documento. Intenta nuevamente.', type: 'error' });
         btnExportPdf.textContent = originalText;
         btnExportPdf.disabled = false;
       } finally {

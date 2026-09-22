@@ -1,4 +1,5 @@
-import { isProUser, activateProLicense, deactivatePro, resetDailyUsage, getUsageStatus } from '../services/storage.js';
+import { isProUser, activateProLicense, deactivatePro, resetDailyUsage, getUsageStatus, isElectronEnv } from '../services/storage.js';
+import { showToast, showAlertModal, showConfirmModal } from '../utils/dialog.js';
 
 let modalElement = null;
 let onStatusChangeCallback = null;
@@ -97,22 +98,18 @@ export function updateModalStatusBar() {
     statusBar.innerHTML = `
       <div class="modal-status-pill free">
         <span>Estado actual: <strong>Plan Gratuito</strong> (${usage.remaining} de ${usage.max} descargas restantes hoy)</span>
-        <button type="button" id="btn-quick-activate-pro" class="btn-status-toggle success" title="Activar modo Pro para probar">
-          Probar Modo Pro Gratis
-        </button>
       </div>
     `;
-
-    document.getElementById('btn-quick-activate-pro')?.addEventListener('click', (e) => {
-      e.stopPropagation();
-      activateProLicense('DEMO-PRO');
-      updateModalStatusBar();
-      if (onStatusChangeCallback) onStatusChangeCallback();
-    });
   }
 }
 
+/**
+ * Abre el modal promocional de Nuvexa Pro
+ * @param {'daily_limit' | 'logo' | 'svg' | 'general'} reason 
+ */
 export function openProModal(reason = 'general') {
+  // En la versión de escritorio de Electron nunca se abre el modal de venta/licencia
+  if (isElectronEnv()) return;
   if (!modalElement) return;
 
   const titleEl = document.getElementById('pro-modal-title');
@@ -163,7 +160,7 @@ export function initProModal({ onStatusChange }) {
 
   // Escuchar botones de compra de cada plan
   document.querySelectorAll('.btn-buy-plan').forEach(btn => {
-    btn.addEventListener('click', (e) => {
+    btn.addEventListener('click', async (e) => {
       e.stopPropagation();
       const planKey = btn.dataset.plan || selectedPlan || 'Monthly';
       selectPlan(planKey);
@@ -176,12 +173,22 @@ export function initProModal({ onStatusChange }) {
         url.searchParams.set('plan', planKey.toLowerCase());
         window.location.href = url.toString();
       } else {
-        const confirmBuy = confirm(`[Checkout de Pago - ${planInfo.name}]\n\nPrecio: ${planInfo.price} (${planInfo.period})\n\n¿Deseas simular el pago y activar el acceso Pro ilimitado ahora mismo?`);
+        const confirmBuy = await showConfirmModal({
+          title: `Checkout - ${planInfo.name}`,
+          message: `Precio: ${planInfo.price} (${planInfo.period})\n\n¿Deseas simular el pago y activar el acceso Pro ilimitado ahora mismo?`,
+          confirmText: 'Activar Pro Ahora',
+          cancelText: 'Cancelar',
+          type: 'info'
+        });
         if (confirmBuy) {
           activateProLicense(`PRO-${planKey.toUpperCase()}-${Date.now().toString(36).toUpperCase()}`);
           closeProModal();
           if (onStatusChangeCallback) onStatusChangeCallback();
-          alert(`¡Felicitaciones! Has activado ${planInfo.name} con éxito.`);
+          showAlertModal({
+            title: '¡Felicitaciones!',
+            message: `Has activado ${planInfo.name} con éxito. Ya tienes acceso ilimitado a todas las herramientas.`,
+            type: 'success'
+          });
         }
       }
     });
@@ -218,10 +225,10 @@ export function initProModal({ onStatusChange }) {
   document.getElementById('btn-toggle-demo-pro')?.addEventListener('click', () => {
     if (isProUser()) {
       deactivatePro();
-      alert('Modo Pro desactivado. Cuenta en plan gratuito.');
+      showToast({ message: 'Modo Pro desactivado. Cuenta en plan gratuito.', type: 'info' });
     } else {
       activateProLicense('DEMO-PRO');
-      alert('Modo Pro activado para demostración.');
+      showToast({ message: 'Modo Pro activado para demostración.', type: 'success' });
     }
     closeProModal();
     if (onStatusChangeCallback) onStatusChangeCallback();
@@ -229,7 +236,7 @@ export function initProModal({ onStatusChange }) {
 
   document.getElementById('btn-reset-demo-usage')?.addEventListener('click', () => {
     resetDailyUsage();
-    alert('Contador de descargas diarias restablecido a 0.');
+    showToast({ message: 'Contador de descargas diarias restablecido a 0.', type: 'success' });
     if (onStatusChangeCallback) onStatusChangeCallback();
   });
 }

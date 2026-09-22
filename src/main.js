@@ -1,4 +1,4 @@
-import { getUsageStatus, isProUser, deactivatePro, activateProLicense } from './services/storage.js';
+import { getUsageStatus, isProUser, deactivatePro, activateProLicense, isElectronEnv } from './services/storage.js';
 import { initSmartActions } from './tools/smartActions.js';
 import { initDocDiffStudio } from './tools/docDiffStudio.js';
 import { initRedactionStudio } from './tools/redactionStudio.js';
@@ -13,6 +13,10 @@ import { initSecurityStudio } from './tools/securityStudio.js';
 import { initArchiveStudio } from './tools/archiveStudio.js';
 import { initProModal, openProModal } from './components/proModal.js';
 import { initLegalModal } from './components/legalModal.js';
+import { initGlobalDialogInterceptor, showAlertModal, showToast } from './utils/dialog.js';
+
+// Activar intercepción global de alertas y confirmaciones nativas de Windows inmediatamente
+initGlobalDialogInterceptor();
 
 let qrToolInstance = null;
 
@@ -22,20 +26,46 @@ let qrToolInstance = null;
  */
 export function updateFreemiumUI(shouldRefreshQR = false) {
   const status = getUsageStatus();
+  const isElectron = isElectronEnv();
   const usageBadge = document.getElementById('navbar-usage-badge');
   const proBtn = document.getElementById('navbar-pro-btn');
   const proStatusPill = document.getElementById('status-tier-pill');
   const logoNotice = document.getElementById('logo-pro-notice');
   const svgBadges = document.querySelectorAll('.badge-pro');
 
-  if (status.isPro) {
+  if (isElectron) {
+    // Versión de escritorio: 100% libre e ilimitada, sin botón Pro ni límites
     if (usageBadge) {
       usageBadge.classList.add('is-pro');
+      usageBadge.style.cursor = 'default';
+      usageBadge.title = 'Nuvexa Desktop • Todas las herramientas ilimitadas';
+      usageBadge.innerHTML = `
+        <span class="pro-label" style="background: rgba(16, 185, 129, 0.15); color: #059669; border-color: rgba(16, 185, 129, 0.3);">Escritorio • Ilimitado</span>
+      `;
+    }
+    if (proBtn) {
+      // En la versión de escritorio se oculta el botón de venta/licencia
+      proBtn.style.display = 'none';
+    }
+    if (proStatusPill) {
+      proStatusPill.textContent = 'ESCRITORIO ILIMITADO';
+      proStatusPill.className = 'tier-badge pro';
+    }
+    if (logoNotice) {
+      logoNotice.textContent = 'Habilitado en versión de escritorio';
+    }
+  } else if (status.isPro) {
+    // Versión web con licencia Pro activa
+    if (usageBadge) {
+      usageBadge.classList.add('is-pro');
+      usageBadge.style.cursor = 'pointer';
+      usageBadge.title = 'Cuenta Pro Activa';
       usageBadge.innerHTML = `
         <span class="pro-label">Cuenta Pro Activa</span>
       `;
     }
     if (proBtn) {
+      proBtn.style.display = '';
       proBtn.textContent = 'Cuenta Pro';
       proBtn.classList.add('btn-is-pro');
     }
@@ -47,8 +77,11 @@ export function updateFreemiumUI(shouldRefreshQR = false) {
       logoNotice.textContent = 'Logotipo habilitado en tu cuenta';
     }
   } else {
+    // Versión web freemium (3 descargas gratuitas al día)
     if (usageBadge) {
       usageBadge.classList.remove('is-pro');
+      usageBadge.style.cursor = 'pointer';
+      usageBadge.title = 'Límite diario de descargas';
       usageBadge.innerHTML = `
         <span id="usage-counter-text">${status.remaining} de ${status.max} descargas hoy</span>
         <div class="mini-progress-track">
@@ -57,6 +90,7 @@ export function updateFreemiumUI(shouldRefreshQR = false) {
       `;
     }
     if (proBtn) {
+      proBtn.style.display = '';
       proBtn.textContent = 'Obtener Pro';
       proBtn.classList.remove('btn-is-pro');
     }
@@ -162,11 +196,15 @@ document.addEventListener('DOMContentLoaded', () => {
   initLegalModal();
 
   document.getElementById('navbar-pro-btn')?.addEventListener('click', () => {
-    openProModal(isProUser() ? 'general' : 'general');
+    if (!isElectronEnv()) {
+      openProModal(isProUser() ? 'general' : 'general');
+    }
   });
 
   document.getElementById('navbar-usage-badge')?.addEventListener('click', () => {
-    openProModal(isProUser() ? 'general' : 'daily_limit');
+    if (!isElectronEnv()) {
+      openProModal(isProUser() ? 'general' : 'daily_limit');
+    }
   });
 
   // 2. Inicializar Selector de Herramientas y Categorías
@@ -289,25 +327,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // 8. Detección de retorno de pasarela de pagos (Stripe / Lemon Squeezy)
   checkPaymentReturnUrl();
 
-  // 9. Inicializar Instalador PWA (Google Chrome / Desktop / Móvil)
-  initPwaInstaller();
-
-  updateFreemiumUI(false);
-});
-
-/**
- * Registra el Service Worker y gestiona el botón de instalación nativo PWA
- */
-function initPwaInstaller() {
-  // Si se ejecuta dentro de la aplicación de escritorio Electron, no mostrar botón PWA
-  if (window.electronAPI?.isElectron) {
-    const installBtn = document.getElementById('btn-install-pwa');
-    if (installBtn) installBtn.style.display = 'none';
-    return;
-  }
-
-  // Registro de Service Worker para soporte Offline y PWA
-  if ('serviceWorker' in navigator) {
+  // Registro de Service Worker opcional para caché local
+  if ('serviceWorker' in navigator && !window.electronAPI?.isElectron) {
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('/sw.js').catch((err) => {
         console.warn('SW registration warning:', err);
@@ -315,40 +336,8 @@ function initPwaInstaller() {
     });
   }
 
-  let deferredPrompt = null;
-  const installBtn = document.getElementById('btn-install-pwa');
-
-  window.addEventListener('beforeinstallprompt', (e) => {
-    // Previene que el mini-infobar por defecto aparezca inmediatamente
-    e.preventDefault();
-    deferredPrompt = e;
-    if (installBtn) {
-      installBtn.style.display = 'inline-flex';
-    }
-  });
-
-  if (installBtn) {
-    installBtn.addEventListener('click', async () => {
-      if (!deferredPrompt) {
-        alert('Para instalar Nuvexa en tu sistema:\n\n1. En Google Chrome: haz clic en el ícono de instalar en la barra de direcciones o en el menú (tres puntos) > "Instalar Nuvexa".\n2. En móviles: Pulsa "Compartir" o Menú > "Añadir a pantalla de inicio".');
-        return;
-      }
-      deferredPrompt.prompt();
-      const { outcome } = await deferredPrompt.userChoice;
-      if (outcome === 'accepted') {
-        installBtn.style.display = 'none';
-      }
-      deferredPrompt = null;
-    });
-  }
-
-  window.addEventListener('appinstalled', () => {
-    if (installBtn) {
-      installBtn.style.display = 'none';
-    }
-    deferredPrompt = null;
-  });
-}
+  updateFreemiumUI(false);
+});
 
 /**
  * Procesa retornos de pasarela de pago o enlaces mágicos con clave de licencia
@@ -368,14 +357,22 @@ function checkPaymentReturnUrl() {
 
     // Mostrar confirmación
     setTimeout(() => {
-      alert(`¡Suscripción Pro Activada con Éxito!\n\nTu clave de licencia personal es:\n${newLicenseKey}\n\nSe ha guardado en este navegador. Consérvala en tu correo para activarla en otros dispositivos.`);
+      showAlertModal({
+        title: '¡Suscripción Pro Activada con Éxito!',
+        message: `Tu clave de licencia personal es:\n${newLicenseKey}\n\nSe ha guardado en este dispositivo. Consérvala en tu correo para activarla en otros navegadores o equipos.`,
+        type: 'success'
+      });
     }, 400);
   } else if (licenseParam) {
     activateProLicense(licenseParam);
     updateFreemiumUI(true);
     window.history.replaceState({}, document.title, window.location.pathname);
     setTimeout(() => {
-      alert(`Licencia Pro activada correctamente con el código:\n${licenseParam}`);
+      showToast({
+        title: 'Licencia Nuvexa Pro',
+        message: `Licencia activada correctamente con el código: ${licenseParam}`,
+        type: 'success'
+      });
     }, 400);
   }
 }

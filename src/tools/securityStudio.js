@@ -5,6 +5,7 @@
  */
 
 import { canPerformDownload, consumeDailyUse } from '../services/storage.js';
+import { showToast, showAlertModal } from '../utils/dialog.js';
 
 // Deriva una clave AES-256-GCM a partir de una contraseña y salt usando PBKDF2
 async function deriveKey(password, salt) {
@@ -88,12 +89,12 @@ export function initSecurityStudio({ onUsageUpdated, onProModalRequested }) {
   // Cifrar archivo
   btnExecuteEncrypt?.addEventListener('click', async () => {
     if (!fileToEncrypt) {
-      alert('Selecciona un archivo para cifrar.');
+      showToast({ message: 'Selecciona un archivo para cifrar.', type: 'warning' });
       return;
     }
     const password = encPasswordInput?.value;
     if (!password || password.length < 4) {
-      alert('Ingresa una contraseña segura de al menos 4 caracteres.');
+      showToast({ message: 'Ingresa una contraseña segura de al menos 4 caracteres.', type: 'warning' });
       return;
     }
 
@@ -129,22 +130,26 @@ export function initSecurityStudio({ onUsageUpdated, onProModalRequested }) {
         URL.revokeObjectURL(url);
       }, 1000);
 
-      alert('¡Archivo cifrado con éxito con AES-256! Guarda tu contraseña: sin ella no podrás recuperarlo.');
+      showAlertModal({
+        title: '¡Archivo Cifrado con Éxito!',
+        message: 'Tu archivo ha sido protegido con AES-256 militar. Guarda tu contraseña en un lugar seguro: sin ella no podrás recuperarlo jamás.',
+        type: 'success'
+      });
     } catch (err) {
       console.error('Error al cifrar:', err);
-      alert('Error al cifrar el archivo: ' + err.message);
+      showToast({ message: 'Error al cifrar el archivo: ' + err.message, type: 'error' });
     }
   });
 
   // Descifrar archivo
   btnExecuteDecrypt?.addEventListener('click', async () => {
     if (!fileToDecrypt) {
-      alert('Selecciona un archivo protegido (.enc) para descifrar.');
+      showToast({ message: 'Selecciona un archivo protegido (.enc) para descifrar.', type: 'warning' });
       return;
     }
     const password = decPasswordInput?.value;
     if (!password) {
-      alert('Introduce la contraseña que utilizaste al cifrar el archivo.');
+      showToast({ message: 'Introduce la contraseña que utilizaste al cifrar el archivo.', type: 'warning' });
       return;
     }
 
@@ -186,10 +191,10 @@ export function initSecurityStudio({ onUsageUpdated, onProModalRequested }) {
         URL.revokeObjectURL(url);
       }, 1000);
 
-      alert('¡Archivo descifrado correctamente!');
+      showToast({ message: '¡Archivo descifrado correctamente!', type: 'success' });
     } catch (err) {
       console.error('Error al descifrar:', err);
-      alert('Contraseña incorrecta o archivo dañado. No se pudo descifrar.');
+      showToast({ message: 'Contraseña incorrecta o archivo dañado. No se pudo descifrar.', type: 'error' });
     }
   });
 

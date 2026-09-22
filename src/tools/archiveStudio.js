@@ -6,6 +6,7 @@
 
 import JSZip from 'jszip';
 import { canPerformDownload, consumeDailyUse } from '../services/storage.js';
+import { showToast } from '../utils/dialog.js';
 
 let filesToZip = [];
 
@@ -182,7 +183,7 @@ export function initArchiveStudio({ onUsageUpdated, onProModalRequested }) {
 
     } catch (err) {
       console.error('Error al generar ZIP:', err);
-      alert('Error al comprimir archivos: ' + err.message);
+      showToast({ message: 'Error al comprimir archivos: ' + err.message, type: 'error' });
       btnExecuteZip.textContent = originalText;
       btnExecuteZip.disabled = false;
     }
@@ -197,7 +198,7 @@ export function initArchiveStudio({ onUsageUpdated, onProModalRequested }) {
 
   async function handleZipToExtract(file) {
     if (!file || !file.name.endsWith('.zip')) {
-      alert('Por favor selecciona un archivo comprimido .zip');
+      showToast({ message: 'Por favor selecciona un archivo comprimido .zip', type: 'warning' });
       return;
     }
 
@@ -253,7 +254,7 @@ export function initArchiveStudio({ onUsageUpdated, onProModalRequested }) {
 
     } catch (err) {
       console.error('Error al extraer ZIP:', err);
-      alert('No se pudo leer el archivo ZIP: ' + err.message);
+      showToast({ message: 'No se pudo leer el archivo ZIP: ' + err.message, type: 'error' });
     }
   }
 

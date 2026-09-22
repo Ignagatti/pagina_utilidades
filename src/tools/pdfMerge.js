@@ -1,5 +1,6 @@
 import { PDFDocument } from 'pdf-lib';
 import { isProUser, canPerformDownload, consumeDailyUse } from '../services/storage.js';
+import { showToast } from '../utils/dialog.js';
 
 let mergeFiles = [];
 let isMerging = false;
@@ -109,7 +110,7 @@ export function initPdfMerge({ onUsageUpdated, onProModalRequested }) {
 
     for (const f of arr) {
       if (!f.name.toLowerCase().endsWith('.pdf')) {
-        alert(`"${f.name}" no es un archivo PDF válido.`);
+        showToast({ message: `"${f.name}" no es un archivo PDF válido.`, type: 'error' });
         continue;
       }
 
@@ -198,7 +199,7 @@ export function initPdfMerge({ onUsageUpdated, onProModalRequested }) {
         }, 1500);
       } catch (err) {
         console.error('Error al unir PDFs:', err);
-        alert('Ocurrió un error al combinar los archivos PDF.');
+        showToast({ message: 'Ocurrió un error al combinar los archivos PDF.', type: 'error' });
         btnMerge.textContent = originalText;
       } finally {
         btnMerge.style.pointerEvents = '';

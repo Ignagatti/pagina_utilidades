@@ -1,5 +1,6 @@
 import { PDFDocument } from 'pdf-lib';
 import { isProUser, canPerformDownload, consumeDailyUse } from '../services/storage.js';
+import { showToast } from '../utils/dialog.js';
 
 let currentPdfFile = null;
 let currentPdfDoc = null;
@@ -73,7 +74,7 @@ export function initPdfSplit({ onUsageUpdated, onProModalRequested }) {
       if (docInfoBox) docInfoBox.style.display = 'block';
       if (btnSplit) btnSplit.disabled = false;
     } catch (err) {
-      alert('No se pudo cargar el archivo PDF. Asegúrate de que no esté dañado ni protegido por contraseña.');
+      showToast({ message: 'No se pudo cargar el archivo PDF. Asegúrate de que no esté dañado ni protegido por contraseña.', type: 'error' });
     }
   }
 
@@ -129,7 +130,7 @@ export function initPdfSplit({ onUsageUpdated, onProModalRequested }) {
       const pageIndices = parsePageRange(rawRange, totalPages);
 
       if (pageIndices.length === 0) {
-        alert('Por favor introduce un rango de páginas válido (ej: 1-3 o 2, 5).');
+        showToast({ message: 'Por favor introduce un rango de páginas válido (ej: 1-3 o 2, 5).', type: 'warning' });
         return;
       }
 
@@ -156,7 +157,7 @@ export function initPdfSplit({ onUsageUpdated, onProModalRequested }) {
         }, 1500);
       } catch (err) {
         console.error('Error al dividir PDF:', err);
-        alert('Ocurrió un error al extraer las páginas del documento.');
+        showToast({ message: 'Ocurrió un error al extraer las páginas del documento.', type: 'error' });
         btnSplit.textContent = originalText;
       } finally {
         btnSplit.style.pointerEvents = '';

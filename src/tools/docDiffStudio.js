@@ -8,6 +8,7 @@
 import * as pdfjsLib from 'pdfjs-dist';
 import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 import { canPerformDownload, consumeDailyUse, isProUser } from '../services/storage.js';
+import { showToast } from '../utils/dialog.js';
 
 // Configuración del worker de PDF.js para Vite
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
@@ -211,7 +212,7 @@ export function initDocDiffStudio({ onUsageUpdated, onProModalRequested }) {
 
     } catch (err) {
       console.error('Error leyendo archivo A:', err);
-      alert('Error al leer el archivo A. Si es un PDF escaneado sin texto seleccionable, asegúrate de que tenga texto incrustado.');
+      showToast({ message: 'Error al leer el archivo A. Si es un PDF escaneado sin texto seleccionable, asegúrate de que tenga texto incrustado.', type: 'error' });
       if (metaBoxA) metaBoxA.style.display = 'none';
       if (dropzoneA) dropzoneA.style.display = 'block';
     }
@@ -254,7 +255,7 @@ export function initDocDiffStudio({ onUsageUpdated, onProModalRequested }) {
 
     } catch (err) {
       console.error('Error leyendo archivo B:', err);
-      alert('Error al leer el archivo B. Si es un PDF escaneado sin texto seleccionable, asegúrate de que tenga texto incrustado.');
+      showToast({ message: 'Error al leer el archivo B. Si es un PDF escaneado sin texto seleccionable, asegúrate de que tenga texto incrustado.', type: 'error' });
       if (metaBoxB) metaBoxB.style.display = 'none';
       if (dropzoneB) dropzoneB.style.display = 'block';
     }
@@ -364,7 +365,7 @@ export function initDocDiffStudio({ onUsageUpdated, onProModalRequested }) {
     const currentB = textareaB?.value || docTextB || '';
 
     if (!currentA.trim() || !currentB.trim()) {
-      alert('Por favor carga dos documentos o escribe texto en ambos campos para comparar.');
+      showToast({ message: 'Por favor carga dos documentos o escribe texto en ambos campos para comparar.', type: 'warning' });
       return;
     }
 
@@ -455,7 +456,7 @@ export function initDocDiffStudio({ onUsageUpdated, onProModalRequested }) {
     const currentB = textareaB?.value || docTextB || '';
     const textReport = `INFORME DE COMPARACIÓN DE DOCUMENTOS\nDocumento A: ${fileA?.name || 'A'}\nDocumento B: ${fileB?.name || 'B'}\n\n--- Documento A ---\n${currentA}\n\n--- Documento B ---\n${currentB}`;
     navigator.clipboard.writeText(textReport);
-    alert('Informe de comparación copiado al portapapeles.');
+    showToast({ message: 'Informe de comparación copiado al portapapeles.', type: 'success' });
   });
 
   btnDownloadDiffTxt?.addEventListener('click', () => {
