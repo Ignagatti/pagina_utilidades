@@ -141,7 +141,11 @@ export function initAudioToText({ onUsageUpdated, onProModalRequested }) {
   const btnDownloadTxt = document.getElementById('btn-download-txt');
   const btnClearTranscript = document.getElementById('btn-clear-transcript');
 
-  // Elementos de Dictado en Vivo (Micrófono)
+  // Elementos de Dictado en Vivo y Micrófono
+  const btnMicModeWhisper = document.getElementById('btn-mic-mode-whisper');
+  const btnMicModeStream = document.getElementById('btn-mic-mode-stream');
+  const liveMicDesc = document.getElementById('live-mic-description');
+  const btnCancelLiveMic = document.getElementById('btn-cancel-live-mic');
   const btnToggleLiveMic = document.getElementById('btn-toggle-live-mic');
   const micStatusPill = document.getElementById('mic-status-pill');
   const micWaveAnim = document.getElementById('mic-waveform-animation');
@@ -334,34 +338,107 @@ export function initAudioToText({ onUsageUpdated, onProModalRequested }) {
   }
 
   // =========================================================================
-  // MODO SECUNDARIO: Dictado por Voz en Vivo (Continuo y con Procesamiento Local)
+  // MODO MICRÓFONO: IA Whisper (Precisión 10/10) & Dictado en Vivo Optimizado
   // =========================================================================
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   const isDesktop = isElectronEnv();
 
-  // Actualizar descripción según el entorno
-  const liveMicDesc = document.querySelector('.live-mic-desc');
-  if (liveMicDesc) {
-    if (isDesktop) {
-      liveMicDesc.textContent = 'Habla por el micrófono y Nuvexa transcribirá tu voz en tiempo real de forma 100% privada y local sin cortes.';
-    } else {
-      liveMicDesc.textContent = 'Habla por el micrófono y el sistema transcribirá tus palabras de forma continua en tiempo real sin cortarse por pausas.';
-    }
-  }
-
+  // Modo de micrófono actual ('whisper' por defecto para garantizar fidelidad 10/10)
+  let currentMicMode = 'whisper';
   let isMicActive = false;
   let userWantsMic = false;
   let micRestartTimer = null;
   let baseTranscript = '';
   let interimTranscript = '';
 
-  // Variables para grabación directa con MediaRecorder (Escritorio / Offline / Fallback)
+  // Variables para grabación con MediaRecorder (Modo IA Whisper)
   let mediaStream = null;
   let mediaRecorder = null;
   let audioChunks = [];
   let recordingTimer = null;
   let recordingSeconds = 0;
   let isWhisperTranscribingMic = false;
+
+  // Actualiza la interfaz visual según el modo de micrófono seleccionado
+  function updateMicModeUI() {
+    if (btnMicModeWhisper) {
+      btnMicModeWhisper.classList.toggle('active', currentMicMode === 'whisper');
+    }
+    if (btnMicModeStream) {
+      btnMicModeStream.classList.toggle('active', currentMicMode === 'stream');
+    }
+
+    if (liveMicDesc) {
+      if (isDesktop) {
+        liveMicDesc.textContent = 'En la versión de escritorio de Nuvexa el micrófono se procesa 100% en local con la IA Whisper, garantizando máxima fidelidad y privacidad sin conexión.';
+      } else if (currentMicMode === 'whisper') {
+        liveMicDesc.textContent = 'Graba tu voz y la procesa con la red neuronal Whisper local. Comprensión precisa 10/10 de términos técnicos, jergas y nombres.';
+      } else {
+        liveMicDesc.textContent = 'Dicta en tiempo real con transcripción continua inmediata adaptada a tu acento regional.';
+      }
+    }
+
+    if (btnToggleLiveMic && !isMicActive && !isWhisperTranscribingMic) {
+      const label = btnToggleLiveMic.querySelector('.btn-mic-label');
+      if (label) {
+        label.textContent = currentMicMode === 'whisper' ? 'Iniciar Grabación con IA' : 'Iniciar Dictado en Vivo';
+      }
+    }
+  }
+
+  // Inicializar estado según entorno
+  if (isDesktop) {
+    currentMicMode = 'whisper';
+  }
+  updateMicModeUI();
+
+  // Cambiadores de modo
+  if (btnMicModeWhisper) {
+    btnMicModeWhisper.onclick = () => {
+      if (isMicActive || isWhisperTranscribingMic) {
+        showToast({ message: 'Detén la grabación actual antes de cambiar de modo.', type: 'warning' });
+        return;
+      }
+      currentMicMode = 'whisper';
+      updateMicModeUI();
+    };
+  }
+
+  if (btnMicModeStream) {
+    btnMicModeStream.onclick = () => {
+      if (isMicActive || isWhisperTranscribingMic) {
+        showToast({ message: 'Detén el dictado actual antes de cambiar de modo.', type: 'warning' });
+        return;
+      }
+      if (isDesktop) {
+        showToast({ message: 'En la versión de escritorio se utiliza el Modo IA Whisper para procesamiento 100% privado y sin conexión.', type: 'info' });
+        return;
+      }
+      if (!SpeechRecognition) {
+        showToast({ message: 'Tu navegador no soporta Web Speech API. Se mantendrá el Modo IA Whisper.', type: 'warning' });
+        return;
+      }
+      currentMicMode = 'stream';
+      updateMicModeUI();
+    };
+  }
+
+  // Obtiene el dialecto adecuado para Web Speech en base al navegador y configuración
+  function getWebSpeechLanguage() {
+    const selected = selectLanguage?.value || 'spanish';
+    if (selected === 'english') {
+      return (navigator.language && navigator.language.startsWith('en')) ? navigator.language : 'en-US';
+    }
+    if (selected === 'spanish') {
+      // Si el navegador del usuario está configurado en español (ej: es-AR, es-MX, es-CO, es-CL, es-ES, etc.)
+      // usamos ese dialecto para que el modelo acústico de Google reconozca la pronunciación nativa del usuario
+      if (navigator.language && navigator.language.startsWith('es')) {
+        return navigator.language;
+      }
+      return 'es-419'; // Español de Latinoamérica por defecto
+    }
+    return navigator.language || 'es-419';
+  }
 
   // Detener y resetear cualquier tipo de captura de micrófono
   function stopAllMic() {
@@ -394,26 +471,46 @@ export function initAudioToText({ onUsageUpdated, onProModalRequested }) {
       micStatusPill.className = 'tier-badge free';
     }
     if (micWaveAnim) micWaveAnim.style.display = 'none';
+    if (btnCancelLiveMic) btnCancelLiveMic.style.display = 'none';
+
     if (btnToggleLiveMic) {
       btnToggleLiveMic.classList.remove('recording-active');
       btnToggleLiveMic.disabled = false;
       const label = btnToggleLiveMic.querySelector('.btn-mic-label');
-      if (label) label.textContent = 'Iniciar Dictado en Vivo';
+      if (label) {
+        label.textContent = currentMicMode === 'whisper' ? 'Iniciar Grabación con IA' : 'Iniciar Dictado en Vivo';
+      }
     }
+
+    // Reactivar controles de modo
+    if (btnMicModeWhisper) btnMicModeWhisper.disabled = false;
+    if (btnMicModeStream) btnMicModeStream.disabled = false;
   }
 
-  // Sincronizar el texto base si el usuario edita o borra mientras el mic está apagado
+  // Sincronizar el texto base si el usuario edita mientras el mic está apagado
   transcriptOutput.addEventListener('input', () => {
     if (!isMicActive) {
       baseTranscript = transcriptOutput.value;
     }
   });
 
+  // Botón para descartar grabación sin transcribir
+  if (btnCancelLiveMic) {
+    btnCancelLiveMic.onclick = () => {
+      userWantsMic = false;
+      audioChunks = [];
+      stopAllMic();
+      showToast({ message: 'Grabación de voz descartada.', type: 'info' });
+    };
+  }
+
   // -------------------------------------------------------------------------
-  // MODO A: Web Speech API (Navegador Web con soporte nativo de streaming continuo)
+  // MODO A: Web Speech API (Dictado en Vivo con Detección Regional Adaptada)
   // -------------------------------------------------------------------------
   function startWebSpeech() {
     if (!SpeechRecognition) {
+      currentMicMode = 'whisper';
+      updateMicModeUI();
       startWhisperMediaRecorder();
       return;
     }
@@ -426,16 +523,19 @@ export function initAudioToText({ onUsageUpdated, onProModalRequested }) {
       recognition = new SpeechRecognition();
       recognition.continuous = true;
       recognition.interimResults = true;
-      recognition.lang = selectLanguage?.value === 'english' ? 'en-US' : 'es-ES';
+      recognition.lang = getWebSpeechLanguage();
 
       selectLanguage?.addEventListener('change', () => {
         if (recognition) {
-          recognition.lang = selectLanguage.value === 'english' ? 'en-US' : 'es-ES';
+          recognition.lang = getWebSpeechLanguage();
         }
       });
 
       recognition.onstart = () => {
         isMicActive = true;
+        if (btnMicModeWhisper) btnMicModeWhisper.disabled = true;
+        if (btnMicModeStream) btnMicModeStream.disabled = true;
+
         if (micStatusPill) {
           micStatusPill.textContent = 'Escuchando en vivo... Habla con tranquilidad';
           micStatusPill.className = 'tier-badge pro';
@@ -467,8 +567,7 @@ export function initAudioToText({ onUsageUpdated, onProModalRequested }) {
       recognition.onerror = (event) => {
         console.warn('SpeechRecognition event status:', event.error);
 
-        // CLAVE: 'no-speech' y 'aborted' son pausas naturales de respiración o vacilación.
-        // ¡NO DEBEN APAGAR EL MICRÓFONO! Se ignoran para mantener la escucha continua.
+        // 'no-speech' y 'aborted' son pausas naturales de respiración; no apagan el micrófono
         if (event.error === 'no-speech' || event.error === 'aborted') {
           return;
         }
@@ -484,8 +583,10 @@ export function initAudioToText({ onUsageUpdated, onProModalRequested }) {
         }
 
         if (event.error === 'network') {
-          console.warn('Servidor de reconocimiento no disponible. Conmutando a grabador local...');
+          console.warn('Servidor de reconocimiento no disponible. Conmutando a Modo IA Whisper...');
           stopAllMic();
+          currentMicMode = 'whisper';
+          updateMicModeUI();
           startWhisperMediaRecorder();
           return;
         }
@@ -501,9 +602,8 @@ export function initAudioToText({ onUsageUpdated, onProModalRequested }) {
       };
 
       recognition.onend = () => {
-        // En Chrome, cuando hay una pausa prolongada onend se dispara automáticamente.
-        // Si el usuario NO presionó detener, reiniciamos suavemente tras 150ms para que
-        // el micrófono nunca se corte por pausas o silencios.
+        // En Chrome, tras pausas prolongadas onend se dispara automáticamente.
+        // Si el usuario no presionó pausar, reiniciamos suavemente para mantener la escucha continua.
         if (userWantsMic) {
           clearTimeout(micRestartTimer);
           micRestartTimer = setTimeout(() => {
@@ -511,7 +611,6 @@ export function initAudioToText({ onUsageUpdated, onProModalRequested }) {
               try {
                 recognition.start();
               } catch (err) {
-                // Reintento en caso de que el objeto estuviera aún reciclándose
                 setTimeout(() => {
                   if (userWantsMic) {
                     try { recognition.start(); } catch (e) {}
@@ -527,7 +626,7 @@ export function initAudioToText({ onUsageUpdated, onProModalRequested }) {
     }
 
     try {
-      recognition.lang = selectLanguage?.value === 'english' ? 'en-US' : 'es-ES';
+      recognition.lang = getWebSpeechLanguage();
       recognition.start();
     } catch (e) {
       console.warn('Error al iniciar Web Speech:', e);
@@ -540,7 +639,7 @@ export function initAudioToText({ onUsageUpdated, onProModalRequested }) {
   }
 
   // -------------------------------------------------------------------------
-  // MODO B: Grabación Directa y Procesamiento Local (Escritorio Electron y Fallback)
+  // MODO B: Grabación con Filtros Acústicos y Procesamiento Local (Whisper IA)
   // -------------------------------------------------------------------------
   async function startWhisperMediaRecorder() {
     userWantsMic = true;
@@ -548,7 +647,16 @@ export function initAudioToText({ onUsageUpdated, onProModalRequested }) {
     recordingSeconds = 0;
 
     try {
-      mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      // Captura acústica optimizada con cancelación de ruido y eco
+      mediaStream = await navigator.mediaDevices.getUserMedia({
+        audio: {
+          echoCancellation: true,
+          noiseSuppression: true,
+          autoGainControl: true,
+          channelCount: 1,
+          sampleRate: 16000
+        }
+      });
     } catch (err) {
       userWantsMic = false;
       if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
@@ -575,6 +683,8 @@ export function initAudioToText({ onUsageUpdated, onProModalRequested }) {
         mimeType = 'audio/webm';
       } else if (MediaRecorder.isTypeSupported('audio/ogg;codecs=opus')) {
         mimeType = 'audio/ogg;codecs=opus';
+      } else if (MediaRecorder.isTypeSupported('audio/mp4')) {
+        mimeType = 'audio/mp4';
       }
     }
 
@@ -597,6 +707,8 @@ export function initAudioToText({ onUsageUpdated, onProModalRequested }) {
         mediaStream = null;
       }
 
+      if (btnCancelLiveMic) btnCancelLiveMic.style.display = 'none';
+
       if (audioChunks.length === 0 || !userWantsMic) {
         stopAllMic();
         return;
@@ -609,16 +721,16 @@ export function initAudioToText({ onUsageUpdated, onProModalRequested }) {
         return;
       }
 
-      // Procesar audio grabado directamente en local
+      // Procesar audio grabado directamente en local con Whisper
       isWhisperTranscribingMic = true;
       if (btnToggleLiveMic) {
         btnToggleLiveMic.disabled = true;
         btnToggleLiveMic.classList.remove('recording-active');
         const label = btnToggleLiveMic.querySelector('.btn-mic-label');
-        if (label) label.textContent = 'Transcribiendo voz...';
+        if (label) label.textContent = 'Transcribiendo con IA...';
       }
       if (micStatusPill) {
-        micStatusPill.textContent = 'Transcribiendo dictado de voz...';
+        micStatusPill.textContent = 'Procesando voz con Whisper IA (Precisión 10/10)...';
         micStatusPill.className = 'tier-badge pro';
       }
       if (micWaveAnim) micWaveAnim.style.display = 'none';
@@ -626,13 +738,13 @@ export function initAudioToText({ onUsageUpdated, onProModalRequested }) {
       if (progressContainer) {
         progressContainer.style.display = 'block';
         if (progressFill) progressFill.style.width = '20%';
-        if (progressStatus) progressStatus.textContent = 'Preparando transcripción del dictado...';
+        if (progressStatus) progressStatus.textContent = 'Preparando entorno de IA local...';
       }
 
       try {
         const transcriber = await getWhisperPipeline((progressPercent) => {
           if (progressFill) progressFill.style.width = `${Math.round(progressPercent * 0.5)}%`;
-          if (progressStatus) progressStatus.textContent = `Cargando componentes: ${progressPercent}%`;
+          if (progressStatus) progressStatus.textContent = `Cargando componentes IA: ${progressPercent}%`;
         });
 
         if (progressFill) progressFill.style.width = '70%';
@@ -640,7 +752,7 @@ export function initAudioToText({ onUsageUpdated, onProModalRequested }) {
         const { audioData } = await decodeAudioFile(recordedBlob);
 
         if (progressFill) progressFill.style.width = '85%';
-        if (progressStatus) progressStatus.textContent = 'Procesando dictado de voz...';
+        if (progressStatus) progressStatus.textContent = 'Analizando voz con red neuronal Whisper...';
 
         const lang = selectLanguage?.value || 'spanish';
         const options = {
@@ -656,17 +768,17 @@ export function initAudioToText({ onUsageUpdated, onProModalRequested }) {
 
         if (transcribedText) {
           const existing = transcriptOutput.value.trim();
-          transcriptOutput.value = existing ? `${existing} ${transcribedText}` : transcribedText;
+          transcriptOutput.value = existing ? `${existing}\n\n${transcribedText}` : transcribedText;
           updateCounters();
-          showToast({ message: '¡Dictado por voz transcrito exitosamente!', type: 'success' });
+          showToast({ message: '¡Audio del micrófono transcrito exitosamente con IA!', type: 'success' });
           if (progressFill) progressFill.style.width = '100%';
-          if (progressStatus) progressStatus.textContent = '¡Dictado completado!';
+          if (progressStatus) progressStatus.textContent = '¡Transcripción con IA completada!';
         } else {
-          showToast({ message: 'No se detectó voz clara en el dictado.', type: 'warning' });
+          showToast({ message: 'No se detectó voz clara en la grabación.', type: 'warning' });
         }
       } catch (err) {
-        console.error('Error al transcribir dictado por voz:', err);
-        showToast({ message: `Error en el dictado: ${err.message}`, type: 'error' });
+        console.error('Error al transcribir voz del micrófono:', err);
+        showToast({ message: `Error en la transcripción: ${err.message}`, type: 'error' });
       } finally {
         isWhisperTranscribingMic = false;
         stopAllMic();
@@ -679,13 +791,20 @@ export function initAudioToText({ onUsageUpdated, onProModalRequested }) {
     mediaRecorder.start(250);
     isMicActive = true;
 
+    // Desactivar cambio de modo durante grabación
+    if (btnMicModeWhisper) btnMicModeWhisper.disabled = true;
+    if (btnMicModeStream) btnMicModeStream.disabled = true;
+
     if (btnToggleLiveMic) {
       btnToggleLiveMic.classList.add('recording-active');
       const label = btnToggleLiveMic.querySelector('.btn-mic-label');
-      if (label) label.textContent = 'Detener Dictado (0:00)';
+      if (label) label.textContent = 'Detener y Transcribir (0:00)';
+    }
+    if (btnCancelLiveMic) {
+      btnCancelLiveMic.style.display = 'inline-flex';
     }
     if (micStatusPill) {
-      micStatusPill.textContent = 'Grabando micrófono (0:00)... Habla ahora';
+      micStatusPill.textContent = 'Grabando micrófono (0:00)... Habla con normalidad';
       micStatusPill.className = 'tier-badge pro';
     }
     if (micWaveAnim) micWaveAnim.style.display = 'flex';
@@ -695,25 +814,32 @@ export function initAudioToText({ onUsageUpdated, onProModalRequested }) {
       recordingSeconds++;
       const timeStr = formatDuration(recordingSeconds);
       const label = btnToggleLiveMic?.querySelector('.btn-mic-label');
-      if (label) label.textContent = `Detener Dictado (${timeStr})`;
-      if (micStatusPill) micStatusPill.textContent = `Grabando micrófono (${timeStr})... Habla ahora`;
+      if (label) label.textContent = `Detener y Transcribir (${timeStr})`;
+      if (micStatusPill) micStatusPill.textContent = `Grabando micrófono (${timeStr})... Habla con normalidad`;
     }, 1000);
   }
 
-  // Manejador del botón principal de Dictado por Micrófono
+  // Manejador del botón principal de Dictado / Grabación por Micrófono
   if (btnToggleLiveMic) {
     btnToggleLiveMic.onclick = () => {
       if (isWhisperTranscribingMic) return;
 
       if (!isMicActive) {
-        if (isDesktop || !SpeechRecognition) {
+        if (currentMicMode === 'whisper' || isDesktop || !SpeechRecognition) {
           startWhisperMediaRecorder();
         } else {
           startWebSpeech();
         }
       } else {
-        if (mediaRecorder && mediaRecorder.state !== 'inactive') {
-          mediaRecorder.stop();
+        if (currentMicMode === 'whisper') {
+          if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+            try {
+              mediaRecorder.requestData();
+            } catch (e) {}
+            mediaRecorder.stop();
+          } else {
+            stopAllMic();
+          }
         } else {
           stopAllMic();
         }

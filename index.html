@@ -1260,12 +1260,29 @@
             <div class="live-mic-card">
               <div class="live-mic-header">
                 <div class="live-mic-title-group">
-                  <span class="live-mic-title">Dictado en Vivo por Micrófono</span>
+                  <span class="live-mic-title">Micrófono & Dictado por Voz</span>
                   <span id="mic-status-pill" class="tier-badge free">Micrófono Inactivo</span>
                 </div>
               </div>
-              <p class="live-mic-desc">
-                Habla por el micrófono y el navegador transcribirá tus palabras en tiempo real.
+
+              <!-- Selector de Modo de Micrófono -->
+              <div class="mic-mode-selector" role="group" aria-label="Modo de transcripción de micrófono">
+                <button type="button" class="mic-mode-pill active" id="btn-mic-mode-whisper" data-mic-mode="whisper" title="Graba audio y lo procesa con la red neuronal Whisper. Máxima precisión en vocabulario técnico, nombres y jergas.">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path>
+                  </svg>
+                  <span>Modo IA Whisper (Alta Precisión 10/10)</span>
+                </button>
+                <button type="button" class="mic-mode-pill" id="btn-mic-mode-stream" data-mic-mode="stream" title="Dicta en tiempo real con transcripción continua inmediata adaptada a tu acento.">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                  </svg>
+                  <span>Dictado en Vivo (Tiempo Real)</span>
+                </button>
+              </div>
+
+              <p class="live-mic-desc" id="live-mic-description">
+                Graba tu voz y la procesa con la IA Whisper. Entiende vocabulario técnico, jergas y nombres con máxima fidelidad.
               </p>
               
               <div class="live-mic-controls">
@@ -1276,7 +1293,15 @@
                     <line x1="12" y1="19" x2="12" y2="23"></line>
                     <line x1="8" y1="23" x2="16" y2="23"></line>
                   </svg>
-                  <span class="btn-mic-label">Iniciar Dictado en Vivo</span>
+                  <span class="btn-mic-label">Iniciar Grabación con IA</span>
+                </button>
+
+                <button type="button" id="btn-cancel-live-mic" class="btn-cancel-recording" style="display: none;" title="Cancelar grabación sin transcribir">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
+                  <span>Descartar</span>
                 </button>
 
                 <!-- Animación de ondas cuando escucha -->
