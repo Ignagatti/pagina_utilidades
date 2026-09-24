@@ -7,57 +7,15 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://nuvexatools.site/#view-smart-actions</loc>
+    <loc>https://nuvexatools.site/privacy.html</loc>
     <lastmod>2026-09-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://nuvexatools.site/#view-pdf-editor</loc>
+    <loc>https://nuvexatools.site/terms.html</loc>
     <lastmod>2026-09-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://nuvexatools.site/#view-doc-diff-studio</loc>
-    <lastmod>2026-09-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://nuvexatools.site/#view-redaction-studio</loc>
-    <lastmod>2026-09-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://nuvexatools.site/#view-image-studio</loc>
-    <lastmod>2026-09-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://nuvexatools.site/#view-qr-tool</loc>
-    <lastmod>2026-09-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://nuvexatools.site/#view-audio-to-text</loc>
-    <lastmod>2026-09-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://nuvexatools.site/#view-security-studio</loc>
-    <lastmod>2026-09-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://nuvexatools.site/#view-archive-studio</loc>
-    <lastmod>2026-09-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
 </urlset>

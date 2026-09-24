@@ -3,14 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
   <title>Nuvexa | Herramientas digitales. Privadas. En un solo lugar.</title>
-  <meta name="description" content="Nuvexa: Herramientas digitales. Privadas. En un solo lugar. Códigos QR con logo, editor y comparador de PDF, conversor de imágenes con soporte HEIC / Apple, transcripción y dictado de voz, cifrado AES-256 y ZIPs sin servidores." />
+  <meta name="description" content="Nuvexa: Herramientas digitales privadas en tu navegador. Códigos QR con logo, editor y comparador de PDF, conversor de imágenes con soporte HEIC / Apple, transcripción y dictado de voz, cifrado AES-256 sin servidores." />
   <meta name="keywords" content="nuvexa, nuvexatools, herramientas digitales privadas, creador qr con logo, editor pdf privado, unir pdf, separar pdf, comparador pdf, censurar pdf, convertir heic a jpg, comprimir imagenes, transcribir audio a texto whisper, cifrado aes-256" />
   <meta name="author" content="Ignacio Gatti - Nuvexa" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <link rel="canonical" href="https://nuvexatools.site/" />
 
-  <!-- Google Search Favicons & Iconografía PWA (Resoluciones oficiales 48x48, 96x96, 192x192 para Google Search Snippets) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
   <link rel="icon" type="image/x-icon" href="/favicon.ico" />
   <link rel="icon" type="image/png" sizes="48x48" href="/icons/icon-48x48.png" />
   <link rel="icon" type="image/png" sizes="96x96" href="/icons/icon-96x96.png" />
@@ -24,9 +27,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="Nuvexa" />
-  <meta name="google-adsense-account" content="ca-pub-0000000000000000" />
 
-  <!-- Open Graph / Redes Sociales (WhatsApp, Facebook, LinkedIn, Google Discover) -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://nuvexatools.site/" />
   <meta property="og:title" content="Nuvexa | Herramientas digitales. Privadas. En un solo lugar." />
@@ -40,14 +41,12 @@
   <meta property="og:image:height" content="630" />
   <meta property="og:image:alt" content="Nuvexa - Herramientas digitales. Privadas. En un solo lugar." />
 
-  <!-- Twitter Cards -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:url" content="https://nuvexatools.site/" />
   <meta name="twitter:title" content="Nuvexa | Suite Digital 100% Privada" />
   <meta name="twitter:description" content="Herramientas digitales. Privadas. En un solo lugar. Procesamiento instantáneo en tu navegador." />
   <meta name="twitter:image" content="https://nuvexatools.site/og-image.png" />
 
-  <!-- Datos Estructurados Schema.org para Google Search -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -76,13 +75,32 @@
         "applicationCategory": "BusinessApplication",
         "operatingSystem": "All",
         "image": "https://nuvexatools.site/og-image.png",
-        "offers": {
-          "@type": "Offer",
-          "price": "3.99",
-          "priceCurrency": "USD",
-          "priceValidUntil": "2028-12-31",
-          "availability": "https://schema.org/InStock"
-        },
+        "offers": [
+          {
+            "@type": "Offer",
+            "name": "Nuvexa Pro Mensual",
+            "price": "3.99",
+            "priceCurrency": "USD",
+            "priceValidUntil": "2028-12-31",
+            "availability": "https://schema.org/InStock"
+          },
+          {
+            "@type": "Offer",
+            "name": "Nuvexa Pro Anual",
+            "price": "29.99",
+            "priceCurrency": "USD",
+            "priceValidUntil": "2028-12-31",
+            "availability": "https://schema.org/InStock"
+          },
+          {
+            "@type": "Offer",
+            "name": "Nuvexa Pro Vitalicio",
+            "price": "49.99",
+            "priceCurrency": "USD",
+            "priceValidUntil": "2028-12-31",
+            "availability": "https://schema.org/InStock"
+          }
+        ],
         "creator": {
           "@type": "Person",
           "name": "Ignacio Gatti"
@@ -92,14 +110,29 @@
   }
   </script>
 
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    window.initNuvexaAnalytics = function(id) {
+      if (!id || id.includes('XXXX') || window.__ga_loaded) return;
+      window.__ga_loaded = true;
+      const s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=' + id;
+      document.head.appendChild(s);
+      gtag('js', new Date());
+      gtag('config', id, { anonymize_ip: true });
+    };
+  </script>
+
   <link rel="stylesheet" href="/src/style.css" />
 </head>
 <body>
 
-  <!-- Barra de Navegación Superior -->
+  
   <header class="navbar">
     <div class="nav-container">
-      <!-- Marca / Logo a la izquierda -->
+      
       <a href="/" class="brand-link" title="Nuvexa - Herramientas digitales. Privadas. En un solo lugar.">
         <div class="brand-icon">
           <img src="/logo.png" alt="Nuvexa Logo" class="brand-logo-img" />
@@ -107,7 +140,7 @@
         <div class="brand-text">Nuve<span>xa</span></div>
       </a>
 
-      <!-- Selector Central de Herramientas de la Suite -->
+      
       <div class="nav-tools-scroll-wrapper">
         <nav class="tool-switch-nav">
           <button type="button" class="nav-cat-btn active" data-category="smart" data-tool="smart-actions">
@@ -175,9 +208,9 @@
         </nav>
       </div>
 
-      <!-- Acciones de Usuario a la derecha -->
+      
       <div class="nav-actions">
-        <!-- Badge de Límite Diario -->
+        
         <div id="navbar-usage-badge" class="usage-badge" title="Estado de tu cuenta">
           <span id="usage-counter-text">
             <span class="usage-text-desktop">3 descargas hoy</span>
@@ -188,7 +221,7 @@
           </div>
         </div>
 
-        <!-- Botón Pro -->
+        
         <button id="navbar-pro-btn" class="btn-pro">
           <span class="btn-pro-desktop">Obtener Pro</span>
           <span class="btn-pro-mobile">Pro</span>
@@ -197,7 +230,7 @@
     </div>
   </header>
 
-  <!-- Barra Secundaria de Sub-herramientas PDF -->
+  
   <div id="pdf-subnav-bar" class="subnav-bar" style="display: none;">
     <div class="subnav-container">
       <span class="subnav-label">Herramientas PDF:</span>
@@ -224,9 +257,7 @@
     </div>
   </div>
 
-  <!-- =========================================================================
-       VISTA 0: SMART ACTIONS ("HACÉ ESTO CON MIS ARCHIVOS")
-       ========================================================================= -->
+  
   <div id="view-smart-actions" class="tool-view-section active">
     
     <section class="hero">
@@ -248,7 +279,7 @@
 
     <main class="main-wrapper" style="max-width: 860px; margin: 0 auto;">
       
-      <!-- Dropzone Universal -->
+      
       <div id="smart-actions-dropzone" class="pdf-dropzone-box glass-card" style="padding: 2.75rem 1.5rem;">
         <div class="dropzone-icon">
           <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -262,7 +293,7 @@
         <input type="file" id="smart-actions-file-input" style="display: none;" />
       </div>
 
-      <!-- Tarjeta de Análisis y Acciones Recomendadas -->
+      
       <div id="smart-actions-card" class="glass-card" style="display: none; margin-top: 1.5rem; padding: 1.85rem;">
         
         <div class="smart-file-header" style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid var(--color-border); padding-bottom: 1rem; margin-bottom: 1.25rem;">
@@ -286,7 +317,7 @@
         </div>
       </div>
 
-      <!-- Estado vacío sugerencias -->
+      
       <div id="smart-actions-empty" style="margin-top: 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.25rem;">
         <div class="glass-card" style="padding: 1.5rem; text-align: center;">
           <div style="width: 36px; height: 36px; border-radius: 8px; background: var(--color-primary-light); color: var(--color-primary); display: flex; align-items: center; justify-content: center; margin: 0 auto 0.75rem;">
@@ -315,9 +346,7 @@
 
   </div>
 
-  <!-- =========================================================================
-       VISTA 1: GENERADOR DE CÓDIGOS QR
-       ========================================================================= -->
+  
   <div id="view-qr-tool" class="tool-view-section" style="display: none;">
     
     <section class="hero">
@@ -338,7 +367,7 @@
     <main class="main-wrapper">
       <div class="tool-grid">
         
-        <!-- Columna Izquierda: Configuración del QR -->
+        
         <div class="tool-editor glass-card">
           
           <div id="input-security-alert" class="security-alert-box"></div>
@@ -570,7 +599,7 @@
 
         </div>
 
-        <!-- Columna Derecha: Vista Previa y Selector de Formato -->
+        
         <div class="preview-card glass-card">
           <div class="preview-header">
             <span class="preview-title">Vista Previa</span>
@@ -581,7 +610,7 @@
             <div id="qr-preview-container"></div>
           </div>
 
-          <!-- Selector de Formato de Descarga (PNG vs PDF vs SVG) -->
+          
           <div class="format-choice-wrapper">
             <span class="format-choice-headline">Elegir formato de descarga:</span>
             <div class="format-options-grid">
@@ -629,7 +658,7 @@
 
       </div>
 
-      <!-- Guía de Uso Rápido -->
+      
       <div class="tool-guide-section">
         <div class="tool-guide-header">
           <h4 class="tool-guide-title">¿Cómo generar tu código QR?</h4>
@@ -654,7 +683,7 @@
         </div>
       </div>
 
-      <!-- Demostración Visual de QR de Contactos (Exclusivo de QR Studio) -->
+      
       <div class="tool-showcase-section">
         <div class="tool-showcase-header">
           <span class="hero-pill">Demostración en Móvil</span>
@@ -680,9 +709,7 @@
 
   </div>
 
-  <!-- =========================================================================
-       VISTA PDF: EDITOR VISUAL DE PÁGINAS PDF (ROTAR, REORDENAR, ELIMINAR)
-       ========================================================================= -->
+  
   <div id="view-pdf-editor" class="tool-view-section" style="display: none;">
     
     <section class="hero">
@@ -703,7 +730,7 @@
 
     <main class="main-wrapper">
       
-      <!-- Zona Dropzone Inicial -->
+      
       <div id="editor-pdf-dropzone" class="pdf-dropzone-box glass-card" style="max-width: 700px; margin: 0 auto;">
         <div class="dropzone-icon">
           <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -718,10 +745,10 @@
         <input type="file" id="editor-pdf-file-input" accept="application/pdf" style="display: none;" />
       </div>
 
-      <!-- Mesa de Trabajo Completa cuando el PDF está cargado -->
+      
       <div id="editor-pdf-workspace" style="display: none;">
         
-        <!-- Barra de Herramientas del Documento -->
+        
         <div class="editor-top-toolbar glass-card">
           <div class="editor-doc-meta">
             <span id="editor-doc-title" class="editor-doc-name">documento.pdf</span>
@@ -743,10 +770,10 @@
           </div>
         </div>
 
-        <!-- Cuadrícula Interactiva de Miniaturas -->
+        
         <div id="editor-pages-grid" class="editor-pages-grid"></div>
 
-        <!-- Panel de Exportación y Opciones -->
+        
         <div class="editor-export-bar glass-card">
           <div class="editor-options-row">
             <label class="checkbox-row">
@@ -776,7 +803,7 @@
 
       </div>
 
-      <!-- Guía de Uso Rápido -->
+      
       <div class="tool-guide-section">
         <div class="tool-guide-header">
           <h4 class="tool-guide-title">¿Cómo editar las páginas de tu PDF?</h4>
@@ -805,9 +832,7 @@
 
   </div>
 
-  <!-- =========================================================================
-       VISTA 2: CONVERTIDOR DE IMÁGENES A PDF
-       ========================================================================= -->
+  
   <div id="view-images-to-pdf" class="tool-view-section" style="display: none;">
     
     <section class="hero">
@@ -911,7 +936,7 @@
 
       </div>
 
-      <!-- Guía de Uso Rápido -->
+      
       <div class="tool-guide-section">
         <div class="tool-guide-header">
           <h4 class="tool-guide-title">¿Cómo convertir imágenes a documento PDF?</h4>
@@ -940,9 +965,7 @@
 
   </div>
 
-  <!-- =========================================================================
-       VISTA 3: UNIR ARCHIVOS PDF (MERGE)
-       ========================================================================= -->
+  
   <div id="view-merge-pdf" class="tool-view-section" style="display: none;">
     
     <section class="hero">
@@ -1027,7 +1050,7 @@
 
       </div>
 
-      <!-- Guía de Uso Rápido -->
+      
       <div class="tool-guide-section">
         <div class="tool-guide-header">
           <h4 class="tool-guide-title">¿Cómo unir varios archivos PDF?</h4>
@@ -1056,9 +1079,7 @@
 
   </div>
 
-  <!-- =========================================================================
-       VISTA 4: SEPARAR / DIVIDIR PDF (SPLIT)
-       ========================================================================= -->
+  
   <div id="view-split-pdf" class="tool-view-section" style="display: none;">
     
     <section class="hero">
@@ -1099,7 +1120,7 @@
             <input type="file" id="split-file-input" accept="application/pdf" style="display: none;" />
           </div>
 
-          <!-- Información del documento cargado -->
+          
           <div id="split-doc-info" style="display: none;">
             <div class="pdf-image-item" style="margin-bottom: 1.5rem;">
               <div class="pdf-doc-icon">
@@ -1154,7 +1175,7 @@
 
       </div>
 
-      <!-- Guía de Uso Rápido -->
+      
       <div class="tool-guide-section">
         <div class="tool-guide-header">
           <h4 class="tool-guide-title">¿Cómo separar o extraer páginas de un PDF?</h4>
@@ -1183,9 +1204,7 @@
 
   </div>
 
-  <!-- =========================================================================
-       VISTA 5: TRANSCRIPTOR DE AUDIO A TEXTO (WHISPER LOCAL & DICTADO)
-       ========================================================================= -->
+  
   <div id="view-audio-to-text" class="tool-view-section" style="display: none;">
     
     <section class="hero">
@@ -1208,12 +1227,12 @@
     <main class="main-wrapper">
       <div class="tool-grid">
         
-        <!-- Columna Izquierda: Carga del Audio, Configuración y Reproductor -->
+        
         <div class="tool-editor glass-card">
           
           <div class="audio-input-methods">
             
-            <!-- Zona de Carga de Archivos de Audio -->
+            
             <div id="audio-dropzone" class="pdf-dropzone-box">
               <div class="dropzone-icon">
                 <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1227,7 +1246,7 @@
               <input type="file" id="audio-file-input" accept="audio/*, .mp3, .wav, .m4a, .ogg, .aac, .webm, .opus" style="display: none;" />
             </div>
 
-            <!-- Ficha del archivo cargado y reproductor -->
+            
             <div id="audio-file-info" class="audio-loaded-card" style="display: none;">
               <div class="audio-meta-row">
                 <div class="audio-meta-icon">
@@ -1246,13 +1265,13 @@
                 <button type="button" id="btn-remove-audio" class="btn-danger-sm">Cambiar</button>
               </div>
 
-              <!-- Reproductor HTML5 -->
+              
               <div class="audio-player-wrapper">
                 <audio id="audio-preview-player" controls style="width: 100%; border-radius: var(--radius-sm);"></audio>
               </div>
             </div>
 
-            <!-- Controles de Configuración de Idioma -->
+            
             <div class="form-group" style="margin-top: 1.25rem;">
               <label class="form-label" for="select-audio-language">
                 <span>Idioma del Audio</span>
@@ -1265,7 +1284,7 @@
               </select>
             </div>
 
-            <!-- Botón de Transcripción Principal -->
+            
             <div class="audio-actions-row">
               <button type="button" id="btn-execute-transcribe" class="btn-download-primary" disabled>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
@@ -1275,7 +1294,7 @@
               </button>
             </div>
 
-            <!-- Barra de Progreso y Estado -->
+            
             <div id="transcribe-progress-container" class="transcribe-progress-box" style="display: none;">
               <div class="progress-status-row">
                 <span id="transcribe-status-text" class="progress-status-label">Iniciando...</span>
@@ -1288,12 +1307,12 @@
               </small>
             </div>
 
-            <!-- Separador visual -->
+            
             <div class="audio-divider">
               <span>o si prefieres hablar directamente</span>
             </div>
 
-            <!-- Modo Alternativo: Dictado por Voz en Vivo (Micrófono) -->
+            
             <div class="live-mic-card">
               <div class="live-mic-header">
                 <div class="live-mic-title-group">
@@ -1302,7 +1321,7 @@
                 </div>
               </div>
 
-              <!-- Selector de Modo de Micrófono -->
+              
               <div class="mic-mode-selector" role="group" aria-label="Modo de transcripción de micrófono">
                 <button type="button" class="mic-mode-pill active" id="btn-mic-mode-whisper" data-mic-mode="whisper" title="Graba audio y lo procesa con la red neuronal Whisper. Máxima precisión en vocabulario técnico, nombres y jergas.">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1341,7 +1360,7 @@
                   <span>Descartar</span>
                 </button>
 
-                <!-- Animación de ondas cuando escucha -->
+                
                 <div id="mic-waveform-animation" class="mic-wave-container" style="display: none;">
                   <span class="wave-bar"></span>
                   <span class="wave-bar"></span>
@@ -1356,7 +1375,7 @@
 
         </div>
 
-        <!-- Columna Derecha: Texto Transcrito y Exportación -->
+        
         <div class="preview-card glass-card">
           <div class="preview-header">
             <span class="preview-title">Transcripción de Texto</span>
@@ -1397,7 +1416,7 @@
             </button>
           </div>
 
-          <!-- Aviso de precisión / posibles errores de transcripción -->
+          
           <div class="transcription-disclaimer-note">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <circle cx="12" cy="12" r="10"></circle>
@@ -1414,7 +1433,7 @@
 
       </div>
 
-      <!-- Guía de Uso Rápido -->
+      
       <div class="tool-guide-section">
         <div class="tool-guide-header">
           <h4 class="tool-guide-title">¿Cómo transcribir grabaciones o audios?</h4>
@@ -1439,7 +1458,7 @@
         </div>
       </div>
 
-      <!-- Demostración Visual de Transcripción de Audio (Exclusivo de Audio a Texto) -->
+      
       <div class="tool-showcase-section">
         <div class="tool-showcase-header">
           <span class="hero-pill">Demostración en Vivo</span>
@@ -1465,9 +1484,7 @@
 
   </div>
 
-  <!-- =========================================================================
-       VISTA: COMPARADOR DE DOCUMENTOS Y PDFS (DOCDIFF STUDIO)
-       ========================================================================= -->
+  
   <div id="view-doc-diff-studio" class="tool-view-section" style="display: none;">
     
     <section class="hero">
@@ -1489,10 +1506,10 @@
 
     <main class="main-wrapper">
       
-      <!-- Selector de Archivo A y Archivo B -->
+      
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem;">
         
-        <!-- Documento A (Original / Versión 1) -->
+        
         <div class="glass-card" style="padding: 1.5rem;">
           <div class="section-title-row">
             <span class="section-title" style="color: var(--color-primary); font-weight: 700;">Documento A (Versión Original)</span>
@@ -1519,7 +1536,7 @@
           </div>
         </div>
 
-        <!-- Documento B (Modificado / Versión 2) -->
+        
         <div class="glass-card" style="padding: 1.5rem;">
           <div class="section-title-row">
             <span class="section-title" style="color: #16A34A; font-weight: 700;">Documento B (Versión Nueva / Modificada)</span>
@@ -1548,7 +1565,7 @@
 
       </div>
 
-      <!-- Barra de Acciones de Comparación -->
+      
       <div style="display: flex; gap: 0.75rem; justify-content: center; align-items: center; margin-bottom: 2rem; flex-wrap: wrap;">
         <button type="button" id="btn-execute-diff" class="btn-download-primary" style="padding: 0.75rem 1.75rem;" disabled>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
@@ -1566,7 +1583,7 @@
         </button>
       </div>
 
-      <!-- Contenedor de Resultados del Diff -->
+      
       <div id="diff-results-container" class="glass-card" style="display: none; padding: 1.75rem;">
         
         <div class="preview-header" style="border-bottom: 1px solid var(--color-border); padding-bottom: 1rem; margin-bottom: 1.25rem;">
@@ -1577,7 +1594,7 @@
           <span id="diff-summary-pill" class="tier-badge pro">Analizando...</span>
         </div>
 
-        <!-- Métricas Rápidas -->
+        
         <div class="metrics-cards-grid" style="margin-bottom: 1.5rem;">
           <div class="metric-mini-card" style="border-left: 3px solid #16A34A;">
             <span class="metric-sub">Líneas Agregadas</span>
@@ -1593,13 +1610,13 @@
           </div>
         </div>
 
-        <!-- Desglose por Páginas -->
+        
         <div style="margin-bottom: 1.5rem;">
           <h5 style="font-size: 0.9rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--color-text-main);">Estado por Página:</h5>
           <div id="diff-pages-breakdown" style="display: flex; gap: 0.5rem; flex-wrap: wrap;"></div>
         </div>
 
-        <!-- Comparador Visual Side-by-Side -->
+        
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.25rem; margin-bottom: 1.5rem;">
           <div>
             <h5 style="font-size: 0.85rem; font-weight: 700; margin-bottom: 0.4rem; color: var(--color-primary);">Texto en Documento A (Original):</h5>
@@ -1611,7 +1628,7 @@
           </div>
         </div>
 
-        <!-- Botones de Exportación -->
+        
         <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
           <button type="button" id="btn-copy-diff" class="btn-action-outline">
             <span>Copiar Informe Completo</span>
@@ -1623,7 +1640,7 @@
 
       </div>
 
-      <!-- Guía de Uso Rápido -->
+      
       <div class="tool-guide-section">
         <div class="tool-guide-header">
           <h4 class="tool-guide-title">¿Cómo comparar dos documentos o contratos?</h4>
@@ -1652,9 +1669,7 @@
 
   </div>
 
-  <!-- =========================================================================
-       VISTA: REDACTOR DE INFORMACIÓN SENSIBLE (REDACTION STUDIO)
-       ========================================================================= -->
+  
   <div id="view-redaction-studio" class="tool-view-section" style="display: none;">
     
     <section class="hero">
@@ -1675,7 +1690,7 @@
     <main class="main-wrapper">
       <div class="tool-grid">
         
-        <!-- Columna Izquierda: Entrada y Filtros -->
+        
         <div class="tool-editor glass-card">
           
           <div class="section-title-row">
@@ -1698,13 +1713,13 @@
             <button type="button" id="btn-redact-clear" class="btn-contract-chip" style="color: var(--color-danger);">Limpiar Todo</button>
           </div>
 
-          <!-- Texto Original -->
+          
           <div class="form-group" style="margin-top: 1rem;">
             <label class="form-label" for="redact-input-text">Texto del Documento a Censurar</label>
             <textarea id="redact-input-text" class="form-textarea" rows="6" placeholder="Pega o escribe el texto de tu contrato, balance o documento aquí..."></textarea>
           </div>
 
-          <!-- Interruptores de Datos a Ocultar -->
+          
           <div class="form-group" style="margin-top: 1.25rem;">
             <label class="form-label">Selecciona los datos a ocultar con barras negras:</label>
             <div class="checkbox-stack">
@@ -1752,7 +1767,7 @@
 
         </div>
 
-        <!-- Columna Derecha: Vista Previa Censurada -->
+        
         <div class="preview-card glass-card">
           <div class="preview-header">
             <span class="preview-title">Documento Seguro (Censurado)</span>
@@ -1778,7 +1793,7 @@
 
       </div>
 
-      <!-- Guía de Uso Rápido -->
+      
       <div class="tool-guide-section">
         <div class="tool-guide-header">
           <h4 class="tool-guide-title">¿Cómo censurar datos personales y sensibles?</h4>
@@ -1807,9 +1822,7 @@
 
   </div>
 
-  <!-- =========================================================================
-       VISTA 6: IMAGE STUDIO & CONVERSOR MASIVO DE FORMATOS
-       ========================================================================= -->
+  
   <div id="view-image-studio" class="tool-view-section" style="display: none;">
     
     <section class="hero">
@@ -1831,7 +1844,7 @@
 
     <main class="main-wrapper">
       
-      <!-- Pestañas de modo -->
+      
       <div class="type-selector-tabs" style="grid-template-columns: repeat(2, 1fr); max-width: 540px; margin: 0 auto 1.75rem;">
         <button type="button" id="btn-img-tab-single" class="type-btn active">
           <span>Editor & Conversor Individual</span>
@@ -1841,9 +1854,9 @@
         </button>
       </div>
 
-      <!-- PANEL 1: MODO INDIVIDUAL -->
+      
       <div id="img-panel-single">
-        <!-- Dropzone Imagen Individual -->
+        
         <div id="image-studio-dropzone" class="pdf-dropzone-box glass-card" style="max-width: 700px; margin: 0 auto;">
           <div class="dropzone-icon">
             <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1857,11 +1870,11 @@
           <input type="file" id="image-studio-file-input" accept="image/*, .heic, .heif, .HEIC, .HEIF, .avif, .webp, .png, .jpg, .jpeg, .bmp, .gif, .svg" style="display: none;" />
         </div>
 
-        <!-- Espacio de Trabajo Individual -->
+        
         <div id="image-studio-workspace" style="display: none;">
           <div class="tool-grid">
             
-            <!-- Columna Izquierda: Ajustes y Controles -->
+            
             <div class="tool-editor glass-card">
               
               <div class="section-title-row">
@@ -1869,7 +1882,7 @@
                 <button type="button" id="btn-img-change-file" class="btn-danger-sm">Cambiar Foto</button>
               </div>
 
-              <!-- Atajos rápidos de conversión -->
+              
               <div class="form-group" style="margin-top: 1.25rem;">
                 <label class="form-label">Convertir Rápidamente A:</label>
                 <div class="contract-search-chips" style="margin-top: 0.35rem;">
@@ -1881,7 +1894,7 @@
                 </div>
               </div>
 
-              <!-- Formato de Salida -->
+              
               <div class="form-group" style="margin-top: 1rem;">
                 <label class="form-label" for="select-img-format">Formato Destino</label>
                 <select id="select-img-format" class="form-select">
@@ -1893,7 +1906,7 @@
                 </select>
               </div>
 
-              <!-- Selector de Medidas para archivo .ICO -->
+              
               <div id="wrap-ico-sizes" class="form-group" style="display: none; margin-top: 1rem; background: var(--color-bg-section); padding: 0.85rem; border-radius: var(--radius-sm); border: 1px solid var(--color-border);">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
                   <label class="form-label" style="margin-bottom: 0; font-weight: 700;">Medidas a incluir en el .ICO:</label>
@@ -1927,7 +1940,7 @@
                 </div>
               </div>
 
-              <!-- Color de fondo para JPG (transparencia) -->
+              
               <div id="wrap-img-bg-color" class="form-group" style="margin-top: 1rem;">
                 <label class="form-label" for="input-img-bg-color">Fondo para Transparencias (PNG a JPG)</label>
                 <div style="display: flex; align-items: center; gap: 0.75rem;">
@@ -1936,7 +1949,7 @@
                 </div>
               </div>
 
-              <!-- Calidad / Compresión -->
+              
               <div class="form-group" style="margin-top: 1.25rem;">
                 <label class="form-label" for="slider-img-quality">
                   <span>Nivel de Calidad y Compresión</span>
@@ -1945,7 +1958,7 @@
                 <input type="range" id="slider-img-quality" min="10" max="100" value="85" class="custom-range-slider" />
               </div>
 
-              <!-- Redimensionado -->
+              
               <div class="form-group">
                 <label class="form-label">Redimensionar Píxeles</label>
                 <div class="form-row-2">
@@ -1964,7 +1977,7 @@
                 </div>
               </div>
 
-              <!-- Escalas Rápidas y Super-Resolución -->
+              
               <div class="scale-presets-row">
                 <span class="scale-label">Escala rápida:</span>
                 <button type="button" class="btn-demo-pill img-scale-btn" data-scale="0.25">25%</button>
@@ -1975,7 +1988,7 @@
                 <button type="button" class="btn-demo-pill img-scale-btn" data-scale="4" style="font-weight: 700; color: var(--color-primary);">400% (4x)</button>
               </div>
 
-              <!-- Rotación y Volteo -->
+              
               <div class="form-group" style="margin-top: 1.25rem;">
                 <label class="form-label">Orientación y Giro</label>
                 <div class="orientation-btns-row">
@@ -1994,7 +2007,7 @@
                 </div>
               </div>
 
-              <!-- Mejoras de Calidad y Enfoque -->
+              
               <div class="form-group" style="margin-top: 1.25rem;">
                 <label class="form-label">Mejoras de Calidad y Enfoque</label>
                 
@@ -2023,7 +2036,7 @@
                   </label>
                 </div>
 
-                <!-- Control de Nitidez (Quitar Borrosidad) -->
+                
                 <div class="form-group" style="margin-top: 1rem;">
                   <label class="form-label" for="slider-img-sharpen">
                     <span>Nitidez y Enfoque (Quitar borrosidad)</span>
@@ -2032,7 +2045,7 @@
                   <input type="range" id="slider-img-sharpen" min="0" max="100" value="0" class="custom-range-slider" />
                 </div>
 
-                <!-- Brillo y Contraste -->
+                
                 <div class="form-row-2" style="margin-top: 0.75rem;">
                   <div>
                     <label class="input-sublabel" for="slider-img-brightness">Brillo: <span id="img-brightness-val">0</span></label>
@@ -2045,7 +2058,7 @@
                 </div>
               </div>
 
-              <!-- Acciones de Descarga -->
+              
               <div class="download-actions-stack" style="margin-top: 1.5rem;">
                 <button type="button" id="btn-download-processed-img" class="btn-download-primary">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
@@ -2071,7 +2084,7 @@
 
             </div>
 
-            <!-- Columna Derecha: Vista Previa y Comparativa de Peso -->
+            
             <div class="preview-card glass-card">
               <div class="preview-header">
                 <span class="preview-title">Vista Previa en Vivo</span>
@@ -2106,12 +2119,12 @@
         </div>
       </div>
 
-      <!-- PANEL 2: MODO CONVERSOR MASIVO POR LOTE -->
+      
       <div id="img-panel-batch" style="display: none;">
         
         <div class="tool-grid">
           
-          <!-- Columna Izquierda: Configuración del Lote -->
+          
           <div class="tool-editor glass-card">
             <div class="section-title-row">
               <span class="section-title">Ajustes de Conversión Masiva</span>
@@ -2131,7 +2144,7 @@
               <input type="file" id="img-batch-file-input" accept="image/*, .heic, .heif, .HEIC, .HEIF, .avif, .webp, .png, .jpg, .jpeg, .bmp, .gif, .svg" multiple style="display: none;" />
             </div>
 
-            <!-- Selector de formato destino para todo el lote -->
+            
             <div class="form-group" style="margin-top: 1.25rem;">
               <label class="form-label" for="select-batch-format">Convertir Todo el Lote A:</label>
               <select id="select-batch-format" class="form-select">
@@ -2143,7 +2156,7 @@
               </select>
             </div>
 
-            <!-- Calidad general -->
+            
             <div class="form-group" style="margin-top: 1.25rem;">
               <label class="form-label" for="slider-batch-quality">
                 <span>Calidad de compresión</span>
@@ -2152,7 +2165,7 @@
               <input type="range" id="slider-batch-quality" min="10" max="100" value="85" class="custom-range-slider" />
             </div>
 
-            <!-- Redimensionado masivo opcional -->
+            
             <div class="form-group" style="margin-top: 1.25rem;">
               <label class="form-label" for="select-batch-resize">Límite de Resolución Máxima</label>
               <select id="select-batch-resize" class="form-select">
@@ -2163,7 +2176,7 @@
               </select>
             </div>
 
-            <!-- Relleno de fondo blanco -->
+            
             <div class="form-group" style="margin-top: 1.25rem;">
               <label class="checkbox-row-custom">
                 <input type="checkbox" id="check-batch-white-bg" checked />
@@ -2174,7 +2187,7 @@
               </label>
             </div>
 
-            <!-- Botones de Acción Masiva -->
+            
             <div style="margin-top: 1.5rem; display: flex; flex-direction: column; gap: 0.6rem;">
               <button type="button" id="btn-convert-batch-all" class="btn-download-primary">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
@@ -2190,7 +2203,7 @@
               </button>
             </div>
 
-            <!-- Barra de Progreso Masivo -->
+            
             <div id="batch-progress-box" class="transcribe-progress-box" style="display: none; margin-top: 1.25rem;">
               <div class="progress-status-row">
                 <span id="batch-progress-text" class="progress-status-label">Convirtiendo imágenes...</span>
@@ -2202,7 +2215,7 @@
 
           </div>
 
-          <!-- Columna Derecha: Lista de Archivos en el Lote -->
+          
           <div class="preview-card glass-card">
             <div class="preview-header">
               <span class="preview-title">Cola de Conversión por Lotes</span>
@@ -2237,7 +2250,7 @@
         </div>
       </div>
 
-      <!-- Guía de Uso Rápido en 3 Pasos -->
+      
       <div class="tool-guide-section" style="margin-top: 2.5rem;">
         <div class="tool-guide-header">
           <h4 class="tool-guide-title">¿Cómo convertir y comprimir imágenes?</h4>
@@ -2262,9 +2275,7 @@
         </div>
       </div>
 
-      <!-- =====================================================================
-           SECCIÓN EXPLICATIVA DETALLADA: GUÍA COMPLETA DE USO Y FORMATOS
-           ===================================================================== -->
+      
       <div class="tool-showcase-section" style="margin-top: 2.5rem;">
         <div class="tool-showcase-header">
           <span class="hero-pill">Manual Práctico Paso a Paso</span>
@@ -2272,7 +2283,7 @@
           <p class="tool-showcase-subtitle">Guía clara con ejemplos reales para que obtengas el mejor resultado sin conocimientos técnicos.</p>
         </div>
 
-        <!-- 1. Casos de Uso Cotidianos ("¿Qué necesitas hacer hoy?") -->
+        
         <div style="margin-bottom: 2rem;">
           <h4 style="font-size: 1.15rem; font-weight: 800; color: var(--color-text-main); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -2378,7 +2389,7 @@
           </div>
         </div>
 
-        <!-- 2. Glosario de Formatos y Controles -->
+        
         <div style="margin-bottom: 1.5rem;">
           <h4 style="font-size: 1.15rem; font-weight: 800; color: var(--color-text-main); margin-bottom: 1rem;">
             Guía de Formatos y Ajustes del Panel
@@ -2433,9 +2444,7 @@
 
 
 
-  <!-- =========================================================================
-       VISTA 8: SECURITY STUDIO (CIFRADO AES-256, HASHES, CONTRASEÑAS)
-       ========================================================================= -->
+  
   <div id="view-security-studio" class="tool-view-section" style="display: none;">
     
     <section class="hero">
@@ -2467,11 +2476,11 @@
         </button>
       </div>
 
-      <!-- Panel 1: Cifrado y Descifrado -->
+      
       <div class="sec-tab-panel active" data-sectab="encrypt">
         <div class="tool-grid">
           
-          <!-- Cifrar -->
+          
           <div class="tool-editor glass-card">
             <h3 class="section-title">Cifrar Archivo con Contraseña (AES-256)</h3>
             <p style="font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 1.25rem;">
@@ -2498,7 +2507,7 @@
             </button>
           </div>
 
-          <!-- Descifrar -->
+          
           <div class="tool-editor glass-card">
             <h3 class="section-title">Descifrar Archivo Protegido (.enc)</h3>
             <p style="font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 1.25rem;">
@@ -2528,7 +2537,7 @@
         </div>
       </div>
 
-      <!-- Panel 2: Hashes y Checksums -->
+      
       <div class="sec-tab-panel" data-sectab="hashes">
         <div class="tool-editor glass-card" style="max-width: 800px; margin: 0 auto;">
           <h3 class="section-title">Verificador de Integridad y Hashes Criptográficos</h3>
@@ -2567,7 +2576,7 @@
         </div>
       </div>
 
-      <!-- Panel 3: Generador de Contraseñas -->
+      
       <div class="sec-tab-panel" data-sectab="passwords">
         <div class="tool-editor glass-card" style="max-width: 650px; margin: 0 auto;">
           <h3 class="section-title">Generador de Contraseñas Seguras</h3>
@@ -2620,7 +2629,7 @@
         </div>
       </div>
 
-      <!-- Guía de Uso Rápido -->
+      
       <div class="tool-guide-section">
         <div class="tool-guide-header">
           <h4 class="tool-guide-title">¿Cómo proteger o descifrar archivos confidenciales?</h4>
@@ -2649,9 +2658,7 @@
 
   </div>
 
-  <!-- =========================================================================
-       VISTA 9: ARCHIVE STUDIO (CREAR Y EXTRAER ZIP, CONVERSOR BASE64)
-       ========================================================================= -->
+  
   <div id="view-archive-studio" class="tool-view-section" style="display: none;">
     
     <section class="hero">
@@ -2683,7 +2690,7 @@
         </button>
       </div>
 
-      <!-- Panel 1: Crear ZIP -->
+      
       <div class="arch-tab-panel active" data-archtab="create-zip">
         <div class="tool-grid">
           
@@ -2743,7 +2750,7 @@
         </div>
       </div>
 
-      <!-- Panel 2: Extraer ZIP -->
+      
       <div class="arch-tab-panel" data-archtab="extract-zip">
         <div class="tool-editor glass-card" style="max-width: 800px; margin: 0 auto;">
           <h3 class="section-title">Descomprimir Archivo ZIP</h3>
@@ -2760,7 +2767,7 @@
         </div>
       </div>
 
-      <!-- Panel 3: Base64 -->
+      
       <div class="arch-tab-panel" data-archtab="base64">
         <div class="tool-editor glass-card" style="max-width: 800px; margin: 0 auto;">
           <h3 class="section-title">Conversor Archivo a Base64</h3>
@@ -2783,7 +2790,7 @@
         </div>
       </div>
 
-      <!-- Guía de Uso Rápido -->
+      
       <div class="tool-guide-section">
         <div class="tool-guide-header">
           <h4 class="tool-guide-title">¿Cómo crear y extraer archivos ZIP?</h4>
@@ -2812,7 +2819,7 @@
 
   </div>
 
-  <!-- Sección de Información, Muestras y Preguntas Frecuentes -->
+  
   <section class="seo-benefits-section">
     <div class="benefits-grid">
       <div class="benefit-card">
@@ -2881,7 +2888,7 @@
     </div>
   </section>
 
-  <!-- Modal Pro con Enfoque en Suscripción Mensual -->
+  
   <div id="pro-modal" class="modal-overlay">
     <div class="modal-content">
       <button type="button" id="btn-close-pro-modal" class="modal-close-btn" aria-label="Cerrar">&times;</button>
@@ -2899,7 +2906,7 @@
 
       <div class="plans-comparison-grid">
         
-        <!-- Plan Mensual -->
+        
         <div class="plan-card" data-plan="Monthly">
           <h4>Plan Mensual</h4>
           <div class="plan-price">$3.99 <span>/ mes</span></div>
@@ -2916,7 +2923,7 @@
           </button>
         </div>
 
-        <!-- Plan Anual (Destacado) -->
+        
         <div class="plan-card featured" data-plan="Annual">
           <span class="popular-badge">MÁS ELEGIDO • AHORRA 37%</span>
           <h4>Plan Anual</h4>
@@ -2934,7 +2941,7 @@
           </button>
         </div>
 
-        <!-- Plan Lifetime (De Por Vida) -->
+        
         <div class="plan-card" data-plan="Lifetime">
           <span class="popular-badge lifetime-badge">PAGO ÚNICO</span>
           <h4>Acceso de por Vida</h4>
@@ -2954,7 +2961,7 @@
 
       </div>
 
-      <!-- Aviso de Seguridad Bancaria y Cero Custodia de Datos -->
+      
       <div class="stripe-trust-notice">
         <div class="trust-icon-box">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -2987,7 +2994,7 @@
     </div>
   </div>
 
-  <!-- Modal de Términos, Privacidad y Seguridad Legal -->
+  
   <div id="legal-modal" class="modal-overlay">
     <div class="modal-content legal-modal-content">
       <button type="button" id="btn-close-legal-modal" class="modal-close-btn" aria-label="Cerrar">&times;</button>
@@ -3007,7 +3014,7 @@
       </div>
 
       <div class="legal-modal-body">
-        <!-- Sección Privacidad -->
+        
         <div class="legal-section-content active" data-section="privacy">
           <h3>1. Política de Privacidad y Procesamiento de Archivos</h3>
           <p><strong>Cero Almacenamiento en Servidor (Zero-Knowledge Architecture):</strong></p>
@@ -3015,7 +3022,7 @@
           <p><strong>Bajo ninguna circunstancia tus documentos son transmitidos, leídos, analizados ni alojados en ningún servidor externo o en la nube.</strong> Al cerrar la pestaña o recargar el sitio, la información temporal en memoria se destruye de forma inmediata y definitiva.</p>
         </div>
 
-        <!-- Sección Cookies y Publicidad AdSense -->
+        
         <div class="legal-section-content" data-section="cookies">
           <h3>2. Política de Cookies y Publicidad de Terceros (Google AdSense)</h3>
           <p><strong>Uso de Cookies y Almacenamiento Local:</strong></p>
@@ -3026,7 +3033,7 @@
           <p>Los usuarios pueden inhabilitar la publicidad personalizada de Google visitando la <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer">Configuración de Anuncios de Google</a> o el portal de la Digital Advertising Alliance en <a href="https://www.aboutads.info" target="_blank" rel="noopener noreferrer">www.aboutads.info</a>.</p>
         </div>
 
-        <!-- Sección Sobre Nuvexa y Contacto -->
+        
         <div class="legal-section-content" data-section="about">
           <h3>3. Sobre Nuvexa y Canales de Contacto</h3>
           <p><strong>Misión de Nuvexa:</strong></p>
@@ -3036,57 +3043,47 @@
           <p>Para consultas técnicas, soporte sobre la suscripción Pro, sugerencias o requerimientos legales, puedes contactarnos a través de:</p>
           <ul>
             <li><strong>Instagram Oficial de Desarrollo:</strong> <a href="https://www.instagram.com/igna.gatti/" target="_blank" rel="noopener noreferrer">@igna.gatti</a></li>
-            <li><strong>Sitio Web:</strong> <a href="https://nuvexa.app/" target="_blank" rel="noopener noreferrer">nuvexa.app</a></li>
+            <li><strong>Sitio Web Oficial:</strong> <a href="https://nuvexatools.site" target="_blank" rel="noopener noreferrer">nuvexatools.site</a></li>
           </ul>
         </div>
 
-        <!-- Sección Stripe y Pagos -->
         <div class="legal-section-content" data-section="stripe">
           <h3>4. Pasarela de Pagos y Seguridad Financiera</h3>
           <p><strong>Cero Custodia de Datos Bancarios:</strong></p>
-          <p>Para la contratación de la suscripción mensual Pro ($3.99 USD/mes), Nuvexa delega el 100% de la operatoria de cobro en <strong>Stripe Inc.</strong>, el procesador de pagos líder a nivel global certificado con el estándar <strong>PCI-DSS Nivel 1</strong> (el nivel de seguridad más riguroso de la industria financiera mundial).</p>
+          <p>Para la contratación de planes Pro (Mensual $3.99 USD, Anual $29.99 USD o Vitalicio $49.99 USD), Nuvexa delega el 100% de la operatoria de cobro en <strong>Lemon Squeezy</strong> en calidad de Merchant of Record oficial, certificado bajo el estándar <strong>PCI-DSS Nivel 1</strong>.</p>
           <p><strong>Nuvexa ni sus administradores tienen acceso, reciben, ni almacenan jamás:</strong></p>
           <ul>
             <li>Números de tarjeta de crédito o débito.</li>
             <li>Códigos de seguridad (CVV / CVC).</li>
             <li>Fechas de caducidad de tarjetas o credenciales bancarias.</li>
           </ul>
-          <p>Toda comunicación transaccional se efectúa mediante canales cifrados TLS/SSL de 256 bits directamente entre tu dispositivo y los servidores seguros de Stripe.</p>
+          <p>Toda comunicación transaccional se efectúa mediante canales cifrados TLS/SSL de 256 bits directamente entre tu dispositivo y los servidores seguros de Lemon Squeezy.</p>
         </div>
 
-        <!-- Sección Términos -->
         <div class="legal-section-content" data-section="terms">
           <h3>5. Términos y Condiciones del Servicio</h3>
-          <p><strong>Suscripción Mensual y Cancelación:</strong></p>
-          <p>La suscripción Pro tiene un costo recurrente mensual de $3.99 USD facturado automáticamente al inicio de cada ciclo. Puedes cancelar tu suscripción en cualquier momento desde el enlace de autogestión de Stripe o solicitándolo a nuestro soporte sin ningún cargo extra o penalización. Al cancelar, mantendrás acceso a las funciones Pro hasta el vencimiento del periodo ya abonado.</p>
+          <p><strong>Modalidades de Pago y Cancelación:</strong></p>
+          <p>Los planes Pro ofrecen descargas ilimitadas y procesamiento masivo. En planes recurrentes (mensual y anual), puedes cancelar en cualquier momento desde el enlace de autogestión de Lemon Squeezy o contactando a nuestro soporte sin ningún cargo extra. Mantendrás acceso a las funciones Pro hasta el vencimiento del periodo ya abonado.</p>
           <p><strong>Uso Aceptable:</strong></p>
           <p>Queda terminantemente prohibido utilizar el Generador QR o cualquiera de las herramientas de la plataforma para fines ilícitos, fraudulentos, esquemas de phishing, distribución de código malicioso o vulneración de derechos de propiedad intelectual de terceros.</p>
         </div>
 
-        <!-- Sección Descargo Legal -->
         <div class="legal-section-content" data-section="disclaimer">
           <h3>6. Limitación de Responsabilidad y Exclusión de Lucro Cesante</h3>
-          
           <div style="background: #FFF8E6; border: 1px solid #FFE399; border-left: 4px solid #FFAB00; padding: 1rem 1.25rem; border-radius: 4px; margin-bottom: 1.25rem; font-size: 0.88rem; color: #172B4D; line-height: 1.55;">
             <strong>Aviso Legal Vinculante:</strong><br>
             Bajo ninguna circunstancia Nuvexa, sus desarrolladores, operadores, propietarios o afiliados serán responsables por pérdidas de ganancias comerciales, contratos perdidos, interrupciones de negocios, ventas no concretadas, errores de impresión o lucro cesante derivado directa o indirectamente del uso o de la imposibilidad de uso de esta plataforma.
           </div>
-
           <p><strong>Prestación del Software "Tal Cual" (As Is):</strong></p>
-          <p>El software y todas sus utilidades (generación de códigos QR, edición y división de documentos PDF, conversión de imágenes) se proporcionan "tal cual" y según disponibilidad, sin garantías de ningún tipo, ya sean expresas o implícitas, incluyendo, entre otras, garantías de comerciabilidad, idoneidad para un propósito particular o ausencia de interrupciones técnicas.</p>
-
+          <p>El software y todas sus utilidades se proporcionan "tal cual" y según disponibilidad, sin garantías de ningún tipo, ya sean expresas o implícitas.</p>
           <p><strong>Obligación de Verificación Previa por Parte del Usuario:</strong></p>
-          <p>Es responsabilidad total y exclusiva del usuario escanear, inspeccionar y verificar la correcta legibilidad de los códigos QR y la integridad de los archivos PDF generados antes de proceder a su impresión en papel, folletos, cartelería o distribución digital. Nuvexa no asumirá costos de reimpresión ni indemnizaciones de ninguna naturaleza.</p>
-
-          <p><strong>Límite Máximo de Responsabilidad (Liability Cap):</strong></p>
-          <p>En caso de que cualquier autoridad judicial o tribunal competente determine la existencia de alguna responsabilidad imputable a Nuvexa o sus creadores, la suma total máxima exigible por cualquier concepto quedará estrictamente limitada al monto efectivamente abonado por el usuario en concepto de su última cuota mensual de suscripción ($3.99 USD).</p>
+          <p>Es responsabilidad total y exclusiva del usuario escanear, inspeccionar y verificar la correcta legibilidad de los códigos QR y la integridad de los archivos PDF generados antes de proceder a su impresión física o distribución comercial.</p>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Banner de Consentimiento de Cookies (Requisito Google AdSense & GDPR) -->
-  <div id="cookie-consent-banner" class="cookie-banner" style="display: none;">
+  <div id="cookie-consent-banner" class="cookie-banner" style="display: none;" role="dialog" aria-live="polite" aria-label="Consentimiento de cookies">
     <div class="cookie-banner-content">
       <div class="cookie-icon">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -3097,9 +3094,10 @@
           <circle cx="16.5" cy="9.5" r="1" fill="currentColor"></circle>
         </svg>
       </div>
-      <p>Utilizamos almacenamiento local y cookies esenciales para optimizar tu experiencia y gestionar descargas de forma 100% privada. <a href="#" data-open-legal="cookies">Más información</a>.</p>
+      <p>Utilizamos almacenamiento local y cookies esenciales para recordar tus preferencias y gestionar descargas de forma 100% privada. Consulta nuestra <a href="/privacy.html">Política de Privacidad</a>.</p>
       <div class="cookie-banner-actions">
-        <button type="button" id="btn-accept-cookies" class="btn-cookie-accept">Aceptar y Continuar</button>
+        <button type="button" id="btn-accept-cookies" class="btn-cookie-accept">Aceptar todas</button>
+        <button type="button" id="btn-accept-essential" class="btn-cookie-secondary">Solo esenciales</button>
       </div>
     </div>
   </div>
@@ -3113,9 +3111,9 @@
       </div>
 
       <div class="footer-links">
-        <a href="#" data-open-legal="privacy">Política de Privacidad</a>
-        <a href="#" data-open-legal="stripe">Seguridad Bancaria (Stripe)</a>
-        <a href="#" data-open-legal="terms">Términos del Servicio</a>
+        <a href="/privacy.html" data-open-legal="privacy">Política de Privacidad</a>
+        <a href="/terms.html" data-open-legal="terms">Términos del Servicio</a>
+        <a href="#" data-open-legal="stripe">Seguridad de Pagos</a>
         <a href="#" data-open-legal="disclaimer">Descargo de Responsabilidad</a>
       </div>
 

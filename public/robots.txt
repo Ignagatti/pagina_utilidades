@@ -1,7 +1,6 @@
 User-agent: *
 Allow: /
 
-# Permitir a Googlebot indexar favicons e imágenes
 User-agent: Googlebot-Image
 Allow: /
 Allow: /icons/

@@ -323,20 +323,34 @@ document.addEventListener('DOMContentLoaded', () => {
 function initCookieConsentBanner() {
   const cookieBanner = document.getElementById('cookie-consent-banner');
   const acceptBtn = document.getElementById('btn-accept-cookies');
+  const essentialBtn = document.getElementById('btn-accept-essential');
   if (!cookieBanner) return;
 
-  const hasConsented = localStorage.getItem('nuvexa_cookie_consent');
-  if (!hasConsented) {
-
+  const consent = localStorage.getItem('nuvexa_cookie_consent');
+  if (!consent) {
     setTimeout(() => {
       cookieBanner.style.display = 'block';
     }, 1000);
+  } else if (consent === 'all') {
+    const gaId = import.meta.env.VITE_GA_MEASUREMENT_ID;
+    if (gaId && window.initNuvexaAnalytics) {
+      window.initNuvexaAnalytics(gaId);
+    }
   }
 
-  acceptBtn?.addEventListener('click', () => {
-    localStorage.setItem('nuvexa_cookie_consent', 'true');
+  function saveConsent(level) {
+    localStorage.setItem('nuvexa_cookie_consent', level);
     cookieBanner.style.display = 'none';
-  });
+    if (level === 'all') {
+      const gaId = import.meta.env.VITE_GA_MEASUREMENT_ID;
+      if (gaId && window.initNuvexaAnalytics) {
+        window.initNuvexaAnalytics(gaId);
+      }
+    }
+  }
+
+  acceptBtn?.addEventListener('click', () => saveConsent('all'));
+  essentialBtn?.addEventListener('click', () => saveConsent('essential'));
 }
 
 function checkPaymentReturnUrl() {
