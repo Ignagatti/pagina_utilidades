@@ -13,9 +13,14 @@ import { initSecurityStudio } from './tools/securityStudio.js';
 import { initArchiveStudio } from './tools/archiveStudio.js';
 import { initProModal, openProModal } from './components/proModal.js';
 import { initLegalModal } from './components/legalModal.js';
+import { inject } from '@vercel/analytics';
 import { initGlobalDialogInterceptor, showAlertModal, showToast } from './utils/dialog.js';
 
 initGlobalDialogInterceptor();
+
+if (!isElectronEnv()) {
+  inject();
+}
 
 let qrToolInstance = null;
 
