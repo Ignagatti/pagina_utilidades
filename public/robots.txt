@@ -1,4 +1,12 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://qrstudio.vercel.app/sitemap.xml
+# Permitir a Googlebot indexar favicons e imágenes
+User-agent: Googlebot-Image
+Allow: /
+Allow: /icons/
+Allow: /favicon.ico
+Allow: /logo.png
+Allow: /og-image.png
+
+Sitemap: https://nuvexatools.site/sitemap.xml
