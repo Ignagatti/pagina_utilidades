@@ -83,7 +83,10 @@ export function updateFreemiumUI(shouldRefreshQR = false) {
       usageBadge.style.cursor = 'pointer';
       usageBadge.title = 'Límite diario de descargas';
       usageBadge.innerHTML = `
-        <span id="usage-counter-text">${status.remaining} de ${status.max} descargas hoy</span>
+        <span id="usage-counter-text">
+          <span class="usage-text-desktop">${status.remaining} de ${status.max} descargas hoy</span>
+          <span class="usage-text-mobile">${status.remaining}/${status.max} hoy</span>
+        </span>
         <div class="mini-progress-track">
           <div class="mini-progress-fill" style="width: ${status.percentage}%;"></div>
         </div>
@@ -91,7 +94,10 @@ export function updateFreemiumUI(shouldRefreshQR = false) {
     }
     if (proBtn) {
       proBtn.style.display = '';
-      proBtn.textContent = 'Obtener Pro';
+      proBtn.innerHTML = `
+        <span class="btn-pro-desktop">Obtener Pro</span>
+        <span class="btn-pro-mobile">Pro ⚡</span>
+      `;
       proBtn.classList.remove('btn-is-pro');
     }
     if (proStatusPill) {

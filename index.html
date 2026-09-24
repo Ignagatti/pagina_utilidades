@@ -143,7 +143,7 @@
               <circle cx="8.5" cy="8.5" r="1.5"></circle>
               <polyline points="21 15 16 10 5 21"></polyline>
             </svg>
-            <span>Imágenes & Conversor</span>
+            <span>Imágenes</span>
           </button>
 
           <button type="button" class="nav-cat-btn" data-category="audio" data-tool="audio-to-text">
@@ -179,7 +179,10 @@
       <div class="nav-actions">
         <!-- Badge de Límite Diario -->
         <div id="navbar-usage-badge" class="usage-badge" title="Estado de tu cuenta">
-          <span id="usage-counter-text">3 descargas gratuitas hoy</span>
+          <span id="usage-counter-text">
+            <span class="usage-text-desktop">3 descargas hoy</span>
+            <span class="usage-text-mobile">3/3 hoy</span>
+          </span>
           <div class="mini-progress-track">
             <div id="usage-progress-bar" class="mini-progress-fill" style="width: 0%;"></div>
           </div>
@@ -187,7 +190,8 @@
 
         <!-- Botón Pro -->
         <button id="navbar-pro-btn" class="btn-pro">
-          Obtener Pro
+          <span class="btn-pro-desktop">Obtener Pro</span>
+          <span class="btn-pro-mobile">Pro ⚡</span>
         </button>
       </div>
     </div>
