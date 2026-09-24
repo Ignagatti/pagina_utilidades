@@ -336,8 +336,33 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // 10. Banner de Cookies (Google AdSense & GDPR)
+  initCookieConsentBanner();
+
   updateFreemiumUI(false);
 });
+
+/**
+ * Gestiona el banner de cookies y consentimiento publicitario
+ */
+function initCookieConsentBanner() {
+  const cookieBanner = document.getElementById('cookie-consent-banner');
+  const acceptBtn = document.getElementById('btn-accept-cookies');
+  if (!cookieBanner) return;
+
+  const hasConsented = localStorage.getItem('nuvexa_cookie_consent');
+  if (!hasConsented) {
+    // Mostrar banner con pequeño delay para entrada suave
+    setTimeout(() => {
+      cookieBanner.style.display = 'block';
+    }, 1000);
+  }
+
+  acceptBtn?.addEventListener('click', () => {
+    localStorage.setItem('nuvexa_cookie_consent', 'true');
+    cookieBanner.style.display = 'none';
+  });
+}
 
 /**
  * Procesa retornos de pasarela de pago o enlaces mágicos con clave de licencia

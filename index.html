@@ -2973,6 +2973,8 @@
         
         <div class="legal-tabs-nav">
           <button type="button" class="legal-tab-btn active" data-section="privacy">Privacidad y Archivos</button>
+          <button type="button" class="legal-tab-btn" data-section="cookies">Política de Cookies & AdSense</button>
+          <button type="button" class="legal-tab-btn" data-section="about">Sobre Nuvexa & Contacto</button>
           <button type="button" class="legal-tab-btn" data-section="stripe">Seguridad Bancaria (Stripe)</button>
           <button type="button" class="legal-tab-btn" data-section="terms">Términos del Servicio</button>
           <button type="button" class="legal-tab-btn" data-section="disclaimer">Descargo Legal</button>
@@ -2986,13 +2988,36 @@
           <p><strong>Cero Almacenamiento en Servidor (Zero-Knowledge Architecture):</strong></p>
           <p>Nuvexa opera bajo una arquitectura de computación del lado del cliente (<em>Client-Side Compute</em>). Todos los documentos, imágenes, archivos PDF y textos que utilizas para generar códigos QR, unir, separar o convertir formatos son procesados exclusivamente dentro de la memoria RAM de tu propio navegador web mediante WebAssembly y JavaScript.</p>
           <p><strong>Bajo ninguna circunstancia tus documentos son transmitidos, leídos, analizados ni alojados en ningún servidor externo o en la nube.</strong> Al cerrar la pestaña o recargar el sitio, la información temporal en memoria se destruye de forma inmediata y definitiva.</p>
-          <p><strong>Cookies y Almacenamiento Local:</strong></p>
-          <p>No utilizamos cookies publicitarias ni de seguimiento invasivo de terceros. Solo empleamos el almacenamiento local de tu navegador (<code>localStorage</code>) para recordar el cupo diario de descargas gratuitas y para conservar activa tu clave de suscripción Pro.</p>
+        </div>
+
+        <!-- Sección Cookies y Publicidad AdSense -->
+        <div class="legal-section-content" data-section="cookies">
+          <h3>2. Política de Cookies y Publicidad de Terceros (Google AdSense)</h3>
+          <p><strong>Uso de Cookies y Almacenamiento Local:</strong></p>
+          <p>Nuvexa utiliza almacenamiento local (<code>localStorage</code>) para almacenar preferencias esenciales, como tu clave de licencia Pro y el contador diario de descargas gratuitas.</p>
+          <p><strong>Proveedores Publicitarios y Cookies de Terceros:</strong></p>
+          <p>Proveedores de terceros, incluido Google, utilizan cookies para publicar anuncios basados en las visitas previas de los usuarios a este sitio web o a otros sitios de Internet. El uso de cookies publicitarias de Google le permite a esta empresa y a sus socios comerciales mostrar anuncios a los usuarios según sus visitas a este y otros sitios en la red.</p>
+          <p><strong>Cómo inhabilitar la publicidad personalizada:</strong></p>
+          <p>Los usuarios pueden inhabilitar la publicidad personalizada de Google visitando la <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer">Configuración de Anuncios de Google</a> o el portal de la Digital Advertising Alliance en <a href="https://www.aboutads.info" target="_blank" rel="noopener noreferrer">www.aboutads.info</a>.</p>
+        </div>
+
+        <!-- Sección Sobre Nuvexa y Contacto -->
+        <div class="legal-section-content" data-section="about">
+          <h3>3. Sobre Nuvexa y Canales de Contacto</h3>
+          <p><strong>Misión de Nuvexa:</strong></p>
+          <p>Nuvexa es una suite integral de herramientas digitales diseñada con el principio fundamental de garantizar la privacidad digital y la autonomía del usuario. Desarrollamos utilidades de oficina de alto rendimiento que eliminan la necesidad de intermediarios en la nube.</p>
+          <p><strong>Desarrollador y Soporte:</strong></p>
+          <p>Desarrollado y mantenido por <strong>Ignacio Gatti</strong>.</p>
+          <p>Para consultas técnicas, soporte sobre la suscripción Pro, sugerencias o requerimientos legales, puedes contactarnos a través de:</p>
+          <ul>
+            <li><strong>Instagram Oficial de Desarrollo:</strong> <a href="https://www.instagram.com/igna.gatti/" target="_blank" rel="noopener noreferrer">@igna.gatti</a></li>
+            <li><strong>Sitio Web:</strong> <a href="https://nuvexa.app/" target="_blank" rel="noopener noreferrer">nuvexa.app</a></li>
+          </ul>
         </div>
 
         <!-- Sección Stripe y Pagos -->
         <div class="legal-section-content" data-section="stripe">
-          <h3>2. Pasarela de Pagos y Seguridad Financiera</h3>
+          <h3>4. Pasarela de Pagos y Seguridad Financiera</h3>
           <p><strong>Cero Custodia de Datos Bancarios:</strong></p>
           <p>Para la contratación de la suscripción mensual Pro ($3.99 USD/mes), Nuvexa delega el 100% de la operatoria de cobro en <strong>Stripe Inc.</strong>, el procesador de pagos líder a nivel global certificado con el estándar <strong>PCI-DSS Nivel 1</strong> (el nivel de seguridad más riguroso de la industria financiera mundial).</p>
           <p><strong>Nuvexa ni sus administradores tienen acceso, reciben, ni almacenan jamás:</strong></p>
@@ -3006,7 +3031,7 @@
 
         <!-- Sección Términos -->
         <div class="legal-section-content" data-section="terms">
-          <h3>3. Términos y Condiciones del Servicio</h3>
+          <h3>5. Términos y Condiciones del Servicio</h3>
           <p><strong>Suscripción Mensual y Cancelación:</strong></p>
           <p>La suscripción Pro tiene un costo recurrente mensual de $3.99 USD facturado automáticamente al inicio de cada ciclo. Puedes cancelar tu suscripción en cualquier momento desde el enlace de autogestión de Stripe o solicitándolo a nuestro soporte sin ningún cargo extra o penalización. Al cancelar, mantendrás acceso a las funciones Pro hasta el vencimiento del periodo ya abonado.</p>
           <p><strong>Uso Aceptable:</strong></p>
@@ -3015,7 +3040,7 @@
 
         <!-- Sección Descargo Legal -->
         <div class="legal-section-content" data-section="disclaimer">
-          <h3>4. Limitación de Responsabilidad y Exclusión de Lucro Cesante</h3>
+          <h3>6. Limitación de Responsabilidad y Exclusión de Lucro Cesante</h3>
           
           <div style="background: #FFF8E6; border: 1px solid #FFE399; border-left: 4px solid #FFAB00; padding: 1rem 1.25rem; border-radius: 4px; margin-bottom: 1.25rem; font-size: 0.88rem; color: #172B4D; line-height: 1.55;">
             <strong>Aviso Legal Vinculante:</strong><br>
@@ -3031,6 +3056,25 @@
           <p><strong>Límite Máximo de Responsabilidad (Liability Cap):</strong></p>
           <p>En caso de que cualquier autoridad judicial o tribunal competente determine la existencia de alguna responsabilidad imputable a Nuvexa o sus creadores, la suma total máxima exigible por cualquier concepto quedará estrictamente limitada al monto efectivamente abonado por el usuario en concepto de su última cuota mensual de suscripción ($3.99 USD).</p>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Banner de Consentimiento de Cookies (Requisito Google AdSense & GDPR) -->
+  <div id="cookie-consent-banner" class="cookie-banner" style="display: none;">
+    <div class="cookie-banner-content">
+      <div class="cookie-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <path d="M12 2a10 10 0 0 1 10 10 4 4 0 0 1-5 5 4 4 0 0 1-5-5 4 4 0 0 1-5-5 4 4 0 0 1 5-5z"></path>
+          <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor"></circle>
+          <circle cx="15.5" cy="15.5" r="1.5" fill="currentColor"></circle>
+          <circle cx="16.5" cy="9.5" r="1" fill="currentColor"></circle>
+        </svg>
+      </div>
+      <p>Utilizamos almacenamiento local y cookies esenciales para optimizar tu experiencia y gestionar descargas de forma 100% privada. <a href="#" data-open-legal="cookies">Más información</a>.</p>
+      <div class="cookie-banner-actions">
+        <button type="button" id="btn-accept-cookies" class="btn-cookie-accept">Aceptar y Continuar</button>
       </div>
     </div>
   </div>

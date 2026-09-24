@@ -1,0 +1,3 @@
+# Nuvexa - Google AdSense Authorized Digital Sellers (ads.txt)
+# Reemplaza pub-XXXXXXXXXXXXXXXX con tu propio ID de editor de Google AdSense cuando te registres:
+# google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0
