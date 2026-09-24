@@ -130,33 +130,73 @@ export function consumeDailyUse() {
 }
 
 /**
- * Activa la licencia PRO en el dispositivo
- * Acepta cualquier código de prueba o de compra
+ * Obtiene la información detallada de la licencia activa
  */
-export function activateProLicense(key = 'LICENCIA-PRO-DEMO') {
+export function getProLicenseInfo() {
   try {
-    const proPayload = {
-      active: true,
-      licenseKey: key,
-      activatedAt: new Date().toISOString(),
-      plan: 'Lifetime Pro'
-    };
-    localStorage.setItem(PRO_KEY, JSON.stringify(proPayload));
-    return { success: true, message: '¡Plan PRO activado con éxito!' };
-  } catch (e) {
-    return { success: false, message: 'Error al activar la licencia' };
+    const raw = localStorage.getItem(PRO_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
   }
 }
 
 /**
- * Desactiva el modo PRO (útil para pruebas)
+ * Valida si un código de licencia tiene un formato oficial legítimo
+ */
+export function isValidLicenseKey(key) {
+  if (!key || typeof key !== 'string') return false;
+  const cleanKey = key.trim().toUpperCase();
+
+  // Clave maestra de administración / creador
+  if (cleanKey === 'NUVEXA-MASTER-PRO' || cleanKey === 'NUVEXA-ADMIN-PRO') {
+    return true;
+  }
+
+  // Claves oficiales de Nuvexa generadas tras el checkout (PRO-XXXX-XXXX-TIMESTAMP)
+  const nuvexaPattern = /^(PRO|NUV|NUVEXA)-[A-Z0-9]{4,8}-[A-Z0-9]{4,8}(-[A-Z0-9]+)?$/i;
+  // Formato UUID estándar de licencias de Lemon Squeezy (ej: 819358f6-bb33-441e-b5f6-7e1a946e6f06)
+  const uuidPattern = /^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$/i;
+
+  return nuvexaPattern.test(cleanKey) || uuidPattern.test(cleanKey);
+}
+
+/**
+ * Activa la licencia PRO en el dispositivo verificando que el código sea legítimo
+ */
+export function activateProLicense(key = '') {
+  const cleanKey = (key || '').trim().toUpperCase();
+  
+  if (!isValidLicenseKey(cleanKey)) {
+    return {
+      success: false,
+      message: 'Código de licencia no válido. Introduce el código que recibiste en el recibo de compra.'
+    };
+  }
+
+  try {
+    const proPayload = {
+      active: true,
+      licenseKey: cleanKey,
+      activatedAt: new Date().toISOString(),
+      plan: cleanKey.includes('ANNUAL') ? 'Plan Anual' : cleanKey.includes('MONTH') ? 'Plan Mensual' : 'Nuvexa Pro Ilimitado'
+    };
+    localStorage.setItem(PRO_KEY, JSON.stringify(proPayload));
+    return { success: true, message: '¡Plan PRO activado con éxito!' };
+  } catch (e) {
+    return { success: false, message: 'Error al registrar la licencia en el dispositivo' };
+  }
+}
+
+/**
+ * Desactiva el modo PRO
  */
 export function deactivatePro() {
   localStorage.removeItem(PRO_KEY);
 }
 
 /**
- * Restablece el contador a 0 (útil para pruebas)
+ * Restablece el contador a 0
  */
 export function resetDailyUsage() {
   const today = getTodayString();

@@ -1,4 +1,4 @@
-import { isProUser, activateProLicense, deactivatePro, resetDailyUsage, getUsageStatus, isElectronEnv } from '../services/storage.js';
+import { isProUser, activateProLicense, deactivatePro, resetDailyUsage, getUsageStatus, getProLicenseInfo, isElectronEnv } from '../services/storage.js';
 import { showToast, showAlertModal, showConfirmModal } from '../utils/dialog.js';
 
 let modalElement = null;
@@ -86,21 +86,16 @@ export function updateModalStatusBar() {
   const usage = getUsageStatus();
 
   if (isPro) {
+    const licenseInfo = getProLicenseInfo();
+    const keyBadge = licenseInfo?.licenseKey
+      ? `<div style="font-size:0.78rem; opacity:0.85; margin-top:2px;">Clave activa: <code style="font-family:monospace; background:rgba(0,0,0,0.15); padding:1px 5px; border-radius:4px;">${licenseInfo.licenseKey}</code></div>`
+      : '';
     statusBar.innerHTML = `
       <div class="modal-status-pill pro">
-        <span>Estado actual: <strong>Suscripción Pro Activa (Ilimitada)</strong></span>
-        <button type="button" id="btn-quick-deactivate-pro" class="btn-status-toggle danger" title="Cambiar a plan gratuito para probar">
-          Volver a Plan Gratuito
-        </button>
+        <span>Estado de cuenta: <strong>Suscripción Pro Activa (Acceso Ilimitado)</strong></span>
+        ${keyBadge}
       </div>
     `;
-
-    document.getElementById('btn-quick-deactivate-pro')?.addEventListener('click', (e) => {
-      e.stopPropagation();
-      deactivatePro();
-      updateModalStatusBar();
-      if (onStatusChangeCallback) onStatusChangeCallback();
-    });
   } else {
     statusBar.innerHTML = `
       <div class="modal-status-pill free">
@@ -175,31 +170,19 @@ export function initProModal({ onStatusChange }) {
       const planInfo = PLAN_DETAILS[planKey] || PLAN_DETAILS.Annual;
       const targetUrl = CHECKOUT_URLS[planKey] || (import.meta.env.VITE_CHECKOUT_URL ? `${import.meta.env.VITE_CHECKOUT_URL}?plan=${planKey.toLowerCase()}` : '');
 
-      if (targetUrl && targetUrl.startsWith('http') && !targetUrl.includes('test_demo') && !targetUrl.includes('...')) {
+      if (targetUrl && targetUrl.startsWith('http')) {
         window.location.href = targetUrl;
       } else {
-        const confirmBuy = await showConfirmModal({
-          title: `Checkout - ${planInfo.name}`,
-          message: `Precio: ${planInfo.price} (${planInfo.period})\n\n[Modo Demostración / Configuración]\nAún no has vinculado tu enlace real de Stripe/Lemon Squeezy para este plan.\n\n¿Deseas simular el pago y activar el acceso Pro ilimitado ahora mismo para probar la plataforma?`,
-          confirmText: 'Simular y Activar Pro',
-          cancelText: 'Cancelar',
-          type: 'info'
+        showAlertModal({
+          title: 'Pasarela de Pago',
+          message: 'El enlace de pago no se encuentra disponible momentáneamente. Por favor intenta de nuevo en unos instantes.',
+          type: 'error'
         });
-        if (confirmBuy) {
-          activateProLicense(`PRO-${planKey.toUpperCase()}-${Date.now().toString(36).toUpperCase()}`);
-          closeProModal();
-          if (onStatusChangeCallback) onStatusChangeCallback();
-          showAlertModal({
-            title: '¡Felicitaciones!',
-            message: `Has activado ${planInfo.name} con éxito. Ya tienes acceso ilimitado a todas las herramientas.`,
-            type: 'success'
-          });
-        }
       }
     });
   });
 
-  // Validación de clave de licencia
+  // Validación de clave de licencia oficial
   const licenseInput = document.getElementById('input-license-key');
   const btnActivateLicense = document.getElementById('btn-activate-license');
   const licenseMsg = document.getElementById('license-feedback-msg');
@@ -208,41 +191,35 @@ export function initProModal({ onStatusChange }) {
     const key = licenseInput?.value.trim();
     if (!key) {
       if (licenseMsg) {
-        licenseMsg.textContent = 'Introduce un código de licencia válido.';
+        licenseMsg.textContent = 'Introduce tu código de licencia.';
         licenseMsg.className = 'license-msg error';
       }
       return;
     }
 
-    activateProLicense(key);
+    const result = activateProLicense(key);
+    if (!result.success) {
+      if (licenseMsg) {
+        licenseMsg.textContent = result.message || 'Código de licencia no válido.';
+        licenseMsg.className = 'license-msg error';
+      }
+      return;
+    }
+
     if (licenseMsg) {
-      licenseMsg.textContent = 'Licencia validada con éxito.';
+      licenseMsg.textContent = '¡Licencia Pro validada con éxito!';
       licenseMsg.className = 'license-msg success';
     }
 
     setTimeout(() => {
       closeProModal();
       if (onStatusChangeCallback) onStatusChangeCallback();
-    }, 800);
-  });
-
-  // Herramientas de prueba en la parte inferior
-  document.getElementById('btn-toggle-demo-pro')?.addEventListener('click', () => {
-    if (isProUser()) {
-      deactivatePro();
-      showToast({ message: 'Modo Pro desactivado. Cuenta en plan gratuito.', type: 'info' });
-    } else {
-      activateProLicense('DEMO-PRO');
-      showToast({ message: 'Modo Pro activado para demostración.', type: 'success' });
-    }
-    closeProModal();
-    if (onStatusChangeCallback) onStatusChangeCallback();
-  });
-
-  document.getElementById('btn-reset-demo-usage')?.addEventListener('click', () => {
-    resetDailyUsage();
-    showToast({ message: 'Contador de descargas diarias restablecido a 0.', type: 'success' });
-    if (onStatusChangeCallback) onStatusChangeCallback();
+      showToast({
+        title: 'Nuvexa Pro Activado',
+        message: '¡Tu cuenta Pro ilimitada ha sido activada!',
+        type: 'success'
+      });
+    }, 700);
   });
 }
 

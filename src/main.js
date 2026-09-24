@@ -96,7 +96,7 @@ export function updateFreemiumUI(shouldRefreshQR = false) {
       proBtn.style.display = '';
       proBtn.innerHTML = `
         <span class="btn-pro-desktop">Obtener Pro</span>
-        <span class="btn-pro-mobile">Pro ⚡</span>
+        <span class="btn-pro-mobile">Pro</span>
       `;
       proBtn.classList.remove('btn-is-pro');
     }
