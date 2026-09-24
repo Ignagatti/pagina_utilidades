@@ -147,6 +147,47 @@ function blobToDataUrl(blob) {
 }
 
 /**
+ * Normaliza y escala la imagen del logotipo a un tamaño óptimo para el QR
+ * evitando que archivos pesados o formatos extraños rompan el canvas de renderizado.
+ */
+function prepareLogoForQR(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        try {
+          const maxDim = 240;
+          let w = img.width || 200;
+          let h = img.height || 200;
+          if (w > maxDim || h > maxDim) {
+            if (w > h) {
+              h = Math.round((h * maxDim) / w);
+              w = maxDim;
+            } else {
+              w = Math.round((w * maxDim) / h);
+              h = maxDim;
+            }
+          }
+          const canvas = document.createElement('canvas');
+          canvas.width = w;
+          canvas.height = h;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, w, h);
+          resolve(canvas.toDataURL('image/png'));
+        } catch (err) {
+          resolve(e.target.result);
+        }
+      };
+      img.onerror = () => reject(new Error('Formato de imagen no legible'));
+      img.src = e.target.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+/**
  * Inicializa y renderiza el generador de QR con soporte de selector PNG / PDF / SVG
  */
 export function initQRGenerator({ onUsageUpdated, onProModalRequested }) {
@@ -159,51 +200,60 @@ export function initQRGenerator({ onUsageUpdated, onProModalRequested }) {
   qrCodeInstance.append(previewContainer);
 
   function updateQR() {
-    const data = getSanitizedData();
-    const dotsColor = document.getElementById('color-dots')?.value || '#172B4D';
-    const isTransparent = document.getElementById('check-transparent-bg')?.checked || false;
-    const bgPicker = document.getElementById('color-bg');
-    
-    // Si el usuario activa fondo transparente, el color es 'transparent'
-    const bgColor = isTransparent ? 'transparent' : (bgPicker?.value || '#ffffff');
-    
-    if (canvasHolder) {
-      canvasHolder.classList.toggle('checkerboard-pattern', isTransparent);
+    try {
+      const data = getSanitizedData();
+      const dotsColor = document.getElementById('color-dots')?.value || '#172B4D';
+      const isTransparent = document.getElementById('check-transparent-bg')?.checked || false;
+      const bgPicker = document.getElementById('color-bg');
+      
+      const bgColor = isTransparent ? 'transparent' : (bgPicker?.value || '#ffffff');
+      
+      if (canvasHolder) {
+        canvasHolder.classList.toggle('checkerboard-pattern', isTransparent);
+      }
+      if (bgPicker) {
+        bgPicker.disabled = isTransparent;
+        bgPicker.style.opacity = isTransparent ? '0.4' : '1';
+      }
+
+      const dotType = document.getElementById('select-dots-style')?.value || 'rounded';
+      const cornerSquareType = document.getElementById('select-corners-style')?.value || 'extra-rounded';
+      const errorCorrectionLevel = document.getElementById('select-ecc')?.value || 'Q';
+
+      const isPro = isProUser();
+      const logoToUse = (isPro && currentLogoUrl) ? currentLogoUrl : '';
+
+      qrCodeInstance.update({
+        data: data,
+        dotsOptions: {
+          color: dotsColor,
+          type: dotType
+        },
+        backgroundOptions: {
+          color: bgColor
+        },
+        cornersSquareOptions: {
+          color: dotsColor,
+          type: cornerSquareType
+        },
+        cornersDotOptions: {
+          color: dotsColor,
+          type: 'dot'
+        },
+        qrOptions: {
+          errorCorrectionLevel: logoToUse ? 'H' : errorCorrectionLevel
+        },
+        imageOptions: {
+          hideBackgroundDots: true,
+          imageSize: 0.28,
+          margin: 4,
+          crossOrigin: 'anonymous'
+        },
+        image: logoToUse
+      });
+    } catch (qrErr) {
+      console.error('Error al actualizar QR:', qrErr);
     }
-    if (bgPicker) {
-      bgPicker.disabled = isTransparent;
-      bgPicker.style.opacity = isTransparent ? '0.4' : '1';
-    }
-
-    const dotType = document.getElementById('select-dots-style')?.value || 'rounded';
-    const cornerSquareType = document.getElementById('select-corners-style')?.value || 'extra-rounded';
-    const errorCorrectionLevel = document.getElementById('select-ecc')?.value || 'Q';
-
-    const isPro = isProUser();
-    const logoToUse = isPro ? currentLogoUrl : null;
-
-    qrCodeInstance.update({
-      data: data,
-      dotsOptions: {
-        color: dotsColor,
-        type: dotType
-      },
-      backgroundOptions: {
-        color: bgColor
-      },
-      cornersSquareOptions: {
-        color: dotsColor,
-        type: cornerSquareType
-      },
-      cornersDotOptions: {
-        color: dotsColor,
-        type: 'dot'
-      },
-      qrOptions: {
-        errorCorrectionLevel: errorCorrectionLevel
-      },
-      image: logoToUse || ''
-    });
   }
 
   // Escuchar inputs de datos
@@ -267,20 +317,15 @@ export function initQRGenerator({ onUsageUpdated, onProModalRequested }) {
 
       try {
         await validateImageFile(file);
+        const preparedDataUrl = await prepareLogoForQR(file);
+        currentLogoUrl = preparedDataUrl;
+        if (removeLogoBtn) removeLogoBtn.style.display = 'inline-flex';
+        if (logoNotice) logoNotice.textContent = `Logo activo: ${file.name}`;
+        updateQR();
       } catch (validationErr) {
         showToast({ message: `Archivo no válido: ${validationErr.message}`, type: 'error' });
         logoInput.value = '';
-        return;
       }
-
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        currentLogoUrl = event.target.result;
-        if (removeLogoBtn) removeLogoBtn.style.display = 'inline-flex';
-        if (logoNotice) logoNotice.textContent = `Logo cargado: ${file.name}`;
-        updateQR();
-      };
-      reader.readAsDataURL(file);
     };
   }
 
