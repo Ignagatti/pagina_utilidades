@@ -15,15 +15,10 @@ import { initProModal, openProModal } from './components/proModal.js';
 import { initLegalModal } from './components/legalModal.js';
 import { initGlobalDialogInterceptor, showAlertModal, showToast } from './utils/dialog.js';
 
-// Activar intercepción global de alertas y confirmaciones nativas de Windows inmediatamente
 initGlobalDialogInterceptor();
 
 let qrToolInstance = null;
 
-/**
- * Actualiza los elementos visuales del estado de la cuenta
- * @param {boolean} shouldRefreshQR - Solo re-renderiza el QR si cambió el estado Pro
- */
 export function updateFreemiumUI(shouldRefreshQR = false) {
   const status = getUsageStatus();
   const isElectron = isElectronEnv();
@@ -34,7 +29,7 @@ export function updateFreemiumUI(shouldRefreshQR = false) {
   const svgBadges = document.querySelectorAll('.badge-pro');
 
   if (isElectron) {
-    // Versión de escritorio: 100% libre e ilimitada, sin botón Pro ni límites
+
     if (usageBadge) {
       usageBadge.classList.add('is-pro');
       usageBadge.style.cursor = 'default';
@@ -44,7 +39,7 @@ export function updateFreemiumUI(shouldRefreshQR = false) {
       `;
     }
     if (proBtn) {
-      // En la versión de escritorio se oculta el botón de venta/licencia
+
       proBtn.style.display = 'none';
     }
     if (proStatusPill) {
@@ -55,7 +50,7 @@ export function updateFreemiumUI(shouldRefreshQR = false) {
       logoNotice.textContent = 'Habilitado en versión de escritorio';
     }
   } else if (status.isPro) {
-    // Versión web con licencia Pro activa
+
     if (usageBadge) {
       usageBadge.classList.add('is-pro');
       usageBadge.style.cursor = 'pointer';
@@ -77,7 +72,7 @@ export function updateFreemiumUI(shouldRefreshQR = false) {
       logoNotice.textContent = 'Logotipo habilitado en tu cuenta';
     }
   } else {
-    // Versión web freemium (3 descargas gratuitas al día)
+
     if (usageBadge) {
       usageBadge.classList.remove('is-pro');
       usageBadge.style.cursor = 'pointer';
@@ -114,9 +109,6 @@ export function updateFreemiumUI(shouldRefreshQR = false) {
   }
 }
 
-/**
- * Gestiona el cambio de vista entre todas las herramientas y categorías de la suite
- */
 function initToolSwitcher() {
   const categoryButtons = document.querySelectorAll('.nav-cat-btn');
   const toolButtons = document.querySelectorAll('.nav-tool-btn');
@@ -144,18 +136,15 @@ function initToolSwitcher() {
       }
     });
 
-    // Mostrar sub-barra solo para herramientas de PDF
     const isPdfTool = ['pdf-editor', 'images-to-pdf', 'merge-pdf', 'split-pdf', 'doc-diff-studio', 'redaction-studio'].includes(targetTool);
     if (pdfSubNav) {
       pdfSubNav.style.display = isPdfTool ? 'flex' : 'none';
     }
 
-    // Actualizar estados activos en botones de herramientas
     toolButtons.forEach(btn => {
       btn.classList.toggle('active', btn.dataset.tool === targetTool);
     });
 
-    // Actualizar estados activos en categorías principales
     categoryButtons.forEach(btn => {
       const cat = btn.dataset.category;
       if (cat === 'pdf') {
@@ -168,7 +157,6 @@ function initToolSwitcher() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  // Escuchar botones de categorías principales
   categoryButtons.forEach(btn => {
     btn.onclick = () => {
       const cat = btn.dataset.category;
@@ -181,7 +169,6 @@ function initToolSwitcher() {
     };
   });
 
-  // Escuchar sub-botones de herramientas
   toolButtons.forEach(btn => {
     btn.onclick = () => {
       const tool = btn.dataset.tool;
@@ -193,7 +180,7 @@ function initToolSwitcher() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  // 1. Inicializar Modal Pro y Modal Legal
+
   initProModal({
     onStatusChange: () => {
       updateFreemiumUI(true);
@@ -213,83 +200,69 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // 2. Inicializar Selector de Herramientas y Categorías
   const switchToolView = initToolSwitcher();
 
-  // 3. Inicializar Smart Actions Hub
   initSmartActions({
     onNavigateTool: (toolName) => {
       if (switchToolView) switchToolView(toolName);
     }
   });
 
-  // 4. Inicializar DocDiff Studio (Comparador de Documentos / PDF Diff)
   initDocDiffStudio({
     onUsageUpdated: () => updateFreemiumUI(false),
     onProModalRequested: (reason) => openProModal(reason)
   });
 
-  // 5. Inicializar Redaction Studio (Censura de Información Sensible)
   initRedactionStudio({
     onUsageUpdated: () => updateFreemiumUI(false),
     onProModalRequested: (reason) => openProModal(reason)
   });
 
-  // 6. Inicializar Generador QR
   qrToolInstance = initQRGenerator({
     onUsageUpdated: () => updateFreemiumUI(false),
     onProModalRequested: (reason) => openProModal(reason)
   });
 
-  // 4. Inicializar Editor Visual de PDF
   initPdfEditor({
     onUsageUpdated: () => updateFreemiumUI(false),
     onProModalRequested: (reason) => openProModal(reason)
   });
 
-  // 5. Inicializar Conversor de Imágenes a PDF
   initPdfConverter({
     onUsageUpdated: () => updateFreemiumUI(false),
     onProModalRequested: (reason) => openProModal(reason)
   });
 
-  // 6. Inicializar Unir PDFs
   initPdfMerge({
     onUsageUpdated: () => updateFreemiumUI(false),
     onProModalRequested: (reason) => openProModal(reason)
   });
 
-  // 7. Inicializar Separar PDF
   initPdfSplit({
     onUsageUpdated: () => updateFreemiumUI(false),
     onProModalRequested: (reason) => openProModal(reason)
   });
 
-  // 8. Inicializar Image Studio & Conversor Masivo
   initImageStudio({
     onUsageUpdated: () => updateFreemiumUI(false),
     onProModalRequested: (reason) => openProModal(reason)
   });
 
-  // 9. Inicializar Transcriptor de Audio a Texto
   initAudioToText({
     onUsageUpdated: () => updateFreemiumUI(false),
     onProModalRequested: (reason) => openProModal(reason)
   });
 
-  // 10. Inicializar Security Studio (Cifrado, Hashes, Contraseñas)
   initSecurityStudio({
     onUsageUpdated: () => updateFreemiumUI(false),
     onProModalRequested: (reason) => openProModal(reason)
   });
 
-  // 12. Inicializar Archive Studio (ZIP y Base64)
   initArchiveStudio({
     onUsageUpdated: () => updateFreemiumUI(false),
     onProModalRequested: (reason) => openProModal(reason)
   });
 
-  // 7. Acordeón FAQ
   document.querySelectorAll('.faq-item').forEach(item => {
     const question = item.querySelector('.faq-question');
     const answer = item.querySelector('.faq-answer');
@@ -330,10 +303,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // 8. Detección de retorno de pasarela de pagos (Stripe / Lemon Squeezy)
   checkPaymentReturnUrl();
 
-  // Registro de Service Worker con auto-actualización inmediata
   if ('serviceWorker' in navigator && !window.electronAPI?.isElectron) {
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('/sw.js').then((reg) => {
@@ -344,15 +315,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 10. Banner de Cookies (Google AdSense & GDPR)
   initCookieConsentBanner();
 
   updateFreemiumUI(false);
 });
 
-/**
- * Gestiona el banner de cookies y consentimiento publicitario
- */
 function initCookieConsentBanner() {
   const cookieBanner = document.getElementById('cookie-consent-banner');
   const acceptBtn = document.getElementById('btn-accept-cookies');
@@ -360,7 +327,7 @@ function initCookieConsentBanner() {
 
   const hasConsented = localStorage.getItem('nuvexa_cookie_consent');
   if (!hasConsented) {
-    // Mostrar banner con pequeño delay para entrada suave
+
     setTimeout(() => {
       cookieBanner.style.display = 'block';
     }, 1000);
@@ -372,9 +339,6 @@ function initCookieConsentBanner() {
   });
 }
 
-/**
- * Procesa retornos de pasarela de pago o enlaces mágicos con clave de licencia
- */
 function checkPaymentReturnUrl() {
   const urlParams = new URLSearchParams(window.location.search);
   const paymentStatus = urlParams.get('payment');
@@ -385,10 +349,8 @@ function checkPaymentReturnUrl() {
     activateProLicense(newLicenseKey);
     updateFreemiumUI(true);
 
-    // Limpiar los parámetros de la URL sin recargar la página
     window.history.replaceState({}, document.title, window.location.pathname);
 
-    // Mostrar confirmación
     setTimeout(() => {
       showAlertModal({
         title: '¡Suscripción Pro Activada con Éxito!',

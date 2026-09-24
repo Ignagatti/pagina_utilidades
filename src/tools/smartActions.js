@@ -1,9 +1,3 @@
-/**
- * Herramienta: Smart Actions ("Hacé esto con mis archivos")
- * Asistente inteligente que analiza cualquier archivo arrastrado (MIME type, peso, dimensiones, páginas)
- * y despliega recetas de 1 clic para derivar y procesar el archivo automáticamente.
- */
-
 import { PDFDocument } from 'pdf-lib';
 import { isImageFile, isHeicFile, normalizeImageFile } from '../utils/imageDecoder.js';
 
@@ -216,7 +210,6 @@ export function initSmartActions({ onNavigateTool }) {
     }
   }
 
-  // Dropzone Events
   dropzone.onclick = () => fileInput?.click();
   fileInput.onchange = (e) => handleFile(e.target.files?.[0]);
 

@@ -1,13 +1,6 @@
-/**
- * Herramienta: Security Studio (Criptografía y Privacidad 100% en el Navegador)
- * Utiliza la Web Crypto API nativa para cifrar/descifrar archivos con AES-256-GCM,
- * calcular Hashes SHA-256/SHA-512 y generar contraseñas de alta seguridad.
- */
-
 import { canPerformDownload, consumeDailyUse } from '../services/storage.js';
 import { showToast, showAlertModal } from '../utils/dialog.js';
 
-// Deriva una clave AES-256-GCM a partir de una contraseña y salt usando PBKDF2
 async function deriveKey(password, salt) {
   const enc = new TextEncoder();
   const keyMaterial = await crypto.subtle.importKey(
@@ -33,7 +26,7 @@ async function deriveKey(password, salt) {
 }
 
 export function initSecurityStudio({ onUsageUpdated, onProModalRequested }) {
-  // Pestañas internas de Seguridad
+
   const secTabs = document.querySelectorAll('.sec-tab-btn');
   const secPanels = document.querySelectorAll('.sec-tab-panel');
 
@@ -48,9 +41,6 @@ export function initSecurityStudio({ onUsageUpdated, onProModalRequested }) {
     };
   });
 
-  // =========================================================================
-  // 1. CIFRADO Y DESCIFRADO DE ARCHIVOS (AES-256-GCM)
-  // =========================================================================
   const encFileInput = document.getElementById('enc-file-input');
   const encDropzone = document.getElementById('enc-file-dropzone');
   const encFileName = document.getElementById('enc-file-name');
@@ -86,7 +76,6 @@ export function initSecurityStudio({ onUsageUpdated, onProModalRequested }) {
     });
   }
 
-  // Cifrar archivo
   btnExecuteEncrypt?.addEventListener('click', async () => {
     if (!fileToEncrypt) {
       showToast({ message: 'Selecciona un archivo para cifrar.', type: 'warning' });
@@ -104,7 +93,6 @@ export function initSecurityStudio({ onUsageUpdated, onProModalRequested }) {
       const iv = crypto.getRandomValues(new Uint8Array(12));
       const key = await deriveKey(password, salt);
 
-      // Guardar nombre del archivo original en cabecera
       const enc = new TextEncoder();
       const metaJson = JSON.stringify({ name: fileToEncrypt.name, type: fileToEncrypt.type });
       const metaBytes = enc.encode(metaJson);
@@ -116,7 +104,6 @@ export function initSecurityStudio({ onUsageUpdated, onProModalRequested }) {
         fileBuffer
       );
 
-      // Estructura: [SALT 16B] + [IV 12B] + [META_LEN 2B] + [META] + [CIPHERTEXT]
       const finalBlob = new Blob([salt, iv, metaLen, metaBytes, ciphertext], { type: 'application/octet-stream' });
 
       const url = URL.createObjectURL(finalBlob);
@@ -141,7 +128,6 @@ export function initSecurityStudio({ onUsageUpdated, onProModalRequested }) {
     }
   });
 
-  // Descifrar archivo
   btnExecuteDecrypt?.addEventListener('click', async () => {
     if (!fileToDecrypt) {
       showToast({ message: 'Selecciona un archivo protegido (.enc) para descifrar.', type: 'warning' });
@@ -198,9 +184,6 @@ export function initSecurityStudio({ onUsageUpdated, onProModalRequested }) {
     }
   });
 
-  // =========================================================================
-  // 2. CALCULADORA DE HASHES (SHA-256 / SHA-512 / SHA-1)
-  // =========================================================================
   const hashFileInput = document.getElementById('hash-file-input');
   const hashDropzone = document.getElementById('hash-dropzone');
   const hashFileName = document.getElementById('hash-file-name');
@@ -243,9 +226,6 @@ export function initSecurityStudio({ onUsageUpdated, onProModalRequested }) {
     });
   }
 
-  // =========================================================================
-  // 3. GENERADOR DE CONTRASEÑAS SEGURAS
-  // =========================================================================
   const passLengthSlider = document.getElementById('pass-length-slider');
   const passLengthVal = document.getElementById('pass-length-val');
   const checkUpper = document.getElementById('pass-check-upper');
@@ -280,7 +260,6 @@ export function initSecurityStudio({ onUsageUpdated, onProModalRequested }) {
 
     if (generatedPassInput) generatedPassInput.value = password;
 
-    // Calcular fuerza
     let strength = 0;
     if (len >= 12) strength += 25;
     if (len >= 16) strength += 25;

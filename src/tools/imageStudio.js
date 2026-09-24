@@ -1,10 +1,3 @@
-/**
- * Herramienta: Image Studio & Conversor Masivo 2.0 (100% en el Navegador)
- * Permite comprimir con control de calidad y cálculo de ahorro, redimensionar,
- * convertir entre formatos reales (JPG, PNG, WebP, AVIF, Favicons), pasar a blanco y negro,
- * gestionar transparencias (fondo blanco para JPG) y procesar lotes masivos de imágenes a .ZIP.
- */
-
 import JSZip from 'jszip';
 import { canPerformDownload, consumeDailyUse, isProUser } from '../services/storage.js';
 import { isImageFile, isHeicFile, normalizeImageFile } from '../utils/imageDecoder.js';
@@ -19,12 +12,8 @@ let rotationAngle = 0;
 let flipH = false;
 let flipV = false;
 
-// Estado del Conversor Masivo por Lotes
-let batchFiles = []; // Array de { id, file, img, origSize, status, convertedBlob, convertedUrl, outName }
+let batchFiles = [];
 
-/**
- * Formatea bytes a KB o MB
- */
 function formatBytes(bytes) {
   if (bytes === 0) return '0 B';
   const k = 1024;
@@ -34,13 +23,12 @@ function formatBytes(bytes) {
 }
 
 export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
-  // Pestañas de modo (Individual vs Masivo)
+
   const tabBtnSingle = document.getElementById('btn-img-tab-single');
   const tabBtnBatch = document.getElementById('btn-img-tab-batch');
   const panelSingle = document.getElementById('img-panel-single');
   const panelBatch = document.getElementById('img-panel-batch');
 
-  // MODO INDIVIDUAL
   const dropzoneSingle = document.getElementById('image-studio-dropzone');
   const fileInputSingle = document.getElementById('image-studio-file-input');
   const workspaceSingle = document.getElementById('image-studio-workspace');
@@ -65,7 +53,6 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
   const checkKeepAspect = document.getElementById('check-keep-aspect');
   const checkGrayscale = document.getElementById('check-img-grayscale');
 
-  // Controles de Realce y Calidad
   const checkAutoEnhance = document.getElementById('check-img-auto-enhance');
   const checkDocMode = document.getElementById('check-img-doc-mode');
   const sliderSharpen = document.getElementById('slider-img-sharpen');
@@ -85,10 +72,8 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
   const btnExportFavicons = document.getElementById('btn-export-favicons');
   const btnChangeImage = document.getElementById('btn-img-change-file');
 
-  // Botones de presets rápidos de formato
   const formatPresetBtns = document.querySelectorAll('.btn-format-preset');
 
-  // MODO MASIVO POR LOTES
   const dropzoneBatch = document.getElementById('img-batch-dropzone');
   const fileInputBatch = document.getElementById('img-batch-file-input');
   const batchListContainer = document.getElementById('img-batch-list-container');
@@ -105,7 +90,6 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
   const batchProgressBar = document.getElementById('batch-progress-bar');
   const batchProgressText = document.getElementById('batch-progress-text');
 
-
   function getSelectedIcoSizes() {
     const sizes = [];
     document.querySelectorAll('.check-ico-size').forEach(cb => {
@@ -121,7 +105,6 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
     document.querySelectorAll('.check-ico-size').forEach(cb => cb.checked = true);
   });
 
-  // 1. Cambio de pestañas
   tabBtnSingle?.addEventListener('click', () => {
     tabBtnSingle.classList.add('active');
     tabBtnBatch?.classList.remove('active');
@@ -136,7 +119,6 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
     if (panelBatch) panelBatch.style.display = 'block';
   });
 
-  // 2. Procesamiento Individual
   async function handleSingleFile(file) {
     if (!file || !isImageFile(file)) {
       showToast({ message: 'Por favor selecciona una imagen válida (JPG, PNG, WebP, AVIF, HEIC, etc.).', type: 'warning' });
@@ -168,7 +150,7 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
         if (origSizeEl) origSizeEl.textContent = formatBytes(file.size);
 
         if (selectFormat) {
-          if (file.type === 'image/png') selectFormat.value = 'image/jpeg'; // Sugerir conversión a JPG
+          if (file.type === 'image/png') selectFormat.value = 'image/jpeg';
           else if (file.type === 'image/webp') selectFormat.value = 'image/jpeg';
           else if (isHeic) selectFormat.value = 'image/jpeg';
           else selectFormat.value = 'image/webp';
@@ -209,9 +191,6 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
     wrapBgColor.style.display = isJpg ? 'block' : 'none';
   }
 
-  /**
-   * Aplica un kernel de convolución 3x3 de nitidez optimizado de alto rendimiento
-   */
   function applySharpen(imageData, strength) {
     if (strength <= 0) return imageData;
     const src = imageData.data;
@@ -222,10 +201,8 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
     const wCenter = 1 + (4 * strength);
     const wEdge = -strength;
 
-    // Copia inicial rápida
     dst.set(src);
 
-    // Procesamiento directo de píxeles interiores sin bucles 2D anidados ni llamadas Math.min/max
     for (let y = 1; y < sh - 1; y++) {
       const ySw = y * sw;
       const yPrevSw = (y - 1) * sw;
@@ -250,9 +227,6 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
     return output;
   }
 
-  /**
-   * Auto-realce inteligente de balance de iluminación y contraste
-   */
   function applyAutoEnhance(imageData) {
     const d = imageData.data;
     const len = d.length;
@@ -273,9 +247,6 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
     return imageData;
   }
 
-  /**
-   * Modo documento / DNI: resalta texto oscuro y blanquea fondo grisáceo
-   */
   function applyDocumentMode(imageData) {
     const d = imageData.data;
     const len = d.length;
@@ -296,12 +267,6 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
     return imageData;
   }
 
-  /**
-   * Genera el canvas procesado.
-   * Si isExport es false (modo previsualización en vivo mientras se mueven sliders),
-   * limita el tamaño a un máximo de 1000px para que mover sliders sea 100% fluido (60 FPS) en móviles.
-   * Si isExport es true (al descargar), procesa la imagen a su máxima resolución original completa.
-   */
   function getProcessedCanvas(isExport = false) {
     if (!originalImage) return null;
 
@@ -314,7 +279,6 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
     let renderW = targetW;
     let renderH = targetH;
 
-    // En previsualización interactiva rápida en móviles/pantallas, limitar a 1000px máx
     if (!isExport) {
       const maxPreviewDim = 1000;
       if (renderW > maxPreviewDim || renderH > maxPreviewDim) {
@@ -345,7 +309,6 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
       ctx.fillRect(0, 0, canvas.width, canvas.height);
     }
 
-    // Filtros CSS de canvas para brillo y contraste (hardware-accelerated)
     const brightnessVal = parseInt(sliderBrightness?.value) || 0;
     const contrastVal = parseInt(sliderContrast?.value) || 0;
     const bFactor = 1 + (brightnessVal / 100);
@@ -368,7 +331,6 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
     ctx.drawImage(originalImage, -renderW / 2, -renderH / 2, renderW, renderH);
     ctx.restore();
 
-    // Procesamiento por píxeles (Auto-Realce, Modo Documento, Nitidez)
     const isDoc = checkDocMode?.checked;
     const isAuto = checkAutoEnhance?.checked;
     const sharpenLevel = parseInt(sliderSharpen?.value) || 0;
@@ -398,9 +360,6 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
   let pendingUpdate = false;
   let toBlobDebounceTimer = null;
 
-  /**
-   * Actualiza la previsualización de forma suave y sin tirones mediante requestAnimationFrame
-   */
   function updateProcessedImage(immediate = false) {
     if (immediate) {
       renderCurrentPreview();
@@ -435,7 +394,6 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
       ctx.drawImage(canvas, 0, 0);
     }
 
-    // Debounce del cálculo de tamaño (evita sobrecargar el encoder en cada movimiento táctil)
     if (toBlobDebounceTimer) clearTimeout(toBlobDebounceTimer);
     toBlobDebounceTimer = setTimeout(() => {
       const format = selectFormat?.value || 'image/jpeg';
@@ -465,7 +423,6 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
     }, 180);
   }
 
-  // Presets rápidos de formato (A JPG, A PNG, A WebP, A AVIF)
   formatPresetBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       const targetFormat = btn.dataset.format;
@@ -698,7 +655,6 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
 
     const zip = new JSZip();
 
-    // 1. Generar archivo .ico multi-resolución (16, 32, 48)
     try {
       const icoBlob = await createIcoBlob(originalImage, [16, 32, 48]);
       zip.file('favicon.ico', icoBlob);
@@ -706,7 +662,6 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
       console.warn('No se pudo generar favicon.ico en el zip', err);
     }
 
-    // 2. Generar tamaños PNG estándar
     const sizes = [16, 32, 48, 64, 180, 512];
     for (const s of sizes) {
       const c = document.createElement('canvas');
@@ -725,7 +680,6 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
       }
     }
 
-    // 3. Snippet HTML listo para copiar en la web
     const htmlSnippet = `<!-- Nuvexa Favicon Pack -->
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -749,9 +703,6 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
     consumeDailyUse();
   });
 
-  // ==========================================
-  // 3. MODO CONVERSOR MASIVO POR LOTES (BATCH)
-  // ==========================================
   dropzoneBatch?.addEventListener('click', () => fileInputBatch?.click());
 
   fileInputBatch?.addEventListener('change', (e) => {
@@ -888,7 +839,6 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
       batchTableBody.appendChild(tr);
     });
 
-    // Eventos de botones individuales
     batchTableBody.querySelectorAll('.btn-batch-remove').forEach(btn => {
       btn.onclick = () => {
         const id = btn.dataset.id;
@@ -925,7 +875,6 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
     renderBatchList();
   });
 
-  // Convertir todo el lote y descargar en ZIP
   btnConvertBatchAll?.addEventListener('click', async () => {
     if (batchFiles.length === 0) {
       showToast({ message: 'Por favor agrega imágenes para convertir.', type: 'warning' });
@@ -1015,9 +964,6 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
     }
   });
 
-  /**
-   * Decodifica y recodifica una imagen en memoria
-   */
   async function convertSingleImageBlob(file, { targetFormat, quality, maxDimension, forceWhiteBg }) {
     let sourceFile = file;
     if (isHeicFile(file)) {
@@ -1048,7 +994,6 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
           canvas.height = h;
           const ctx = canvas.getContext('2d');
 
-          // Si el formato es JPEG o se pide fondo blanco, pintar blanco primero
           if (targetFormat === 'image/jpeg' || forceWhiteBg) {
             ctx.fillStyle = '#FFFFFF';
             ctx.fillRect(0, 0, w, h);

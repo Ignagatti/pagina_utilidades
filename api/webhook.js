@@ -1,16 +1,9 @@
-/**
- * Endpoint Serverless: Webhook Criptográficamente Firmado de Stripe (Vercel)
- * OWASP A01 & A08: Integridad criptográfica para prevenir ataques de repetición o falsificación.
- */
-
-// Desactivar el body-parser de Vercel para leer el raw buffer
 export const config = {
   api: {
     bodyParser: false,
   },
 };
 
-// Helper para leer el stream en crudo
 async function getRawBody(readable) {
   const chunks = [];
   for await (const chunk of readable) {
@@ -44,14 +37,12 @@ export default async function handler(req, res) {
     const Stripe = (await import('stripe')).default;
     const stripe = new Stripe(STRIPE_SECRET_KEY);
 
-    // 🛡️ VERIFICACIÓN CRIPTOGRÁFICA DE LA FIRMA
     event = stripe.webhooks.constructEvent(rawBody, sig, STRIPE_WEBHOOK_SECRET);
   } catch (err) {
     console.error(`⚠️ Error al verificar firma del Webhook: ${err.message}`);
     return res.status(400).send(`Webhook Error: ${err.message}`);
   }
 
-  // Procesamiento seguro de eventos confirmados
   switch (event.type) {
     case 'checkout.session.completed': {
       const session = event.data.object;
@@ -60,8 +51,7 @@ export default async function handler(req, res) {
       const transactionId = session.payment_intent || session.id;
 
       console.log(`✅ Pago verificado legítimamente para: ${customerEmail} (Plan: ${planId}, Transacción: ${transactionId})`);
-      
-      // Aquí registrarías la licencia en tu base de datos (ej. Supabase) o enviarías la clave por email
+
       break;
     }
 

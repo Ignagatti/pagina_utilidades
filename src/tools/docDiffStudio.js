@@ -1,16 +1,8 @@
-/**
- * Herramienta: DocDiff Studio (Comparador de Documentos y PDFs en el Navegador)
- * Permite comparar Documento A vs Documento B (PDF, TXT o texto pegado)
- * extrayendo texto de forma 100% local, analizando cambios cláusula por cláusula,
- * detectando páginas modificadas y calculando hashes criptográficos.
- */
-
 import * as pdfjsLib from 'pdfjs-dist';
 import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 import { canPerformDownload, consumeDailyUse, isProUser } from '../services/storage.js';
 import { showToast } from '../utils/dialog.js';
 
-// Configuración del worker de PDF.js para Vite
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
 let fileA = null;
@@ -22,9 +14,6 @@ let pagesTextB = [];
 let hashA = '';
 let hashB = '';
 
-/**
- * Calcula el Hash SHA-256 de un ArrayBuffer con Web Crypto API
- */
 async function calculateFileHash(buffer) {
   try {
     const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
@@ -35,9 +24,6 @@ async function calculateFileHash(buffer) {
   }
 }
 
-/**
- * Formatea bytes
- */
 function formatBytes(bytes) {
   if (!bytes || bytes === 0) return '0 B';
   const k = 1024;
@@ -46,9 +32,6 @@ function formatBytes(bytes) {
   return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
 }
 
-/**
- * Extrae texto página por página de un archivo PDF usando PDF.js
- */
 async function extractTextFromPdf(file) {
   const arrayBuffer = await file.arrayBuffer();
   const loadingTask = pdfjsLib.getDocument({
@@ -75,9 +58,6 @@ async function extractTextFromPdf(file) {
   };
 }
 
-/**
- * Algoritmo LCS (Longest Common Subsequence) para Diff de líneas
- */
 function computeDiff(linesA, linesB) {
   const N = linesA.length;
   const M = linesB.length;
@@ -130,7 +110,6 @@ export function initDocDiffStudio({ onUsageUpdated, onProModalRequested }) {
   const btnExecuteDiff = document.getElementById('btn-execute-diff');
   const btnClearAll = document.getElementById('btn-diff-clear-all');
 
-  // Resultados
   const resultsContainer = document.getElementById('diff-results-container');
   const summaryPill = document.getElementById('diff-summary-pill');
   const statAddedEl = document.getElementById('diff-stat-added');
@@ -147,7 +126,6 @@ export function initDocDiffStudio({ onUsageUpdated, onProModalRequested }) {
 
   if (!dropzoneA || !dropzoneB) return;
 
-  // Estado inicial completamente vacío
   resetAll();
 
   function resetAll() {
@@ -272,7 +250,6 @@ export function initDocDiffStudio({ onUsageUpdated, onProModalRequested }) {
     }
   }
 
-  // Eventos Dropzone A
   dropzoneA.onclick = () => fileInputA?.click();
   fileInputA?.addEventListener('change', (e) => handleFileA(e.target.files?.[0]));
 
@@ -307,7 +284,6 @@ export function initDocDiffStudio({ onUsageUpdated, onProModalRequested }) {
     checkReadyState();
   });
 
-  // Eventos Dropzone B
   dropzoneB.onclick = () => fileInputB?.click();
   fileInputB?.addEventListener('change', (e) => handleFileB(e.target.files?.[0]));
 
@@ -342,7 +318,6 @@ export function initDocDiffStudio({ onUsageUpdated, onProModalRequested }) {
     checkReadyState();
   });
 
-  // Escuchar edición manual de texto en las áreas de texto
   textareaA?.addEventListener('input', () => {
     docTextA = textareaA.value;
     if (pagesTextA.length === 0) pagesTextA = [docTextA];
@@ -357,7 +332,6 @@ export function initDocDiffStudio({ onUsageUpdated, onProModalRequested }) {
 
   btnClearAll?.addEventListener('click', resetAll);
 
-  // Ejecutar Comparación
   btnExecuteDiff?.addEventListener('click', executeComparison);
 
   function executeComparison() {
@@ -412,7 +386,6 @@ export function initDocDiffStudio({ onUsageUpdated, onProModalRequested }) {
       }
     }
 
-    // Desglose por páginas si hay datos de páginas
     if (pagesDiffList) {
       pagesDiffList.innerHTML = '';
       const maxPages = Math.max(pagesTextA.length, pagesTextB.length);

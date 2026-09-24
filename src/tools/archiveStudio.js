@@ -1,9 +1,3 @@
-/**
- * Herramienta: Archive Studio (Empaquetador y Extractor ZIP 100% en el Navegador)
- * Permite crear archivos ZIP a partir de múltiples documentos, descomprimir archivos ZIP
- * y convertir archivos a Base64 y viceversa sin servidores.
- */
-
 import JSZip from 'jszip';
 import { canPerformDownload, consumeDailyUse } from '../services/storage.js';
 import { showToast } from '../utils/dialog.js';
@@ -19,7 +13,7 @@ function formatBytes(bytes) {
 }
 
 export function initArchiveStudio({ onUsageUpdated, onProModalRequested }) {
-  // Pestañas internas
+
   const archTabs = document.querySelectorAll('.arch-tab-btn');
   const archPanels = document.querySelectorAll('.arch-tab-panel');
 
@@ -34,9 +28,6 @@ export function initArchiveStudio({ onUsageUpdated, onProModalRequested }) {
     };
   });
 
-  // =========================================================================
-  // 1. CREAR ARCHIVO ZIP
-  // =========================================================================
   const zipDropzone = document.getElementById('zip-create-dropzone');
   const zipFileInput = document.getElementById('zip-create-file-input');
   const zipFilesList = document.getElementById('zip-files-list');
@@ -189,9 +180,6 @@ export function initArchiveStudio({ onUsageUpdated, onProModalRequested }) {
     }
   });
 
-  // =========================================================================
-  // 2. EXTRAER ARCHIVO ZIP
-  // =========================================================================
   const zipExtractDropzone = document.getElementById('zip-extract-dropzone');
   const zipExtractInput = document.getElementById('zip-extract-file-input');
   const zipExtractList = document.getElementById('zip-extracted-files-list');
@@ -217,7 +205,7 @@ export function initArchiveStudio({ onUsageUpdated, onProModalRequested }) {
 
       for (const filename of entries) {
         const zipEntry = zipData.files[filename];
-        if (zipEntry.dir) continue; // Saltar directorios
+        if (zipEntry.dir) continue;
 
         const item = document.createElement('div');
         item.className = 'pdf-image-item';
@@ -266,9 +254,6 @@ export function initArchiveStudio({ onUsageUpdated, onProModalRequested }) {
     });
   }
 
-  // =========================================================================
-  // 3. CONVERSOR BASE64
-  // =========================================================================
   const b64FileInput = document.getElementById('b64-file-input');
   const b64Dropzone = document.getElementById('b64-dropzone');
   const b64Output = document.getElementById('b64-output-text');

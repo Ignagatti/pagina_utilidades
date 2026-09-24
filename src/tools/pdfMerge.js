@@ -68,7 +68,6 @@ export function initPdfMerge({ onUsageUpdated, onProModalRequested }) {
       </div>
     `).join('');
 
-    // Reordenamiento arriba / abajo
     listContainer.querySelectorAll('.btn-move-up').forEach(btn => {
       btn.onclick = () => {
         const id = btn.dataset.id;
@@ -114,7 +113,6 @@ export function initPdfMerge({ onUsageUpdated, onProModalRequested }) {
         continue;
       }
 
-      // Regla plan gratuito: hasta 4 archivos PDF para unir
       if (!isPro && mergeFiles.length >= 4) {
         if (onProModalRequested) onProModalRequested('general');
         break;

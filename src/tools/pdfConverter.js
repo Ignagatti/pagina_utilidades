@@ -12,9 +12,6 @@ const PAGE_SIZES = {
   LETTER: { width: 612.0, height: 792.0 }
 };
 
-/**
- * Convierte cualquier archivo de imagen (PNG, JPG, WebP, HEIC) a PNG o JPG buffer
- */
 async function processImageToEmbeddable(file) {
   let targetFile = file;
   if (isHeicFile(file)) {
@@ -33,7 +30,6 @@ async function processImageToEmbeddable(file) {
         const ctx = canvas.getContext('2d');
         ctx.drawImage(img, 0, 0);
 
-        // Si es JPEG original lo conservamos como JPEG, sino exportamos como PNG
         const isJpg = targetFile.type === 'image/jpeg' || targetFile.name.match(/\.jpe?g$/i);
         const format = isJpg ? 'image/jpeg' : 'image/png';
         const dataUrl = canvas.toDataURL(format, 0.95);
@@ -60,9 +56,6 @@ async function processImageToEmbeddable(file) {
   });
 }
 
-/**
- * Descarga el archivo PDF final
- */
 function downloadPdfBlob(blob, filename = 'documento.pdf') {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -77,9 +70,6 @@ function downloadPdfBlob(blob, filename = 'documento.pdf') {
   }, 1000);
 }
 
-/**
- * Inicializa el conversor de Imágenes a PDF
- */
 export function initPdfConverter({ onUsageUpdated, onProModalRequested }) {
   const dropzone = document.getElementById('pdf-dropzone');
   const fileInput = document.getElementById('pdf-file-input');
@@ -125,7 +115,6 @@ export function initPdfConverter({ onUsageUpdated, onProModalRequested }) {
       </div>
     `).join('');
 
-    // Eventos de eliminación individual
     imagesListContainer.querySelectorAll('.btn-remove-image-item').forEach(btn => {
       btn.onclick = () => {
         const id = btn.dataset.id;
@@ -140,7 +129,7 @@ export function initPdfConverter({ onUsageUpdated, onProModalRequested }) {
     const filesArray = Array.from(newFiles);
 
     for (const file of filesArray) {
-      // Regla Freemium: Plan gratuito hasta 3 imágenes por archivo
+
       if (!isPro && images.length >= 3) {
         if (onProModalRequested) {
           onProModalRequested('general');
@@ -164,7 +153,6 @@ export function initPdfConverter({ onUsageUpdated, onProModalRequested }) {
     renderImagesList();
   }
 
-  // Eventos de selección y Drag & Drop
   if (fileInput) {
     fileInput.onchange = (e) => {
       if (e.target.files?.length) {
@@ -202,7 +190,6 @@ export function initPdfConverter({ onUsageUpdated, onProModalRequested }) {
     };
   }
 
-  // Generación y descarga del PDF
   if (btnConvertPdf) {
     btnConvertPdf.onclick = async () => {
       if (isConverting || images.length === 0) return;
@@ -227,7 +214,7 @@ export function initPdfConverter({ onUsageUpdated, onProModalRequested }) {
         const baseDimensions = PAGE_SIZES[pageSizeType] || PAGE_SIZES.A4;
         const pageWidth = orientation === 'landscape' ? baseDimensions.height : baseDimensions.width;
         const pageHeight = orientation === 'landscape' ? baseDimensions.width : baseDimensions.height;
-        const margin = marginOption === 'none' ? 0 : 36; // 36 puntos = 0.5 pulgada
+        const margin = marginOption === 'none' ? 0 : 36;
 
         const pdfDoc = await PDFDocument.create();
 
@@ -242,7 +229,6 @@ export function initPdfConverter({ onUsageUpdated, onProModalRequested }) {
           const availableWidth = pageWidth - (margin * 2);
           const availableHeight = pageHeight - (margin * 2);
 
-          // Escalar respetando proporciones
           const scaleFactor = Math.min(
             availableWidth / embeddedImage.width,
             availableHeight / embeddedImage.height,

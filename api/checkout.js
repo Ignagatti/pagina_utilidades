@@ -1,9 +1,3 @@
-/**
- * Endpoint Serverless: Creación de Sesión de Pago Segura con Stripe (Vercel)
- * Arquitectura Zero-Trust: Ninguna clave secreta ni precio se expone al cliente.
- */
-
-// NOTA: Requiere `npm install stripe` en producción y configurar las variables de entorno en Vercel
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     res.setHeader('Allow', 'POST');
@@ -18,7 +12,6 @@ export default async function handler(req, res) {
     });
   }
 
-  // Catálogo de precios inmutable en el servidor (NUNCA aceptar montos del cliente)
   const PLANS_CATALOG = {
     lifetime: {
       priceId: STRIPE_PRICE_LIFETIME,
@@ -38,7 +31,6 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Plan seleccionado no válido o no configurado.' });
     }
 
-    // Importación dinámica de Stripe
     const Stripe = (await import('stripe')).default;
     const stripe = new Stripe(STRIPE_SECRET_KEY, {
       apiVersion: '2023-10-16',

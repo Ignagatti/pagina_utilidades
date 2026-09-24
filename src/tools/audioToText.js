@@ -1,10 +1,3 @@
-/**
- * Herramienta: Transcriptor de Audio a Texto (100% en el Navegador)
- * Utiliza Whisper de OpenAI vía Transformers.js (WebAssembly) para procesar
- * archivos de audio sin enviarlos a servidores externos, garantizando privacidad total.
- * Incluye además modo de dictado por voz en tiempo real con Web Speech API.
- */
-
 import { isProUser, canPerformDownload, consumeDailyUse, isElectronEnv } from '../services/storage.js';
 import { showToast, showAlertModal, showConfirmModal } from '../utils/dialog.js';
 
@@ -15,25 +8,21 @@ let whisperPipeline = null;
 let recognition = null;
 let isRecording = false;
 
-/**
- * Decodifica cualquier archivo de audio a un Float32Array mono a 16kHz
- * que es el formato requerido por Whisper.
- */
 async function decodeAudioFile(file) {
   const arrayBuffer = await file.arrayBuffer();
   const audioContext = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: 16000 });
-  
+
   try {
     const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
     const numberOfChannels = audioBuffer.numberOfChannels;
     const length = audioBuffer.length;
-    
+
     let monoChannel = new Float32Array(length);
-    
+
     if (numberOfChannels === 1) {
       monoChannel = audioBuffer.getChannelData(0);
     } else {
-      // Mezclar a mono promediando los canales
+
       for (let i = 0; i < numberOfChannels; i++) {
         const channelData = audioBuffer.getChannelData(i);
         for (let j = 0; j < length; j++) {
@@ -54,18 +43,9 @@ async function decodeAudioFile(file) {
   }
 }
 
-/**
- * Carga el modelo Whisper bajo demanda (Lazy-Loading)
- */
 async function getWhisperPipeline(onProgress) {
   if (whisperPipeline) return whisperPipeline;
 
-  // En Electron con nodeIntegration, process.release.name = 'node' hace que @xenova/transformers
-  // intente cargar onnxruntime-node (nativo C++ inexistente en el bundle del renderer web)
-  // provocando: "TypeError: Cannot read properties of undefined (reading 'create')" y luego
-  // el error enmascarado: "Unsupported model type: whisper".
-  // Al cambiar temporalmente process.release.name a 'browser', aseguramos que el backend
-  // seleccione onnxruntime-web (WebAssembly) de forma 100% confiable tanto en escritorio como en web.
   if (typeof process !== 'undefined' && process?.release?.name === 'node') {
     try {
       Object.defineProperty(process, 'release', {
@@ -78,15 +58,12 @@ async function getWhisperPipeline(onProgress) {
     }
   }
 
-  // Importar dinámicamente Transformers.js
   const { pipeline, env } = await import('@xenova/transformers');
-  
-  // Evitar búsquedas de archivos locales inexistentes y desactivar FS cache en entornos empaquetados
+
   env.allowLocalModels = false;
   env.useFS = false;
   env.useFSCache = false;
 
-  // Asegurar rutas de WebAssembly remotas por si el entorno local no las provee
   if (env.backends?.onnx?.wasm) {
     env.backends.onnx.wasm.wasmPaths = 'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.2/dist/';
   }
@@ -102,9 +79,6 @@ async function getWhisperPipeline(onProgress) {
   return whisperPipeline;
 }
 
-/**
- * Formatea segundos a mm:ss
- */
 function formatDuration(seconds) {
   if (!seconds || isNaN(seconds)) return '0:00';
   const mins = Math.floor(seconds / 60);
@@ -112,11 +86,8 @@ function formatDuration(seconds) {
   return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
 }
 
-/**
- * Inicializa la herramienta de Audio a Texto
- */
 export function initAudioToText({ onUsageUpdated, onProModalRequested }) {
-  // Elementos DOM de carga de archivos
+
   const dropzone = document.getElementById('audio-dropzone');
   const fileInput = document.getElementById('audio-file-input');
   const fileInfoCard = document.getElementById('audio-file-info');
@@ -128,12 +99,10 @@ export function initAudioToText({ onUsageUpdated, onProModalRequested }) {
   const btnTranscribe = document.getElementById('btn-execute-transcribe');
   const selectLanguage = document.getElementById('select-audio-language');
 
-  // Elementos de progreso
   const progressContainer = document.getElementById('transcribe-progress-container');
   const progressFill = document.getElementById('transcribe-progress-bar');
   const progressStatus = document.getElementById('transcribe-status-text');
 
-  // Elementos de salida
   const transcriptOutput = document.getElementById('transcript-output-text');
   const wordCountBadge = document.getElementById('transcript-word-count');
   const charCountBadge = document.getElementById('transcript-char-count');
@@ -141,7 +110,6 @@ export function initAudioToText({ onUsageUpdated, onProModalRequested }) {
   const btnDownloadTxt = document.getElementById('btn-download-txt');
   const btnClearTranscript = document.getElementById('btn-clear-transcript');
 
-  // Elementos de Dictado en Vivo y Micrófono
   const btnMicModeWhisper = document.getElementById('btn-mic-mode-whisper');
   const btnMicModeStream = document.getElementById('btn-mic-mode-stream');
   const liveMicDesc = document.getElementById('live-mic-description');
@@ -152,7 +120,6 @@ export function initAudioToText({ onUsageUpdated, onProModalRequested }) {
 
   if (!dropzone || !transcriptOutput) return;
 
-  // Actualizar contadores de palabras y caracteres
   function updateCounters() {
     const text = (transcriptOutput.value || '').trim();
     const words = text ? text.split(/\s+/).filter(Boolean).length : 0;
@@ -170,11 +137,9 @@ export function initAudioToText({ onUsageUpdated, onProModalRequested }) {
   transcriptOutput.addEventListener('input', updateCounters);
   updateCounters();
 
-  // Gestión de archivo cargado
   function handleFileSelected(file) {
     if (!file) return;
 
-    // Acepta audio o video (muchas grabaciones de notas de voz son audio/ogg o video/webm)
     if (!file.type.startsWith('audio/') && !file.name.match(/\.(mp3|wav|m4a|ogg|aac|webm|opus|flac)$/i)) {
       showToast({ message: 'Por favor selecciona un archivo de audio válido (.mp3, .wav, .m4a, .ogg, .webm, .opus).', type: 'warning' });
       return;
@@ -189,7 +154,7 @@ export function initAudioToText({ onUsageUpdated, onProModalRequested }) {
 
     if (fileNameEl) fileNameEl.textContent = file.name;
     if (fileSizeEl) fileSizeEl.textContent = `${(file.size / (1024 * 1024)).toFixed(2)} MB`;
-    
+
     if (player) {
       player.src = audioUrl;
       player.onloadedmetadata = () => {
@@ -201,12 +166,10 @@ export function initAudioToText({ onUsageUpdated, onProModalRequested }) {
     if (fileInfoCard) fileInfoCard.style.display = 'block';
     if (btnTranscribe) btnTranscribe.disabled = false;
 
-    // Resetear estados de progreso
     if (progressContainer) progressContainer.style.display = 'none';
     if (progressStatus) progressStatus.textContent = 'Listo para transcribir';
   }
 
-  // Eventos de Dropzone
   dropzone.onclick = () => fileInput?.click();
   fileInput.onchange = (e) => {
     const file = e.target.files?.[0];
@@ -232,7 +195,6 @@ export function initAudioToText({ onUsageUpdated, onProModalRequested }) {
     if (file) handleFileSelected(file);
   });
 
-  // Quitar archivo
   if (btnRemoveFile) {
     btnRemoveFile.onclick = () => {
       audioFile = null;
@@ -252,7 +214,6 @@ export function initAudioToText({ onUsageUpdated, onProModalRequested }) {
     };
   }
 
-  // Ejecutar Transcripción de Archivo de Audio con Whisper
   if (btnTranscribe) {
     btnTranscribe.onclick = async () => {
       if (!audioFile || isTranscribing) return;
@@ -275,19 +236,17 @@ export function initAudioToText({ onUsageUpdated, onProModalRequested }) {
       if (progressStatus) progressStatus.textContent = 'Preparando entorno de procesamiento local...';
 
       try {
-        // 1. Cargar el modelo Whisper
+
         if (progressStatus) progressStatus.textContent = 'Cargando motor de transcripción (se descarga 1 sola vez en tu caché)...';
         const transcriber = await getWhisperPipeline((progressPercent) => {
           if (progressFill) progressFill.style.width = `${Math.max(10, Math.min(60, progressPercent * 0.6))}%`;
           if (progressStatus) progressStatus.textContent = `Descargando componentes: ${progressPercent}%`;
         });
 
-        // 2. Decodificar audio
         if (progressFill) progressFill.style.width = '70%';
         if (progressStatus) progressStatus.textContent = 'Decodificando ondas de audio a 16kHz...';
         const { audioData, duration } = await decodeAudioFile(audioFile);
 
-        // 3. Transcribir
         if (progressFill) progressFill.style.width = '85%';
         if (progressStatus) progressStatus.textContent = `Analizando ${formatDuration(duration)} de audio...`;
 
@@ -310,7 +269,6 @@ export function initAudioToText({ onUsageUpdated, onProModalRequested }) {
           throw new Error('No se detectó voz perceptible en el audio.');
         }
 
-        // Agregar al resultado
         const existingText = transcriptOutput.value.trim();
         transcriptOutput.value = existingText ? `${existingText}\n\n${resultText}` : resultText;
         updateCounters();
@@ -337,13 +295,9 @@ export function initAudioToText({ onUsageUpdated, onProModalRequested }) {
     };
   }
 
-  // =========================================================================
-  // MODO MICRÓFONO: IA Whisper (Precisión 10/10) & Dictado en Vivo Optimizado
-  // =========================================================================
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   const isDesktop = isElectronEnv();
 
-  // Modo de micrófono actual ('whisper' por defecto para garantizar fidelidad 10/10)
   let currentMicMode = 'whisper';
   let isMicActive = false;
   let userWantsMic = false;
@@ -351,7 +305,6 @@ export function initAudioToText({ onUsageUpdated, onProModalRequested }) {
   let baseTranscript = '';
   let interimTranscript = '';
 
-  // Variables para grabación con MediaRecorder (Modo IA Whisper)
   let mediaStream = null;
   let mediaRecorder = null;
   let audioChunks = [];
@@ -359,7 +312,6 @@ export function initAudioToText({ onUsageUpdated, onProModalRequested }) {
   let recordingSeconds = 0;
   let isWhisperTranscribingMic = false;
 
-  // Actualiza la interfaz visual según el modo de micrófono seleccionado
   function updateMicModeUI() {
     if (btnMicModeWhisper) {
       btnMicModeWhisper.classList.toggle('active', currentMicMode === 'whisper');
@@ -386,13 +338,11 @@ export function initAudioToText({ onUsageUpdated, onProModalRequested }) {
     }
   }
 
-  // Inicializar estado según entorno
   if (isDesktop) {
     currentMicMode = 'whisper';
   }
   updateMicModeUI();
 
-  // Cambiadores de modo
   if (btnMicModeWhisper) {
     btnMicModeWhisper.onclick = () => {
       if (isMicActive || isWhisperTranscribingMic) {
@@ -423,24 +373,21 @@ export function initAudioToText({ onUsageUpdated, onProModalRequested }) {
     };
   }
 
-  // Obtiene el dialecto adecuado para Web Speech en base al navegador y configuración
   function getWebSpeechLanguage() {
     const selected = selectLanguage?.value || 'spanish';
     if (selected === 'english') {
       return (navigator.language && navigator.language.startsWith('en')) ? navigator.language : 'en-US';
     }
     if (selected === 'spanish') {
-      // Si el navegador del usuario está configurado en español (ej: es-AR, es-MX, es-CO, es-CL, es-ES, etc.)
-      // usamos ese dialecto para que el modelo acústico de Google reconozca la pronunciación nativa del usuario
+
       if (navigator.language && navigator.language.startsWith('es')) {
         return navigator.language;
       }
-      return 'es-419'; // Español de Latinoamérica por defecto
+      return 'es-419';
     }
     return navigator.language || 'es-419';
   }
 
-  // Detener y resetear cualquier tipo de captura de micrófono
   function stopAllMic() {
     userWantsMic = false;
     isMicActive = false;
@@ -482,19 +429,16 @@ export function initAudioToText({ onUsageUpdated, onProModalRequested }) {
       }
     }
 
-    // Reactivar controles de modo
     if (btnMicModeWhisper) btnMicModeWhisper.disabled = false;
     if (btnMicModeStream) btnMicModeStream.disabled = false;
   }
 
-  // Sincronizar el texto base si el usuario edita mientras el mic está apagado
   transcriptOutput.addEventListener('input', () => {
     if (!isMicActive) {
       baseTranscript = transcriptOutput.value;
     }
   });
 
-  // Botón para descartar grabación sin transcribir
   if (btnCancelLiveMic) {
     btnCancelLiveMic.onclick = () => {
       userWantsMic = false;
@@ -504,9 +448,6 @@ export function initAudioToText({ onUsageUpdated, onProModalRequested }) {
     };
   }
 
-  // -------------------------------------------------------------------------
-  // MODO A: Web Speech API (Dictado en Vivo con Detección Regional Adaptada)
-  // -------------------------------------------------------------------------
   function startWebSpeech() {
     if (!SpeechRecognition) {
       currentMicMode = 'whisper';
@@ -567,7 +508,6 @@ export function initAudioToText({ onUsageUpdated, onProModalRequested }) {
       recognition.onerror = (event) => {
         console.warn('SpeechRecognition event status:', event.error);
 
-        // 'no-speech' y 'aborted' son pausas naturales de respiración; no apagan el micrófono
         if (event.error === 'no-speech' || event.error === 'aborted') {
           return;
         }
@@ -602,8 +542,7 @@ export function initAudioToText({ onUsageUpdated, onProModalRequested }) {
       };
 
       recognition.onend = () => {
-        // En Chrome, tras pausas prolongadas onend se dispara automáticamente.
-        // Si el usuario no presionó pausar, reiniciamos suavemente para mantener la escucha continua.
+
         if (userWantsMic) {
           clearTimeout(micRestartTimer);
           micRestartTimer = setTimeout(() => {
@@ -638,16 +577,13 @@ export function initAudioToText({ onUsageUpdated, onProModalRequested }) {
     }
   }
 
-  // -------------------------------------------------------------------------
-  // MODO B: Grabación con Filtros Acústicos y Procesamiento Local (Whisper IA)
-  // -------------------------------------------------------------------------
   async function startWhisperMediaRecorder() {
     userWantsMic = true;
     audioChunks = [];
     recordingSeconds = 0;
 
     try {
-      // Captura acústica optimizada con cancelación de ruido y eco
+
       mediaStream = await navigator.mediaDevices.getUserMedia({
         audio: {
           echoCancellation: true,
@@ -721,7 +657,6 @@ export function initAudioToText({ onUsageUpdated, onProModalRequested }) {
         return;
       }
 
-      // Procesar audio grabado directamente en local con Whisper
       isWhisperTranscribingMic = true;
       if (btnToggleLiveMic) {
         btnToggleLiveMic.disabled = true;
@@ -791,7 +726,6 @@ export function initAudioToText({ onUsageUpdated, onProModalRequested }) {
     mediaRecorder.start(250);
     isMicActive = true;
 
-    // Desactivar cambio de modo durante grabación
     if (btnMicModeWhisper) btnMicModeWhisper.disabled = true;
     if (btnMicModeStream) btnMicModeStream.disabled = true;
 
@@ -819,7 +753,6 @@ export function initAudioToText({ onUsageUpdated, onProModalRequested }) {
     }, 1000);
   }
 
-  // Manejador del botón principal de Dictado / Grabación por Micrófono
   if (btnToggleLiveMic) {
     btnToggleLiveMic.onclick = () => {
       if (isWhisperTranscribingMic) return;
@@ -847,7 +780,6 @@ export function initAudioToText({ onUsageUpdated, onProModalRequested }) {
     };
   }
 
-  // Botón Copiar al Portapapeles
   if (btnCopy) {
     btnCopy.onclick = async () => {
       const text = transcriptOutput.value;
@@ -870,7 +802,6 @@ export function initAudioToText({ onUsageUpdated, onProModalRequested }) {
     };
   }
 
-  // Botón Descargar Archivo .TXT
   if (btnDownloadTxt) {
     btnDownloadTxt.onclick = () => {
       const text = transcriptOutput.value;
@@ -890,7 +821,6 @@ export function initAudioToText({ onUsageUpdated, onProModalRequested }) {
     };
   }
 
-  // Botón Limpiar
   if (btnClearTranscript) {
     btnClearTranscript.onclick = async () => {
       const ok = await showConfirmModal({

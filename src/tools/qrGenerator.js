@@ -7,9 +7,8 @@ import { showToast } from '../utils/dialog.js';
 let qrCodeInstance = null;
 let currentLogoUrl = null;
 let isDownloading = false;
-let selectedExportFormat = 'png'; // 'png' | 'pdf' | 'svg'
+let selectedExportFormat = 'png';
 
-// Configuración visual (500x500 para calidad nítida en pantalla y PNG)
 const defaultOptions = {
   width: 500,
   height: 500,
@@ -45,9 +44,6 @@ const defaultOptions = {
   }
 };
 
-/**
- * Obtiene y valida los datos según la pestaña activa
- */
 function getSanitizedData() {
   const activeTab = document.querySelector('.type-btn.active')?.dataset.type || 'url';
   const errorBanner = document.getElementById('input-security-alert');
@@ -99,9 +95,6 @@ function getSanitizedData() {
   }
 }
 
-/**
- * Descarga garantizada mediante Data URL directa (Base64)
- */
 function triggerDirectDownload(dataUrl, filename) {
   const a = document.createElement('a');
   a.style.display = 'none';
@@ -116,9 +109,6 @@ function triggerDirectDownload(dataUrl, filename) {
   }, 1000);
 }
 
-/**
- * Descarga directa desde Blob
- */
 function triggerBlobDownload(blob, filename) {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -135,9 +125,6 @@ function triggerBlobDownload(blob, filename) {
   }, 1000);
 }
 
-/**
- * Convierte un Blob en Data URL
- */
 function blobToDataUrl(blob) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -147,10 +134,6 @@ function blobToDataUrl(blob) {
   });
 }
 
-/**
- * Normaliza y escala la imagen del logotipo a un tamaño óptimo para el QR
- * evitando que archivos pesados o formatos extraños rompan el canvas de renderizado.
- */
 function prepareLogoForQR(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -188,9 +171,6 @@ function prepareLogoForQR(file) {
   });
 }
 
-/**
- * Inicializa y renderiza el generador de QR con soporte de selector PNG / PDF / SVG
- */
 export function initQRGenerator({ onUsageUpdated, onProModalRequested }) {
   const previewContainer = document.getElementById('qr-preview-container');
   const canvasHolder = document.getElementById('qr-canvas-holder');
@@ -206,9 +186,9 @@ export function initQRGenerator({ onUsageUpdated, onProModalRequested }) {
       const dotsColor = document.getElementById('color-dots')?.value || '#172B4D';
       const isTransparent = document.getElementById('check-transparent-bg')?.checked || false;
       const bgPicker = document.getElementById('color-bg');
-      
+
       const bgColor = isTransparent ? 'transparent' : (bgPicker?.value || '#ffffff');
-      
+
       if (canvasHolder) {
         canvasHolder.classList.toggle('checkerboard-pattern', isTransparent);
       }
@@ -257,13 +237,11 @@ export function initQRGenerator({ onUsageUpdated, onProModalRequested }) {
     }
   }
 
-  // Escuchar inputs de datos
   const dataInputs = document.querySelectorAll('.qr-data-input');
   dataInputs.forEach(input => {
     input.oninput = updateQR;
   });
 
-  // Escuchar controles de colores y estilos
   const colorDots = document.getElementById('color-dots');
   if (colorDots) colorDots.oninput = updateQR;
 
@@ -282,7 +260,6 @@ export function initQRGenerator({ onUsageUpdated, onProModalRequested }) {
   const selectEcc = document.getElementById('select-ecc');
   if (selectEcc) selectEcc.onchange = updateQR;
 
-  // Selector de pestañas de tipo (URL, Wi-Fi, WhatsApp, Texto)
   const tabButtons = document.querySelectorAll('.type-btn');
   tabButtons.forEach(btn => {
     btn.onclick = () => {
@@ -298,7 +275,6 @@ export function initQRGenerator({ onUsageUpdated, onProModalRequested }) {
     };
   });
 
-  // Manejo de Logo personalizado [PRO]
   const logoInput = document.getElementById('logo-upload-input');
   const removeLogoBtn = document.getElementById('btn-remove-logo');
   const logoNotice = document.getElementById('logo-pro-notice');
@@ -340,7 +316,6 @@ export function initQRGenerator({ onUsageUpdated, onProModalRequested }) {
     };
   }
 
-  // Selector visual de formato de exportación (PNG vs PDF vs SVG)
   const formatButtons = document.querySelectorAll('.format-choice-btn');
   const btnDownloadAction = document.getElementById('btn-main-qr-download');
   const btnDownloadLabel = document.getElementById('main-qr-download-label');
@@ -373,7 +348,6 @@ export function initQRGenerator({ onUsageUpdated, onProModalRequested }) {
     };
   });
 
-  // Ejecución de la descarga según el formato seleccionado
   if (btnDownloadAction) {
     btnDownloadAction.onclick = async (e) => {
       e.preventDefault();
@@ -420,7 +394,7 @@ export function initQRGenerator({ onUsageUpdated, onProModalRequested }) {
           triggerDirectDownload(pngDataUrl, 'codigo-qr.png');
         } else if (format === 'pdf') {
           if (!pngDataUrl) throw new Error('No se pudo procesar la imagen para el PDF');
-          // Generar PDF imprimible en A4 con pdf-lib
+
           const pdfBlob = await generateQRPdf(pngDataUrl, {
             title: 'Código QR Imprimible',
             subtitle: 'Escanea con la cámara de tu teléfono móvil'

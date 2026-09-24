@@ -1,10 +1,3 @@
-/**
- * Nuvexa - Sistema Central de Notificaciones y Diálogos In-App
- * Reemplaza completamente los cuadros de diálogo nativos de Windows/navegador
- * (alert, confirm, prompt) por componentes modernos, elegantes y no bloqueantes.
- */
-
-// Contenedor global de toasts
 let toastContainer = null;
 
 function getOrCreateToastContainer() {
@@ -28,10 +21,6 @@ const ICONS = {
   info: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>`
 };
 
-/**
- * Muestra una notificación flotante (Toast) in-app
- * Puede invocarse como showToast("Mensaje", "success") o showToast({ message, type, title, duration })
- */
 export function showToast(messageOrOptions, typeParam = 'info', durationParam = 4200) {
   let message = '';
   let type = 'info';
@@ -87,7 +76,6 @@ export function showToast(messageOrOptions, typeParam = 'info', durationParam = 
   if (duration > 0) {
     timeoutId = setTimeout(dismiss, duration);
 
-    // Pausar al pasar el mouse por encima
     toast.addEventListener('mouseenter', () => {
       if (timeoutId) clearTimeout(timeoutId);
     });
@@ -100,10 +88,6 @@ export function showToast(messageOrOptions, typeParam = 'info', durationParam = 
   return toast;
 }
 
-/**
- * Diálogo modal para avisos importantes o informativos
- * @returns {Promise<void>}
- */
 export function showAlertModal({
   title = 'Aviso',
   message = '',
@@ -164,10 +148,6 @@ export function showAlertModal({
   });
 }
 
-/**
- * Diálogo modal interactivo para confirmaciones
- * @returns {Promise<boolean>} Resuelve true si el usuario confirmó, false si canceló
- */
 export function showConfirmModal({
   title = '¿Confirmar acción?',
   message = '',
@@ -230,17 +210,12 @@ export function showConfirmModal({
   });
 }
 
-/**
- * Intercepta globalmente window.alert, window.confirm y window.prompt
- * para garantizar que ninguna llamada nativa de Windows se dispare jamás.
- */
 export function initGlobalDialogInterceptor() {
   if (typeof window === 'undefined') return;
 
-  // Interceptar alert nativo de Windows / navegador
   window.alert = (msg) => {
     const text = String(msg || '');
-    // Si el texto es muy largo o contiene saltos de línea múltiples, usar modal, de lo contrario toast
+
     if (text.length > 120 || text.includes('\n\n')) {
       showAlertModal({
         title: 'Aviso del Sistema',
@@ -256,10 +231,9 @@ export function initGlobalDialogInterceptor() {
     }
   };
 
-  // Interceptar confirm nativo de Windows
   window.confirm = (msg) => {
     console.warn('[Nuvexa] Se bloqueó llamada síncrona a window.confirm nativo de Windows. Usa showConfirmModal() asíncrono en su lugar.');
-    // Muestra un toast informativo para que el usuario no quede a oscuras
+
     showToast({
       title: 'Acción requerida',
       message: String(msg || 'Confirmación bloqueada por seguridad.'),
@@ -268,7 +242,6 @@ export function initGlobalDialogInterceptor() {
     return false;
   };
 
-  // Interceptar prompt nativo de Windows
   window.prompt = () => {
     console.warn('[Nuvexa] Se bloqueó llamada a window.prompt nativo de Windows.');
     return null;

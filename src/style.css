@@ -1,27 +1,22 @@
-/* ==========================================================================
-   Nuvexa - Sistema de Diseño Moderno & Privado
-   "Herramientas digitales. Privadas. En un solo lugar."
-   ========================================================================== */
-
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
-  --color-primary: #2563EB;        /* Azul Zafiro Moderno */
+  --color-primary: #2563EB;
   --color-primary-hover: #1D4ED8;
   --color-primary-light: #EFF6FF;
   --color-primary-glow: rgba(37, 99, 235, 0.15);
   --color-primary-gradient: linear-gradient(135deg, #2563EB 0%, #4F46E5 100%);
-  
-  --color-text-main: #0F172A;      /* Slate profundo para máxima legibilidad */
-  --color-text-muted: #64748B;     /* Slate balanceado */
+
+  --color-text-main: #0F172A;
+  --color-text-muted: #64748B;
   --color-text-subtle: #94A3B8;
 
-  --color-bg-base: #FFFFFF;        /* Blanco Puro */
-  --color-bg-page: #F8FAFC;        /* Slate clarísimo de fondo */
-  --color-bg-section: #F1F5F9;     /* Fondo de controles y secciones */
+  --color-bg-base: #FFFFFF;
+  --color-bg-page: #F8FAFC;
+  --color-bg-section: #F1F5F9;
   --color-bg-hover: #E2E8F0;
 
-  --color-border: #E2E8F0;         /* Bordes suaves y nítidos */
+  --color-border: #E2E8F0;
   --color-border-hover: #CBD5E1;
   --color-border-focus: #3B82F6;
 
@@ -75,9 +70,6 @@ h1, h2, h3, h4, .brand-text {
   letter-spacing: -0.025em;
 }
 
-/* ==========================================================================
-   Navegación Superior Glassmorphism (Barra Unificada en 1 Sola Línea)
-   ========================================================================== */
 .navbar {
   position: sticky;
   top: 0;
@@ -159,7 +151,6 @@ h1, h2, h3, h4, .brand-text {
   -webkit-text-fill-color: transparent;
 }
 
-/* Selector Central de Herramientas */
 .nav-tools-scroll-wrapper {
   display: flex;
   justify-content: center;
@@ -245,7 +236,6 @@ h1, h2, h3, h4, .brand-text {
   display: none;
 }
 
-/* Barra Secundaria de Sub-herramientas PDF */
 .subnav-bar {
   background: rgba(248, 250, 252, 0.9);
   border-bottom: 1px solid var(--color-border);
@@ -313,7 +303,6 @@ h1, h2, h3, h4, .brand-text {
   gap: 0.85rem;
 }
 
-/* Badge de Uso Diario */
 .usage-badge {
   display: inline-flex;
   align-items: center;
@@ -382,9 +371,6 @@ h1, h2, h3, h4, .brand-text {
   box-shadow: 0 2px 8px rgba(16, 185, 129, 0.25);
 }
 
-/* ==========================================================================
-   Hero Section
-   ========================================================================== */
 .hero {
   text-align: center;
   padding: 2.75rem 1.5rem 1.75rem;
@@ -419,9 +405,6 @@ h1, h2, h3, h4, .brand-text {
   margin: 0 auto;
 }
 
-/* ==========================================================================
-   Layout Principal
-   ========================================================================== */
 .main-wrapper {
   max-width: 1200px;
   margin: 0 auto;
@@ -443,9 +426,6 @@ h1, h2, h3, h4, .brand-text {
   box-shadow: var(--shadow-card);
 }
 
-/* ==========================================================================
-   Herramienta QR: Tabs y Formularios
-   ========================================================================== */
 .type-selector-tabs {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -567,7 +547,6 @@ h1, h2, h3, h4, .brand-text {
   display: none;
 }
 
-/* Personalización QR */
 .customization-section {
   margin-top: 1.75rem;
   padding-top: 1.5rem;
@@ -728,9 +707,6 @@ h1, h2, h3, h4, .brand-text {
   font-weight: 600;
 }
 
-/* ==========================================================================
-   Preview Card & Selector de Formato (PNG vs PDF vs SVG)
-   ========================================================================== */
 .preview-card {
   position: sticky;
   top: 5.5rem;
@@ -791,10 +767,10 @@ h1, h2, h3, h4, .brand-text {
 
 .qr-canvas-holder.checkerboard-pattern {
   background-color: #ffffff;
-  background-image: 
-    linear-gradient(45deg, #e5e7eb 25%, transparent 25%), 
-    linear-gradient(-45deg, #e5e7eb 25%, transparent 25%), 
-    linear-gradient(45deg, transparent 75%, #e5e7eb 75%), 
+  background-image:
+    linear-gradient(45deg, #e5e7eb 25%, transparent 25%),
+    linear-gradient(-45deg, #e5e7eb 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #e5e7eb 75%),
     linear-gradient(-45deg, transparent 75%, #e5e7eb 75%);
   background-size: 16px 16px;
   background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
@@ -807,7 +783,6 @@ h1, h2, h3, h4, .brand-text {
   display: block;
 }
 
-/* Selector Interactivo de Formato */
 .format-choice-wrapper {
   width: 100%;
   margin-bottom: 1.25rem;
@@ -871,7 +846,6 @@ h1, h2, h3, h4, .brand-text {
   color: var(--color-text-muted);
 }
 
-/* Botón Descarga */
 .download-actions-stack {
   width: 100%;
   display: flex;
@@ -930,9 +904,6 @@ h1, h2, h3, h4, .brand-text {
   color: var(--color-text-muted);
 }
 
-/* ==========================================================================
-   Herramienta: Imágenes a PDF
-   ========================================================================= */
 .pdf-dropzone-box {
   background: var(--color-bg-section);
   border: 2px dashed var(--color-border);
@@ -1081,9 +1052,6 @@ h1, h2, h3, h4, .brand-text {
   margin-bottom: 1.5rem;
 }
 
-/* ==========================================================================
-   Modal Pro
-   ========================================================================== */
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -1400,11 +1368,6 @@ h1, h2, h3, h4, .brand-text {
 .license-msg.success { color: var(--color-success); }
 .license-msg.error { color: var(--color-danger); }
 
-
-
-/* ==========================================================================
-   SEO & FAQ
-   ========================================================================== */
 .seo-benefits-section {
   max-width: 1200px;
   margin: 3.5rem auto 0;
@@ -1620,9 +1583,6 @@ h1, h2, h3, h4, .brand-text {
   opacity: 0.85;
 }
 
-/* ==========================================================================
-   Aviso de Confianza Bancaria y Stripe (Modal Pro)
-   ========================================================================== */
 .stripe-trust-notice {
   margin-top: 1.5rem;
   padding: 1rem 1.25rem;
@@ -1673,9 +1633,6 @@ h1, h2, h3, h4, .brand-text {
   text-decoration: underline;
 }
 
-/* ==========================================================================
-   Modal Legal (Términos, Privacidad, Stripe y Descargo)
-   ========================================================================== */
 .legal-modal-content {
   max-width: 780px;
   width: 92%;
@@ -1798,9 +1755,6 @@ h1, h2, h3, h4, .brand-text {
   }
 }
 
-/* ==========================================================================
-   Herramienta Audio a Texto
-   ========================================================================== */
 .audio-loaded-card {
   background: var(--color-bg-section);
   border: 1px solid var(--color-border);
@@ -1860,7 +1814,6 @@ h1, h2, h3, h4, .brand-text {
   margin-top: 1.25rem;
 }
 
-/* Barra de Progreso Grande para Transcripción */
 .transcribe-progress-box {
   background: var(--color-bg-section);
   border: 1px solid var(--color-border);
@@ -1901,7 +1854,6 @@ h1, h2, h3, h4, .brand-text {
   line-height: 1.4;
 }
 
-/* Separador */
 .audio-divider {
   display: flex;
   align-items: center;
@@ -1923,7 +1875,6 @@ h1, h2, h3, h4, .brand-text {
   padding: 0 0.85rem;
 }
 
-/* Dictado en Vivo (Micrófono) */
 .live-mic-card {
   background: var(--color-bg-base);
   border: 1px dashed var(--color-border);
@@ -1947,7 +1898,6 @@ h1, h2, h3, h4, .brand-text {
   color: var(--color-text-main);
 }
 
-/* Selector de Modo de Micrófono */
 .mic-mode-selector {
   display: flex;
   gap: 0.5rem;
@@ -2062,7 +2012,6 @@ h1, h2, h3, h4, .brand-text {
   100% { box-shadow: 0 0 0 0 rgba(222, 53, 11, 0); }
 }
 
-/* Ondas sonoras animadas */
 .mic-wave-container {
   display: flex;
   align-items: center;
@@ -2089,7 +2038,6 @@ h1, h2, h3, h4, .brand-text {
   50% { transform: scaleY(1); }
 }
 
-/* Editor y Salida de Transcripción */
 .transcript-badges {
   display: flex;
   gap: 0.4rem;
@@ -2188,9 +2136,6 @@ h1, h2, h3, h4, .brand-text {
   to { transform: rotate(360deg); }
 }
 
-/* ==========================================================================
-   Galería de Muestras y Casos de Uso Reales
-   ========================================================================== */
 .showcase-section {
   margin: 3.5rem 0 2rem;
 }
@@ -2326,9 +2271,6 @@ h1, h2, h3, h4, .brand-text {
   }
 }
 
-/* ==========================================================================
-   Navegación de Categorías y Sub-Barra PDF
-   ========================================================================== */
 .tool-switch-nav {
   display: flex;
   align-items: center;
@@ -2414,9 +2356,6 @@ h1, h2, h3, h4, .brand-text {
   display: none;
 }
 
-/* ==========================================================================
-   PDF Studio: Editor Visual de Páginas
-   ========================================================================== */
 .editor-top-toolbar {
   display: flex;
   justify-content: space-between;
@@ -2623,9 +2562,6 @@ h1, h2, h3, h4, .brand-text {
   font-size: 0.85rem;
 }
 
-/* ==========================================================================
-   Image Studio: Laboratorio de Imágenes
-   ========================================================================== */
 .custom-range-slider {
   width: 100%;
   height: 6px;
@@ -2756,9 +2692,6 @@ h1, h2, h3, h4, .brand-text {
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
 }
 
-/* ==========================================================================
-   OCR Studio: Reconocimiento Óptico
-   ========================================================================== */
 .ocr-img-wrap {
   text-align: center;
   padding: 1.25rem;
@@ -2775,9 +2708,6 @@ h1, h2, h3, h4, .brand-text {
   box-shadow: var(--shadow-sm);
 }
 
-/* ==========================================================================
-   Security Studio: Cifrado, Hashes y Contraseñas
-   ========================================================================== */
 .sec-tab-panel {
   display: none;
 }
@@ -2848,9 +2778,6 @@ h1, h2, h3, h4, .brand-text {
   color: var(--color-text-main);
 }
 
-/* ==========================================================================
-   Archive Studio: Creación y Extracción ZIP
-   ========================================================================== */
 .arch-tab-panel {
   display: none;
 }
@@ -2888,11 +2815,6 @@ h1, h2, h3, h4, .brand-text {
   background: var(--color-danger-bg);
 }
 
-/* ==========================================================================
-   RESPONSIVE DESIGN SYSTEM (Mobile, Tablet, Desktop)
-   ========================================================================== */
-
-/* Tablets y Pantallas Medianas (<= 992px) */
 @media (max-width: 992px) {
   .tool-grid {
     grid-template-columns: 1fr;
@@ -2919,7 +2841,6 @@ h1, h2, h3, h4, .brand-text {
   }
 }
 
-/* Teléfonos y Tablets en Vertical (<= 860px) - Header de 2 filas y tabs swipeable */
 @media (max-width: 860px) {
   .navbar {
     padding: 0.5rem 0.75rem 0.55rem;
@@ -2936,7 +2857,6 @@ h1, h2, h3, h4, .brand-text {
     width: 100%;
   }
 
-  /* Fila 1: Logo a la izquierda */
   .brand-link {
     order: 1;
     gap: 0.45rem;
@@ -2953,7 +2873,6 @@ h1, h2, h3, h4, .brand-text {
     font-size: 1.15rem;
   }
 
-  /* Fila 1: Acciones (Badge + Pro) a la derecha */
   .nav-actions {
     order: 2;
     display: flex;
@@ -2999,7 +2918,6 @@ h1, h2, h3, h4, .brand-text {
     display: inline;
   }
 
-  /* Fila 2 de Navegación: Barra segmentada nativa en fila completa dedicada al 100% */
   .nav-tools-scroll-wrapper {
     order: 3;
     width: 100% !important;
@@ -3056,7 +2974,6 @@ h1, h2, h3, h4, .brand-text {
     box-shadow: 0 1.5px 5px rgba(15, 23, 42, 0.08);
   }
 
-  /* Sub-barra de herramientas PDF compacta sin labels redundantes */
   .subnav-bar {
     top: 86px;
     padding: 0.35rem 0.75rem;
@@ -3107,9 +3024,8 @@ h1, h2, h3, h4, .brand-text {
   }
 }
 
-/* Teléfonos Móviles (<= 600px) */
 @media (max-width: 600px) {
-  /* Evitar auto-zoom molesto en iOS Safari al enfocar inputs */
+
   .form-input,
   .form-select,
   .form-textarea {
@@ -3152,7 +3068,6 @@ h1, h2, h3, h4, .brand-text {
     border-radius: 14px;
   }
 
-  /* Pestañas de tipo QR compactas y táctiles */
   .type-selector-tabs {
     display: flex !important;
     overflow-x: auto !important;
@@ -3187,7 +3102,6 @@ h1, h2, h3, h4, .brand-text {
     box-shadow: 0 1.5px 4px rgba(15, 23, 42, 0.08);
   }
 
-  /* Formatos de descarga en QR */
   .format-options-grid {
     grid-template-columns: repeat(3, 1fr);
     gap: 0.4rem;
@@ -3205,7 +3119,6 @@ h1, h2, h3, h4, .brand-text {
     font-size: 0.68rem;
   }
 
-  /* Grid de selección de colores */
   .color-inputs-grid {
     grid-template-columns: 1fr 1fr;
     gap: 0.5rem;
@@ -3234,7 +3147,6 @@ h1, h2, h3, h4, .brand-text {
     gap: 0.75rem;
   }
 
-  /* PDF Studio: Editor de páginas en 2 columnas en mobile */
   .editor-top-toolbar {
     flex-direction: column;
     align-items: stretch;
@@ -3327,7 +3239,6 @@ h1, h2, h3, h4, .brand-text {
     justify-content: center;
   }
 
-  /* Image Studio: Métricas y Controles */
   .metrics-cards-grid {
     grid-template-columns: repeat(3, 1fr);
     gap: 0.4rem;
@@ -3365,7 +3276,6 @@ h1, h2, h3, h4, .brand-text {
     padding: 0.65rem;
   }
 
-  /* Security Studio: Output de contraseñas y hashes */
   .pass-output-row {
     flex-wrap: wrap;
     gap: 0.5rem;
@@ -3393,7 +3303,6 @@ h1, h2, h3, h4, .brand-text {
     overflow-wrap: anywhere;
   }
 
-  /* Audio a Texto & OCR */
   .transcript-actions-grid {
     grid-template-columns: 1fr;
     gap: 0.5rem;
@@ -3410,7 +3319,6 @@ h1, h2, h3, h4, .brand-text {
     justify-content: center;
   }
 
-  /* Tarjetas de Demostración Visual (Showcase) */
   .tool-showcase-section {
     margin: 2.5rem auto 1rem;
   }
@@ -3435,7 +3343,6 @@ h1, h2, h3, h4, .brand-text {
     font-size: 0.82rem;
   }
 
-  /* Modales Pro y Legal */
   .modal-overlay {
     padding: 0.65rem;
   }
@@ -3445,7 +3352,6 @@ h1, h2, h3, h4, .brand-text {
     max-height: 94vh;
   }
 
-  /* Tarjetas de Demostración Visual (Showcase) */
   .tool-showcase-section {
     margin: 2.5rem auto 1rem;
   }
@@ -3470,7 +3376,6 @@ h1, h2, h3, h4, .brand-text {
     font-size: 0.82rem;
   }
 
-  /* Modales Pro y Legal */
   .modal-overlay {
     padding: 0.65rem;
   }
@@ -3533,7 +3438,6 @@ h1, h2, h3, h4, .brand-text {
   }
 }
 
-/* Pantallas Extra Pequeñas (<= 380px) */
 @media (max-width: 380px) {
   #navbar-usage-badge span {
     display: none;
@@ -3566,9 +3470,6 @@ h1, h2, h3, h4, .brand-text {
   }
 }
 
-/* ==========================================================================
-   OCR Studio: Buscador en Contratos y Mejoras Visuales
-   ========================================================================== */
 .ocr-search-bar-wrap {
   display: flex;
   flex-direction: column;
@@ -3683,7 +3584,6 @@ h1, h2, h3, h4, .brand-text {
   font-weight: 500;
 }
 
-/* Sugerencias Rápidas de Búsqueda (Chips) */
 .contract-search-chips {
   display: flex;
   align-items: center;
@@ -3720,7 +3620,6 @@ h1, h2, h3, h4, .brand-text {
   transform: translateY(-1px);
 }
 
-/* Tabs de Visualización (Editor vs Resaltado) */
 .ocr-view-mode-tabs {
   display: flex;
   gap: 0.4rem;
@@ -3750,7 +3649,6 @@ h1, h2, h3, h4, .brand-text {
   color: #ffffff;
 }
 
-/* Visor con Resaltado */
 .ocr-highlight-doc-box {
   min-height: 220px;
   max-height: 350px;
@@ -3784,7 +3682,6 @@ h1, h2, h3, h4, .brand-text {
   box-shadow: 0 0 8px rgba(249, 115, 22, 0.6);
 }
 
-/* Resumen de Cláusulas Encontradas */
 .ocr-clauses-summary-box {
   margin-top: 0.85rem;
   padding: 0.85rem;
@@ -3821,7 +3718,6 @@ h1, h2, h3, h4, .brand-text {
   scrollbar-width: none;
 }
 
-/* Estilos de Acciones Inteligentes (Smart Actions) */
 .smart-action-item {
   display: flex;
   align-items: center;
@@ -3979,9 +3875,6 @@ h1, h2, h3, h4, .brand-text {
   border-color: var(--color-primary);
 }
 
-/* ==========================================================================
-   Image Studio & Conversor Masivo de Imágenes
-   ========================================================================== */
 .batch-table {
   width: 100%;
   border-collapse: collapse;
@@ -4029,9 +3922,6 @@ h1, h2, h3, h4, .brand-text {
   background: var(--color-danger-bg, #fee2e2);
 }
 
-/* ==========================================================================
-   Label Studio (Planchas A4 con Códigos QR y de Barras)
-   ========================================================================== */
 .label-sheet-preview-wrap {
   display: flex;
   justify-content: center;
@@ -4052,9 +3942,6 @@ h1, h2, h3, h4, .brand-text {
   display: block;
 }
 
-/* ==========================================================================
-   Smart Actions Hub ("Hacé esto con mis archivos")
-   ========================================================================== */
 .smart-action-item {
   display: flex;
   align-items: center;
@@ -4109,9 +3996,6 @@ h1, h2, h3, h4, .brand-text {
   color: #ffffff;
 }
 
-/* ==========================================================================
-   DocDiff Studio (Comparador de Documentos y PDFs)
-   ========================================================================== */
 .diff-viewer-box {
   background: var(--color-bg-section);
   border: 1px solid var(--color-border);
@@ -4168,9 +4052,6 @@ h1, h2, h3, h4, .brand-text {
   gap: 0.4rem;
 }
 
-/* ==========================================================================
-   Secciones de Guía y Pasos de Uso ("Cómo funciona")
-   ========================================================================== */
 .tool-guide-section {
   margin-top: 2.5rem;
   padding-top: 1.75rem;
@@ -4245,11 +4126,6 @@ h1, h2, h3, h4, .brand-text {
   margin: 0;
 }
 
-/* Fin de Estilos Generales */
-
-/* ==========================================================================
-   Footer & Developer Attribution Styles
-   ========================================================================== */
 .footer {
   background: #FFFFFF;
   border-top: 1px solid var(--color-border);
@@ -4338,11 +4214,6 @@ h1, h2, h3, h4, .brand-text {
   color: var(--color-primary-hover);
   text-decoration: underline;
 }
-
-/* ==========================================================================
-   Nuvexa - Sistema de Notificaciones Toast & Modales In-App
-   Reemplaza los cuadros de diálogo y alertas nativas de Windows
-   ========================================================================== */
 
 .nuvexa-toast-container {
   position: fixed;
@@ -4454,7 +4325,6 @@ h1, h2, h3, h4, .brand-text {
   }
 }
 
-/* Modales de Confirmación y Alerta In-App */
 .nuvexa-dialog-overlay {
   position: fixed;
   inset: 0;
@@ -4579,19 +4449,16 @@ h1, h2, h3, h4, .brand-text {
     left: 1rem;
     width: auto;
   }
-  
+
   .nuvexa-dialog-actions {
     flex-direction: column-reverse;
   }
-  
+
   .nuvexa-dialog-actions button {
     width: 100%;
   }
 }
 
-/* ==========================================================================
-   Banner de Consentimiento de Cookies (Google AdSense & GDPR)
-   ========================================================================== */
 .cookie-banner {
   position: fixed;
   bottom: 1.25rem;
@@ -4694,5 +4561,3 @@ h1, h2, h3, h4, .brand-text {
     width: 100%;
   }
 }
-
-

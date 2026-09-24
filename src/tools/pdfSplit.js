@@ -21,9 +21,6 @@ function downloadBlob(blob, filename) {
   }, 1000);
 }
 
-/**
- * Parsea un rango de páginas en formato texto (ej: "1-3, 5") a índices 0-indexed
- */
 function parsePageRange(rangeStr, maxPages) {
   const indices = new Set();
   const parts = rangeStr.split(',').map(p => p.trim()).filter(Boolean);

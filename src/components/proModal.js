@@ -26,7 +26,6 @@ const PLAN_DETAILS = {
   }
 };
 
-// Enlaces de pago oficiales de Lemon Squeezy para cada plan de Nuvexa
 export const CHECKOUT_URLS = {
   Monthly: import.meta.env.VITE_CHECKOUT_MONTHLY_URL || 'https://nuvexa.lemonsqueezy.com/checkout/buy/819358f6-bb33-441e-b5f6-7e1a946e6f06',
   Annual: import.meta.env.VITE_CHECKOUT_ANNUAL_URL || 'https://nuvexa.lemonsqueezy.com/checkout/buy/7b4117d4-93c0-4e25-b22d-73a32bc34e65',
@@ -47,9 +46,6 @@ const REASON_DESCRIPTIONS = {
   general: 'Todas las herramientas de Nuvexa (QR, PDF, imágenes, audio y seguridad) 100% privadas y sin límites.'
 };
 
-/**
- * Selecciona interactivamente una tarjeta de plan en el modal
- */
 export function selectPlan(planKey) {
   if (!PLAN_DETAILS[planKey]) return;
   selectedPlan = planKey;
@@ -75,9 +71,6 @@ export function selectPlan(planKey) {
   });
 }
 
-/**
- * Actualiza la barra superior de estado de la cuenta dentro del modal
- */
 export function updateModalStatusBar() {
   const statusBar = document.getElementById('pro-modal-status-bar');
   if (!statusBar) return;
@@ -105,12 +98,7 @@ export function updateModalStatusBar() {
   }
 }
 
-/**
- * Abre el modal promocional de Nuvexa Pro
- * @param {'daily_limit' | 'logo' | 'svg' | 'general'} reason 
- */
 export function openProModal(reason = 'general') {
-  // En la versión de escritorio de Electron nunca se abre el modal de venta/licencia
   if (isElectronEnv()) return;
   if (!modalElement) return;
 
@@ -150,9 +138,8 @@ export function initProModal({ onStatusChange }) {
     }
   });
 
-  // Habilitar selección interactiva al hacer clic en cualquier tarjeta de plan
   document.querySelectorAll('.plan-card').forEach(card => {
-    card.addEventListener('click', (e) => {
+    card.addEventListener('click', () => {
       const plan = card.dataset.plan;
       if (plan && plan !== selectedPlan) {
         selectPlan(plan);
@@ -160,7 +147,6 @@ export function initProModal({ onStatusChange }) {
     });
   });
 
-  // Escuchar botones de compra de cada plan
   document.querySelectorAll('.btn-buy-plan').forEach(btn => {
     btn.addEventListener('click', async (e) => {
       e.stopPropagation();
@@ -182,7 +168,6 @@ export function initProModal({ onStatusChange }) {
     });
   });
 
-  // Validación de clave de licencia oficial
   const licenseInput = document.getElementById('input-license-key');
   const btnActivateLicense = document.getElementById('btn-activate-license');
   const licenseMsg = document.getElementById('license-feedback-msg');
@@ -222,4 +207,3 @@ export function initProModal({ onStatusChange }) {
     }, 700);
   });
 }
-

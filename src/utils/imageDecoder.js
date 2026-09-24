@@ -1,12 +1,9 @@
 let libheifModule = null;
 
-/**
- * Obtiene la instancia de libheif de forma segura bajo demanda.
- */
 async function getHeifDecoderClass() {
   if (!libheifModule) {
     try {
-      // Carga perezosa (lazy load) para no congelar la carga inicial de la página
+
       const mod = await import('libheif-js/wasm-bundle.js');
       libheifModule = mod?.default || mod;
     } catch (e) {
@@ -38,18 +35,12 @@ async function getHeifDecoderClass() {
   return null;
 }
 
-/**
- * Detecta si un archivo es una imagen, ya sea por su tipo MIME o su extensión de nombre.
- */
 export function isImageFile(file) {
   if (!file) return false;
   if (file.type && file.type.startsWith('image/')) return true;
   return /\.(jpe?g|png|webp|avif|gif|bmp|svg|heic|heif|tiff?|ico)$/i.test(file.name || '');
 }
 
-/**
- * Detecta si un archivo es HEIC/HEIF
- */
 export function isHeicFile(file) {
   if (!file) return false;
   const name = file.name || '';
@@ -57,12 +48,9 @@ export function isHeicFile(file) {
   return /\.(heic|heif)$/i.test(name) || type === 'image/heic' || type === 'image/heif';
 }
 
-/**
- * Decodifica un archivo HEIC/HEIF usando libheif WebAssembly y lo transforma en un Canvas/Blob JPEG.
- */
 async function decodeHeicToJpegBlob(file) {
   const buffer = await file.arrayBuffer();
-  
+
   const HeifDecoderClass = await getHeifDecoderClass();
   if (!HeifDecoderClass) {
     throw new Error('Motor de decodificación HEIC no disponible.');
@@ -70,7 +58,7 @@ async function decodeHeicToJpegBlob(file) {
 
   const decoder = new HeifDecoderClass();
   const data = decoder.decode(new Uint8Array(buffer));
-  
+
   if (!data || data.length === 0) {
     throw new Error('No se pudo encontrar ninguna pista de imagen en el archivo HEIC.');
   }
@@ -104,10 +92,6 @@ async function decodeHeicToJpegBlob(file) {
   });
 }
 
-/**
- * Procesa un archivo de imagen. Si es HEIC/HEIF, lo convierte transparentemente a JPEG.
- * Retorna un objeto { file, url, originalName, isConvertedFromHeic }.
- */
 export async function normalizeImageFile(file) {
   if (!file) throw new Error('No se especificó un archivo');
 
@@ -131,7 +115,6 @@ export async function normalizeImageFile(file) {
     }
   }
 
-  // Si ya es un formato compatible (PNG, JPG, WebP, AVIF, GIF, etc.)
   const url = URL.createObjectURL(file);
   return {
     file,

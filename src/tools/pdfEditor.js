@@ -1,21 +1,12 @@
-/**
- * Herramienta: Editor Visual de PDF (100% en el Navegador)
- * Permite rotar páginas individuales, reordenar, eliminar páginas,
- * agregar numeración y marcas de agua sin subir el archivo a ningún servidor.
- */
-
 import { PDFDocument, degrees, rgb, StandardFonts } from 'pdf-lib';
 import { canPerformDownload, consumeDailyUse, isProUser } from '../services/storage.js';
 import { showToast } from '../utils/dialog.js';
 
 let loadedPdfBytes = null;
 let pdfFileName = 'documento.pdf';
-let pagesState = []; // Array de { originalIndex, rotation: 0, isDeleted: false }
+let pagesState = [];
 let isProcessing = false;
 
-/**
- * Descarga el archivo PDF resultante
- */
 function downloadBlob(blob, filename) {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -29,9 +20,6 @@ function downloadBlob(blob, filename) {
   }, 1000);
 }
 
-/**
- * Inicializa el Editor Visual de PDF
- */
 export function initPdfEditor({ onUsageUpdated, onProModalRequested }) {
   const dropzone = document.getElementById('editor-pdf-dropzone');
   const fileInput = document.getElementById('editor-pdf-file-input');
@@ -42,7 +30,6 @@ export function initPdfEditor({ onUsageUpdated, onProModalRequested }) {
   const btnChangeDoc = document.getElementById('btn-editor-change-doc');
   const btnExportPdf = document.getElementById('btn-editor-export-pdf');
 
-  // Controles de opciones de exportación
   const checkWatermark = document.getElementById('check-editor-watermark');
   const inputWatermarkText = document.getElementById('input-editor-watermark-text');
   const checkPageNumbers = document.getElementById('check-editor-page-numbers');
@@ -51,7 +38,6 @@ export function initPdfEditor({ onUsageUpdated, onProModalRequested }) {
 
   if (!dropzone || !workspace || !pagesGrid) return;
 
-  // Manejo de carga de documento
   async function loadPdfFile(file) {
     if (!file || file.type !== 'application/pdf' && !file.name.endsWith('.pdf')) {
       showToast({ message: 'Por favor selecciona un archivo PDF válido.', type: 'warning' });
@@ -92,7 +78,6 @@ export function initPdfEditor({ onUsageUpdated, onProModalRequested }) {
     }
   }
 
-  // Renderiza la cuadrícula interactiva de miniaturas de páginas
   function renderPagesGrid() {
     pagesGrid.innerHTML = '';
     const activePages = pagesState.filter(p => !p.isDeleted);
@@ -156,7 +141,6 @@ export function initPdfEditor({ onUsageUpdated, onProModalRequested }) {
         </div>
       `;
 
-      // Eventos de la tarjeta
       card.querySelector('.btn-rotate-page').onclick = () => {
         pageItem.rotation = (pageItem.rotation + 90) % 360;
         renderPagesGrid();
@@ -189,7 +173,6 @@ export function initPdfEditor({ onUsageUpdated, onProModalRequested }) {
     });
   }
 
-  // Eventos de Dropzone
   dropzone.onclick = () => fileInput?.click();
   fileInput.onchange = (e) => {
     const file = e.target.files?.[0];
@@ -215,7 +198,6 @@ export function initPdfEditor({ onUsageUpdated, onProModalRequested }) {
     if (file) loadPdfFile(file);
   });
 
-  // Cambiar documento
   if (btnChangeDoc) {
     btnChangeDoc.onclick = () => {
       loadedPdfBytes = null;
@@ -226,7 +208,6 @@ export function initPdfEditor({ onUsageUpdated, onProModalRequested }) {
     };
   }
 
-  // Rotar todas las páginas 90°
   if (btnRotateAll) {
     btnRotateAll.onclick = () => {
       pagesState.forEach(p => {
@@ -236,7 +217,6 @@ export function initPdfEditor({ onUsageUpdated, onProModalRequested }) {
     };
   }
 
-  // Restablecer páginas eliminadas y rotaciones
   if (btnResetPages) {
     btnResetPages.onclick = () => {
       pagesState.forEach(p => {
@@ -248,7 +228,6 @@ export function initPdfEditor({ onUsageUpdated, onProModalRequested }) {
     };
   }
 
-  // Exportar el PDF editado
   if (btnExportPdf) {
     btnExportPdf.onclick = async () => {
       if (!loadedPdfBytes || isProcessing) return;
@@ -286,7 +265,6 @@ export function initPdfEditor({ onUsageUpdated, onProModalRequested }) {
 
           const { width, height } = copiedPage.getSize();
 
-          // Agregar Marca de Agua si está activa
           if (addWatermark) {
             copiedPage.drawText(watermarkText, {
               x: width * 0.15,
@@ -299,7 +277,6 @@ export function initPdfEditor({ onUsageUpdated, onProModalRequested }) {
             });
           }
 
-          // Agregar Numeración si está activa
           if (addNumbering) {
             const pageStr = `${newIdx + 1} / ${activePages.length}`;
             copiedPage.drawText(pageStr, {
