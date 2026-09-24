@@ -14,12 +14,14 @@ import { initArchiveStudio } from './tools/archiveStudio.js';
 import { initProModal, openProModal } from './components/proModal.js';
 import { initLegalModal } from './components/legalModal.js';
 import { inject } from '@vercel/analytics';
+import { initGoogleAds, removeExistingAds } from './services/adsService.js';
 import { initGlobalDialogInterceptor, showAlertModal, showToast } from './utils/dialog.js';
 
 initGlobalDialogInterceptor();
 
 if (!isElectronEnv()) {
   inject();
+  initGoogleAds();
 }
 
 let qrToolInstance = null;
@@ -34,6 +36,7 @@ export function updateFreemiumUI(shouldRefreshQR = false) {
   const svgBadges = document.querySelectorAll('.badge-pro');
 
   if (isElectron) {
+    removeExistingAds();
 
     if (usageBadge) {
       usageBadge.classList.add('is-pro');
@@ -55,6 +58,7 @@ export function updateFreemiumUI(shouldRefreshQR = false) {
       logoNotice.textContent = 'Habilitado en versión de escritorio';
     }
   } else if (status.isPro) {
+    removeExistingAds();
 
     if (usageBadge) {
       usageBadge.classList.add('is-pro');
