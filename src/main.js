@@ -1,3 +1,4 @@
+import { inject } from '@vercel/analytics';
 import { getUsageStatus, isProUser, deactivatePro, activateProLicense, isElectronEnv } from './services/storage.js';
 import { initSmartActions } from './tools/smartActions.js';
 import { initDocDiffStudio } from './tools/docDiffStudio.js';
@@ -14,6 +15,9 @@ import { initArchiveStudio } from './tools/archiveStudio.js';
 import { initProModal, openProModal } from './components/proModal.js';
 import { initLegalModal } from './components/legalModal.js';
 import { initGlobalDialogInterceptor, showAlertModal, showToast } from './utils/dialog.js';
+
+// Initialize Vercel Web Analytics
+inject();
 
 initGlobalDialogInterceptor();
 
