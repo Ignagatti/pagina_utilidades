@@ -26,6 +26,13 @@ const PLAN_DETAILS = {
   }
 };
 
+// Enlaces de pago oficiales de Lemon Squeezy para cada plan de Nuvexa
+export const CHECKOUT_URLS = {
+  Monthly: import.meta.env.VITE_CHECKOUT_MONTHLY_URL || 'https://nuvexa.lemonsqueezy.com/checkout/buy/819358f6-bb33-441e-b5f6-7e1a946e6f06',
+  Annual: import.meta.env.VITE_CHECKOUT_ANNUAL_URL || 'https://nuvexa.lemonsqueezy.com/checkout/buy/7b4117d4-93c0-4e25-b22d-73a32bc34e65',
+  Lifetime: import.meta.env.VITE_CHECKOUT_LIFETIME_URL || 'https://nuvexa.lemonsqueezy.com/checkout/buy/2084ec4e-d3a8-4c4f-8ca5-75fcf30c5093'
+};
+
 const REASON_TITLES = {
   daily_limit: 'Descargas ilimitadas con Nuvexa Pro',
   logo: 'Personalización con tu Logotipo',
@@ -166,17 +173,15 @@ export function initProModal({ onStatusChange }) {
       selectPlan(planKey);
 
       const planInfo = PLAN_DETAILS[planKey] || PLAN_DETAILS.Annual;
-      const checkoutUrl = import.meta.env.VITE_CHECKOUT_URL;
+      const targetUrl = CHECKOUT_URLS[planKey] || (import.meta.env.VITE_CHECKOUT_URL ? `${import.meta.env.VITE_CHECKOUT_URL}?plan=${planKey.toLowerCase()}` : '');
 
-      if (checkoutUrl && checkoutUrl.startsWith('http')) {
-        const url = new URL(checkoutUrl);
-        url.searchParams.set('plan', planKey.toLowerCase());
-        window.location.href = url.toString();
+      if (targetUrl && targetUrl.startsWith('http') && !targetUrl.includes('test_demo') && !targetUrl.includes('...')) {
+        window.location.href = targetUrl;
       } else {
         const confirmBuy = await showConfirmModal({
           title: `Checkout - ${planInfo.name}`,
-          message: `Precio: ${planInfo.price} (${planInfo.period})\n\n¿Deseas simular el pago y activar el acceso Pro ilimitado ahora mismo?`,
-          confirmText: 'Activar Pro Ahora',
+          message: `Precio: ${planInfo.price} (${planInfo.period})\n\n[Modo Demostración / Configuración]\nAún no has vinculado tu enlace real de Stripe/Lemon Squeezy para este plan.\n\n¿Deseas simular el pago y activar el acceso Pro ilimitado ahora mismo para probar la plataforma?`,
+          confirmText: 'Simular y Activar Pro',
           cancelText: 'Cancelar',
           type: 'info'
         });
