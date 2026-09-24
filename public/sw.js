@@ -1,30 +1,10 @@
-// Nuvexa - Service Worker para Soporte PWA & Funcionamiento Offline
-const CACHE_NAME = 'nuvexa-pwa-v1';
-const STATIC_ASSETS = [
-  '/',
-  '/index.html',
-  '/manifest.webmanifest',
-  '/logo.png',
-  '/icons/icon-192x192.png',
-  '/icons/icon-512x512.png',
-  '/icons/icon-maskable-192x192.png',
-  '/icons/icon-maskable-512x512.png',
-  '/icons/apple-touch-icon.png'
-];
+// Nuvexa - Service Worker PWA (Network-First & Cache Invalidation)
+const CACHE_NAME = 'nuvexa-pwa-v2';
 
-// Instalación del Service Worker
 self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(STATIC_ASSETS).catch((err) => {
-        console.warn('Error precaching static assets:', err);
-      });
-    })
-  );
   self.skipWaiting();
 });
 
-// Activación y limpieza de caches antiguos
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) => {
@@ -35,37 +15,29 @@ self.addEventListener('activate', (event) => {
           }
         })
       );
-    })
+    }).then(() => self.clients.claim())
   );
-  self.clients.claim();
 });
 
-// Estrategia Network-First con Fallback a Cache para navegación
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
-
-  // No interceptar peticiones a extensiones de navegador ni APIs externas
   if (!event.request.url.startsWith(self.location.origin)) return;
 
+  // No interceptar peticiones con parámetros especiales
   event.respondWith(
     fetch(event.request)
       .then((response) => {
-        // Guardar copia fresca en cache
         if (response && response.status === 200 && response.type === 'basic') {
-          const responseClone = response.clone();
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(event.request, responseClone);
-          });
+          // No cachear HTML para evitar versiones desactualizadas de bundles JS
+          const isHtml = response.headers.get('content-type')?.includes('text/html');
+          if (!isHtml) {
+            const clone = response.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+          }
         }
         return response;
       })
-      .catch(() => {
-        return caches.match(event.request).then((cachedResponse) => {
-          if (cachedResponse) return cachedResponse;
-          if (event.request.mode === 'navigate') {
-            return caches.match('/');
-          }
-        });
-      })
+      .catch(() => caches.match(event.request))
   );
 });
+

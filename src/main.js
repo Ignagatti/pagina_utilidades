@@ -327,10 +327,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // 8. Detección de retorno de pasarela de pagos (Stripe / Lemon Squeezy)
   checkPaymentReturnUrl();
 
-  // Registro de Service Worker opcional para caché local
+  // Registro de Service Worker con auto-actualización inmediata
   if ('serviceWorker' in navigator && !window.electronAPI?.isElectron) {
     window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/sw.js').catch((err) => {
+      navigator.serviceWorker.register('/sw.js').then((reg) => {
+        reg.update();
+      }).catch((err) => {
         console.warn('SW registration warning:', err);
       });
     });
