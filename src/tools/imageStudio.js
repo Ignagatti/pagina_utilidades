@@ -210,41 +210,41 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
   }
 
   /**
-   * Aplica un kernel de convolución 3x3 de nitidez (Laplaciano)
+   * Aplica un kernel de convolución 3x3 de nitidez optimizado de alto rendimiento
    */
   function applySharpen(imageData, strength) {
     if (strength <= 0) return imageData;
-    const weights = [
-      0, -strength, 0,
-      -strength, 1 + (4 * strength), -strength,
-      0, -strength, 0
-    ];
     const src = imageData.data;
     const sw = imageData.width;
     const sh = imageData.height;
     const output = new ImageData(sw, sh);
     const dst = output.data;
+    const wCenter = 1 + (4 * strength);
+    const wEdge = -strength;
 
-    for (let y = 0; y < sh; y++) {
-      for (let x = 0; x < sw; x++) {
-        const dstOff = (y * sw + x) * 4;
-        let r = 0, g = 0, b = 0;
+    // Copia inicial rápida
+    dst.set(src);
 
-        for (let cy = 0; cy < 3; cy++) {
-          for (let cx = 0; cx < 3; cx++) {
-            const scy = Math.min(sh - 1, Math.max(0, y + cy - 1));
-            const scx = Math.min(sw - 1, Math.max(0, x + cx - 1));
-            const srcOff = (scy * sw + scx) * 4;
-            const wt = weights[cy * 3 + cx];
-            r += src[srcOff] * wt;
-            g += src[srcOff + 1] * wt;
-            b += src[srcOff + 2] * wt;
-          }
-        }
-        dst[dstOff] = Math.min(255, Math.max(0, r));
-        dst[dstOff + 1] = Math.min(255, Math.max(0, g));
-        dst[dstOff + 2] = Math.min(255, Math.max(0, b));
-        dst[dstOff + 3] = src[dstOff + 3];
+    // Procesamiento directo de píxeles interiores sin bucles 2D anidados ni llamadas Math.min/max
+    for (let y = 1; y < sh - 1; y++) {
+      const ySw = y * sw;
+      const yPrevSw = (y - 1) * sw;
+      const yNextSw = (y + 1) * sw;
+
+      for (let x = 1; x < sw - 1; x++) {
+        const idx = (ySw + x) << 2;
+        const top = (yPrevSw + x) << 2;
+        const bottom = (yNextSw + x) << 2;
+        const left = (ySw + x - 1) << 2;
+        const right = (ySw + x + 1) << 2;
+
+        const r = src[idx] * wCenter + (src[top] + src[bottom] + src[left] + src[right]) * wEdge;
+        const g = src[idx + 1] * wCenter + (src[top + 1] + src[bottom + 1] + src[left + 1] + src[right + 1]) * wEdge;
+        const b = src[idx + 2] * wCenter + (src[top + 2] + src[bottom + 2] + src[left + 2] + src[right + 2]) * wEdge;
+
+        dst[idx] = r < 0 ? 0 : (r > 255 ? 255 : r);
+        dst[idx + 1] = g < 0 ? 0 : (g > 255 ? 255 : g);
+        dst[idx + 2] = b < 0 ? 0 : (b > 255 ? 255 : b);
       }
     }
     return output;
@@ -296,7 +296,13 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
     return imageData;
   }
 
-  function getProcessedCanvas() {
+  /**
+   * Genera el canvas procesado.
+   * Si isExport es false (modo previsualización en vivo mientras se mueven sliders),
+   * limita el tamaño a un máximo de 1000px para que mover sliders sea 100% fluido (60 FPS) en móviles.
+   * Si isExport es true (al descargar), procesa la imagen a su máxima resolución original completa.
+   */
+  function getProcessedCanvas(isExport = false) {
     if (!originalImage) return null;
 
     let targetW = parseInt(inputWidth?.value) || originalWidth;
@@ -305,25 +311,41 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
     targetW = Math.max(1, Math.min(8000, targetW));
     targetH = Math.max(1, Math.min(8000, targetH));
 
+    let renderW = targetW;
+    let renderH = targetH;
+
+    // En previsualización interactiva rápida en móviles/pantallas, limitar a 1000px máx
+    if (!isExport) {
+      const maxPreviewDim = 1000;
+      if (renderW > maxPreviewDim || renderH > maxPreviewDim) {
+        if (renderW >= renderH) {
+          renderH = Math.max(1, Math.round((renderH * maxPreviewDim) / renderW));
+          renderW = maxPreviewDim;
+        } else {
+          renderW = Math.max(1, Math.round((renderW * maxPreviewDim) / renderH));
+          renderH = maxPreviewDim;
+        }
+      }
+    }
+
     const canvas = document.createElement('canvas');
     const isSideways = (rotationAngle % 180 !== 0);
 
-    canvas.width = isSideways ? targetH : targetW;
-    canvas.height = isSideways ? targetW : targetH;
+    canvas.width = isSideways ? renderH : renderW;
+    canvas.height = isSideways ? renderW : renderH;
 
     const ctx = canvas.getContext('2d');
     ctx.imageSmoothingEnabled = true;
-    ctx.imageSmoothingQuality = 'high';
+    ctx.imageSmoothingQuality = isExport ? 'high' : 'medium';
 
     const format = selectFormat?.value || 'image/jpeg';
-    // Si el formato de salida es JPEG, rellenar fondo para evitar cuadros negros en PNG transparente
     if (format === 'image/jpeg') {
       const bgColor = inputBgColor?.value || '#FFFFFF';
       ctx.fillStyle = bgColor;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
     }
 
-    // Filtros CSS de canvas para brillo y contraste
+    // Filtros CSS de canvas para brillo y contraste (hardware-accelerated)
     const brightnessVal = parseInt(sliderBrightness?.value) || 0;
     const contrastVal = parseInt(sliderContrast?.value) || 0;
     const bFactor = 1 + (brightnessVal / 100);
@@ -343,7 +365,7 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
     ctx.rotate((rotationAngle * Math.PI) / 180);
     ctx.scale(flipH ? -1 : 1, flipV ? -1 : 1);
 
-    ctx.drawImage(originalImage, -targetW / 2, -targetH / 2, targetW, targetH);
+    ctx.drawImage(originalImage, -renderW / 2, -renderH / 2, renderW, renderH);
     ctx.restore();
 
     // Procesamiento por píxeles (Auto-Realce, Modo Documento, Nitidez)
@@ -372,12 +394,38 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
     return canvas;
   }
 
-  async function updateProcessedImage() {
-    const canvas = getProcessedCanvas();
-    if (!canvas) return;
+  let isUpdatingPreview = false;
+  let pendingUpdate = false;
+  let toBlobDebounceTimer = null;
 
-    const format = selectFormat?.value || 'image/jpeg';
-    const quality = (parseInt(sliderQuality?.value) || 85) / 100;
+  /**
+   * Actualiza la previsualización de forma suave y sin tirones mediante requestAnimationFrame
+   */
+  function updateProcessedImage(immediate = false) {
+    if (immediate) {
+      renderCurrentPreview();
+      return;
+    }
+
+    if (isUpdatingPreview) {
+      pendingUpdate = true;
+      return;
+    }
+
+    isUpdatingPreview = true;
+    requestAnimationFrame(() => {
+      renderCurrentPreview();
+      isUpdatingPreview = false;
+      if (pendingUpdate) {
+        pendingUpdate = false;
+        updateProcessedImage(false);
+      }
+    });
+  }
+
+  function renderCurrentPreview() {
+    const canvas = getProcessedCanvas(false);
+    if (!canvas) return;
 
     if (previewImg) {
       previewImg.width = canvas.width;
@@ -387,27 +435,34 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
       ctx.drawImage(canvas, 0, 0);
     }
 
-    canvas.toBlob((blob) => {
-      if (!blob) return;
+    // Debounce del cálculo de tamaño (evita sobrecargar el encoder en cada movimiento táctil)
+    if (toBlobDebounceTimer) clearTimeout(toBlobDebounceTimer);
+    toBlobDebounceTimer = setTimeout(() => {
+      const format = selectFormat?.value || 'image/jpeg';
+      const quality = (parseInt(sliderQuality?.value) || 85) / 100;
 
-      if (estSizeEl) estSizeEl.textContent = formatBytes(blob.size);
+      canvas.toBlob((blob) => {
+        if (!blob) return;
 
-      if (savingsPill && originalFile) {
-        const diff = originalFile.size - blob.size;
-        const percent = Math.round((diff / originalFile.size) * 100);
+        if (estSizeEl) estSizeEl.textContent = formatBytes(blob.size);
 
-        if (percent > 0) {
-          savingsPill.textContent = `-${percent}% de ahorro`;
-          savingsPill.className = 'tier-badge pro';
-        } else if (percent < 0) {
-          savingsPill.textContent = `+${Math.abs(percent)}% mayor`;
-          savingsPill.className = 'tier-badge free';
-        } else {
-          savingsPill.textContent = 'Mismo tamaño';
-          savingsPill.className = 'tier-badge free';
+        if (savingsPill && originalFile) {
+          const diff = originalFile.size - blob.size;
+          const percent = Math.round((diff / originalFile.size) * 100);
+
+          if (percent > 0) {
+            savingsPill.textContent = `-${percent}% de ahorro`;
+            savingsPill.className = 'tier-badge pro';
+          } else if (percent < 0) {
+            savingsPill.textContent = `+${Math.abs(percent)}% mayor`;
+            savingsPill.className = 'tier-badge free';
+          } else {
+            savingsPill.textContent = 'Mismo tamaño';
+            savingsPill.className = 'tier-badge free';
+          }
         }
-      }
-    }, format, quality);
+      }, format, quality);
+    }, 180);
   }
 
   // Presets rápidos de formato (A JPG, A PNG, A WebP, A AVIF)
@@ -548,7 +603,7 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
   });
 
   btnDownloadImage?.addEventListener('click', async () => {
-    const canvas = getProcessedCanvas();
+    const canvas = getProcessedCanvas(true);
     if (!canvas) return;
 
     if (!canPerformDownload()) {
