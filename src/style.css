@@ -2934,16 +2934,26 @@ h1, h2, h3, h4, .brand-text {
 /* Teléfonos y Tablets en Vertical (<= 860px) - Header de 2 filas y tabs swipeable */
 @media (max-width: 860px) {
   .navbar {
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 0.85rem 0.6rem;
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: 0 1px 4px rgba(15, 23, 42, 0.05);
   }
 
   .nav-container {
     flex-wrap: wrap;
-    gap: 0.5rem 0.75rem;
+    gap: 0.45rem 0.65rem;
+    align-items: center;
   }
 
   .brand-link {
     order: 1;
+    gap: 0.5rem;
+  }
+
+  .brand-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
   }
 
   .brand-text {
@@ -2952,56 +2962,98 @@ h1, h2, h3, h4, .brand-text {
 
   .nav-actions {
     order: 2;
-    gap: 0.5rem;
+    gap: 0.45rem;
   }
 
   .usage-badge {
-    padding: 0.3rem 0.65rem;
-    font-size: 0.75rem;
+    padding: 0.28rem 0.6rem;
+    font-size: 0.74rem;
+    border-radius: var(--radius-full);
+  }
+
+  .mini-progress-track {
+    width: 32px;
+    height: 5px;
   }
 
   .btn-pro {
-    padding: 0.4rem 0.85rem;
+    padding: 0.38rem 0.8rem;
     font-size: 0.78rem;
+    border-radius: 8px;
   }
 
-  /* Fila 2 de Navegación: Categorías a ancho completo con scroll táctil suave */
+  /* Fila 2 de Navegación: Barra segmentada nativa con swipe táctil ultra-suave */
   .nav-tools-scroll-wrapper {
     order: 3;
     width: 100%;
-    margin-top: 0.35rem;
+    margin-top: 0.25rem;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
+    display: flex;
     justify-content: flex-start;
   }
 
+  .nav-tools-scroll-wrapper::-webkit-scrollbar {
+    display: none;
+  }
+
   .tool-switch-nav {
-    width: 100%;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    justify-content: flex-start;
-    padding: 0.3rem 0.35rem;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    background: #F1F5F9;
+    padding: 0.22rem 0.28rem;
+    border-radius: 10px;
+    border: 1px solid rgba(226, 232, 240, 0.95);
+    width: max-content;
+    min-width: 100%;
   }
 
   .nav-cat-btn {
     flex-shrink: 0;
-    padding: 0.45rem 0.8rem;
-    font-size: 0.8rem;
-    border-radius: var(--radius-sm);
+    padding: 0.4rem 0.7rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    border-radius: 7px;
+    color: #64748B;
+    background: transparent;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    transition: all 0.15s ease;
   }
 
-  /* Sub-barra de herramientas PDF sticky ajustada para el nuevo alto de navbar */
+  .nav-cat-btn svg {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+  }
+
+  .nav-cat-btn.active {
+    background: #FFFFFF;
+    color: var(--color-primary);
+    font-weight: 700;
+    box-shadow: 0 1.5px 5px rgba(15, 23, 42, 0.08);
+  }
+
+  /* Sub-barra de herramientas PDF compacta sin labels redundantes */
   .subnav-bar {
-    top: 88px;
-    padding: 0.4rem 1rem;
+    top: 86px;
+    padding: 0.35rem 0.75rem;
+    background: rgba(248, 250, 252, 0.95);
+    border-bottom: 1px solid rgba(226, 232, 240, 0.85);
   }
 
   .subnav-container {
-    flex-direction: column;
-    align-items: flex-start;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
     gap: 0.35rem;
+  }
+
+  .subnav-label {
+    display: none;
   }
 
   .subnav-buttons {
@@ -3010,14 +3062,29 @@ h1, h2, h3, h4, .brand-text {
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
     display: flex;
-    gap: 0.4rem;
-    padding-bottom: 2px;
+    gap: 0.35rem;
+    padding: 2px 0;
+  }
+
+  .subnav-buttons::-webkit-scrollbar {
+    display: none;
   }
 
   .subnav-buttons .nav-tool-btn {
     flex-shrink: 0;
-    padding: 0.35rem 0.75rem;
-    font-size: 0.8rem;
+    padding: 0.32rem 0.7rem;
+    font-size: 0.76rem;
+    border-radius: var(--radius-full);
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    color: #475569;
+  }
+
+  .subnav-buttons .nav-tool-btn.active {
+    background: var(--color-primary-light);
+    color: var(--color-primary);
+    border-color: #BFDBFE;
+    font-weight: 700;
   }
 }
 
@@ -3031,43 +3098,52 @@ h1, h2, h3, h4, .brand-text {
   }
 
   .hero {
-    padding: 2.25rem 1rem 1.25rem;
-  }
-
-  .hero-title {
-    font-size: 1.65rem;
-    line-height: 1.25;
-  }
-
-  .hero-subtitle {
-    font-size: 0.88rem;
-    line-height: 1.5;
+    padding: 1.5rem 0.85rem 0.9rem;
   }
 
   .hero-pill {
-    font-size: 0.72rem;
-    padding: 0.3rem 0.75rem;
+    font-size: 0.7rem;
+    padding: 0.25rem 0.65rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .hero-title {
+    font-size: 1.55rem;
+    line-height: 1.2;
+    margin-bottom: 0.4rem;
+  }
+
+  .hero-subtitle {
+    font-size: 0.84rem;
+    line-height: 1.45;
   }
 
   .main-wrapper {
-    padding: 0 0.85rem;
+    padding: 0 0.75rem 2.5rem;
+  }
+
+  .tool-grid {
+    gap: 1.15rem;
   }
 
   .tool-editor,
-  .preview-card {
-    padding: 1.25rem 1rem;
+  .preview-card,
+  .glass-card {
+    padding: 1.15rem 0.9rem;
+    border-radius: 14px;
   }
 
-  /* Pestañas de tipo QR (Enlace, Wi-Fi, WhatsApp, Contacto, Texto) con swipe horizontal */
+  /* Pestañas de tipo QR compactas y táctiles */
   .type-selector-tabs {
     display: flex !important;
     overflow-x: auto !important;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
-    gap: 0.4rem !important;
-    padding-bottom: 4px;
-    width: 100%;
-    max-width: 100% !important;
+    gap: 0.35rem !important;
+    padding: 0.25rem;
+    background: #F1F5F9;
+    border-radius: 10px;
+    border: 1px solid #E2E8F0;
   }
 
   .type-selector-tabs::-webkit-scrollbar {
@@ -3076,9 +3152,20 @@ h1, h2, h3, h4, .brand-text {
 
   .type-btn {
     flex: 0 0 auto !important;
-    min-width: 86px;
-    padding: 0.55rem 0.65rem;
-    font-size: 0.8rem;
+    padding: 0.45rem 0.7rem;
+    font-size: 0.78rem;
+    border-radius: 7px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.35rem;
+    min-width: auto;
+  }
+
+  .type-btn.active {
+    background: #FFFFFF;
+    color: var(--color-primary);
+    box-shadow: 0 1.5px 4px rgba(15, 23, 42, 0.08);
   }
 
   /* Formatos de descarga en QR */
@@ -4139,73 +4226,7 @@ h1, h2, h3, h4, .brand-text {
   margin: 0;
 }
 
-/* ==========================================================================
-   Media Queries Responsive
-   ========================================================================== */
-@media (max-width: 1200px) {
-  .nav-container {
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 0.6rem;
-  }
-  .nav-tools-scroll-wrapper {
-    order: 3;
-    width: 100%;
-    max-width: 100%;
-  }
-}
-
-@media (max-width: 900px) {
-  .navbar {
-    padding: 0.5rem 0.75rem;
-  }
-  .brand-text {
-    font-size: 1.1rem;
-  }
-  .usage-badge {
-    padding: 0.3rem 0.6rem;
-    font-size: 0.75rem;
-  }
-  .mini-progress-track {
-    width: 30px;
-  }
-  .btn-pro {
-    padding: 0.4rem 0.75rem;
-    font-size: 0.78rem;
-  }
-  .nav-cat-btn {
-    padding: 0.35rem 0.65rem;
-    font-size: 0.78rem;
-  }
-  .tool-grid {
-    grid-template-columns: 1fr;
-    gap: 1.25rem;
-  }
-}
-
-@media (max-width: 600px) {
-  .navbar {
-    padding: 0.4rem 0.5rem;
-  }
-  .brand-text {
-    font-size: 1rem;
-  }
-  .usage-badge {
-    display: none;
-  }
-  .hero {
-    padding: 2rem 1rem 1.5rem;
-  }
-  .hero-title {
-    font-size: 1.5rem;
-  }
-  .hero-subtitle {
-    font-size: 0.88rem;
-  }
-  .steps-grid-3 {
-    grid-template-columns: 1fr;
-  }
-}
+/* Fin de Estilos Generales */
 
 /* ==========================================================================
    Footer & Developer Attribution Styles
