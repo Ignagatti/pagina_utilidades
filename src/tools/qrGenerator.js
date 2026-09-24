@@ -23,8 +23,9 @@ const defaultOptions = {
     errorCorrectionLevel: 'Q'
   },
   imageOptions: {
+    saveAsBlob: false,
     hideBackgroundDots: true,
-    imageSize: 0.35,
+    imageSize: 0.28,
     margin: 4
   },
   dotsOptions: {
@@ -244,12 +245,12 @@ export function initQRGenerator({ onUsageUpdated, onProModalRequested }) {
           errorCorrectionLevel: logoToUse ? 'H' : errorCorrectionLevel
         },
         imageOptions: {
+          saveAsBlob: false,
           hideBackgroundDots: true,
           imageSize: 0.28,
-          margin: 4,
-          crossOrigin: 'anonymous'
+          margin: 4
         },
-        image: logoToUse
+        image: logoToUse || ''
       });
     } catch (qrErr) {
       console.error('Error al actualizar QR:', qrErr);
