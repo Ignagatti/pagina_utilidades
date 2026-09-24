@@ -1,9 +1,25 @@
-import libheifModule from 'libheif-js/wasm-bundle';
+let libheifModule = null;
 
 /**
- * Obtiene la instancia de libheif de forma segura sin importar cómo empaquete Vite / Rollup.
+ * Obtiene la instancia de libheif de forma segura bajo demanda.
  */
-function getHeifDecoderClass() {
+async function getHeifDecoderClass() {
+  if (!libheifModule) {
+    try {
+      // Carga perezosa (lazy load) para no congelar la carga inicial de la página
+      const mod = await import('libheif-js/wasm-bundle.js');
+      libheifModule = mod?.default || mod;
+    } catch (e) {
+      console.warn('Fallo al cargar libheif-js/wasm-bundle.js, intentando libheif-js:', e);
+      try {
+        const mod = await import('libheif-js');
+        libheifModule = mod?.default || mod;
+      } catch (err2) {
+        console.error('No se pudo cargar libheif:', err2);
+      }
+    }
+  }
+
   let mod = libheifModule;
   if (mod?.HeifDecoder) return mod.HeifDecoder;
   if (mod?.default?.HeifDecoder) return mod.default.HeifDecoder;
@@ -47,7 +63,7 @@ export function isHeicFile(file) {
 async function decodeHeicToJpegBlob(file) {
   const buffer = await file.arrayBuffer();
   
-  const HeifDecoderClass = getHeifDecoderClass();
+  const HeifDecoderClass = await getHeifDecoderClass();
   if (!HeifDecoderClass) {
     throw new Error('Motor de decodificación HEIC no disponible.');
   }
