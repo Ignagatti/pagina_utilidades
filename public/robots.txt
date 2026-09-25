@@ -8,4 +8,5 @@ Allow: /favicon.ico
 Allow: /logo.png
 Allow: /og-image.png
 
-Sitemap: https://nuvexatools.site/sitemap.xml
+Sitemap: https://www.nuvexatools.site/sitemap.xml
+

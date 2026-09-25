@@ -3,6 +3,7 @@ import { initSmartActions } from './tools/smartActions.js';
 import { initDocDiffStudio } from './tools/docDiffStudio.js';
 import { initRedactionStudio } from './tools/redactionStudio.js';
 import { initQRGenerator } from './tools/qrGenerator.js';
+import { initPdfCompress } from './tools/pdfCompress.js';
 import { initPdfEditor } from './tools/pdfEditor.js';
 import { initPdfConverter } from './tools/pdfConverter.js';
 import { initPdfMerge } from './tools/pdfMerge.js';
@@ -127,6 +128,7 @@ function initToolSwitcher() {
     'smart-actions': document.getElementById('view-smart-actions'),
     'qr': document.getElementById('view-qr-tool'),
     'pdf-editor': document.getElementById('view-pdf-editor'),
+    'compress-pdf': document.getElementById('view-compress-pdf'),
     'images-to-pdf': document.getElementById('view-images-to-pdf'),
     'merge-pdf': document.getElementById('view-merge-pdf'),
     'split-pdf': document.getElementById('view-split-pdf'),
@@ -145,7 +147,7 @@ function initToolSwitcher() {
       }
     });
 
-    const isPdfTool = ['pdf-editor', 'images-to-pdf', 'merge-pdf', 'split-pdf', 'doc-diff-studio', 'redaction-studio'].includes(targetTool);
+    const isPdfTool = ['pdf-editor', 'compress-pdf', 'images-to-pdf', 'merge-pdf', 'split-pdf', 'doc-diff-studio', 'redaction-studio'].includes(targetTool);
     if (pdfSubNav) {
       pdfSubNav.style.display = isPdfTool ? 'flex' : 'none';
     }
@@ -228,6 +230,11 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   qrToolInstance = initQRGenerator({
+    onUsageUpdated: () => updateFreemiumUI(false),
+    onProModalRequested: (reason) => openProModal(reason)
+  });
+
+  initPdfCompress({
     onUsageUpdated: () => updateFreemiumUI(false),
     onProModalRequested: (reason) => openProModal(reason)
   });

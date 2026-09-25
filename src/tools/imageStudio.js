@@ -36,6 +36,7 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
   const previewImg = document.getElementById('img-preview-canvas');
   const origSizeEl = document.getElementById('img-orig-size');
   const estSizeEl = document.getElementById('img-est-size');
+  const savedSizeEl = document.getElementById('img-saved-size');
   const savingsPill = document.getElementById('img-savings-pill');
   const origDimEl = document.getElementById('img-orig-dim');
 
@@ -144,8 +145,19 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
         flipH = false;
         flipV = false;
 
-        if (inputWidth) inputWidth.value = originalWidth;
-        if (inputHeight) inputHeight.value = originalHeight;
+        let initW = originalWidth;
+        let initH = originalHeight;
+        if (initW > 2048) {
+          initH = Math.round((2048 / initW) * initH);
+          initW = 2048;
+        }
+
+        if (inputWidth) inputWidth.value = initW;
+        if (inputHeight) inputHeight.value = initH;
+        if (sliderQuality) {
+          sliderQuality.value = 75;
+          if (qualityValueLabel) qualityValueLabel.textContent = '75%';
+        }
         if (origDimEl) origDimEl.textContent = `${originalWidth} x ${originalHeight} px`;
         if (origSizeEl) origSizeEl.textContent = formatBytes(file.size);
 
@@ -153,8 +165,10 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
           if (file.type === 'image/png') selectFormat.value = 'image/jpeg';
           else if (file.type === 'image/webp') selectFormat.value = 'image/jpeg';
           else if (isHeic) selectFormat.value = 'image/jpeg';
-          else selectFormat.value = 'image/webp';
+          else selectFormat.value = 'image/jpeg';
         }
+
+        compressPresetBtns.forEach(b => b.classList.toggle('active', b.dataset.mode === 'recommended'));
 
         checkBgColorVisibility();
 
@@ -404,19 +418,45 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
 
         if (estSizeEl) estSizeEl.textContent = formatBytes(blob.size);
 
-        if (savingsPill && originalFile) {
+        if (originalFile) {
           const diff = originalFile.size - blob.size;
           const percent = Math.round((diff / originalFile.size) * 100);
 
-          if (percent > 0) {
-            savingsPill.textContent = `-${percent}% de ahorro`;
-            savingsPill.className = 'tier-badge pro';
-          } else if (percent < 0) {
-            savingsPill.textContent = `+${Math.abs(percent)}% mayor`;
-            savingsPill.className = 'tier-badge free';
-          } else {
-            savingsPill.textContent = 'Mismo tamaño';
-            savingsPill.className = 'tier-badge free';
+          if (savedSizeEl) {
+            if (diff > 0) {
+              savedSizeEl.textContent = `${formatBytes(diff)} (-${percent}%)`;
+              savedSizeEl.style.color = 'var(--color-success)';
+            } else if (diff < 0) {
+              savedSizeEl.textContent = `+${formatBytes(Math.abs(diff))}`;
+              savedSizeEl.style.color = 'var(--color-warning, #d97706)';
+            } else {
+              savedSizeEl.textContent = '0 B (0%)';
+              savedSizeEl.style.color = 'var(--color-text-muted)';
+            }
+          }
+
+          if (savingsPill) {
+            if (percent > 0) {
+              savingsPill.textContent = `-${percent}% • Ahorras ${formatBytes(diff)}`;
+              savingsPill.className = 'tier-badge pro';
+            } else if (percent < 0) {
+              savingsPill.textContent = `+${Math.abs(percent)}% mayor`;
+              savingsPill.className = 'tier-badge free';
+            } else {
+              savingsPill.textContent = 'Mismo tamaño';
+              savingsPill.className = 'tier-badge free';
+            }
+          }
+
+          if (btnDownloadImage) {
+            btnDownloadImage.innerHTML = `
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              <span>Descargar Imagen (${formatBytes(blob.size)})</span>
+            `;
           }
         }
       }, format, quality);
@@ -431,6 +471,48 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
         checkBgColorVisibility();
         updateProcessedImage();
       }
+    });
+  });
+
+  const compressPresetBtns = document.querySelectorAll('.btn-compress-preset');
+  compressPresetBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      compressPresetBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const mode = btn.dataset.mode;
+      if (mode === 'recommended') {
+        if (sliderQuality) {
+          sliderQuality.value = 75;
+          if (qualityValueLabel) qualityValueLabel.textContent = '75%';
+        }
+        if (originalWidth > 2048 && inputWidth && inputHeight) {
+          inputWidth.value = 2048;
+          inputHeight.value = Math.round((2048 / originalWidth) * originalHeight);
+        } else if (inputWidth && inputHeight) {
+          inputWidth.value = originalWidth;
+          inputHeight.value = originalHeight;
+        }
+      } else if (mode === 'small') {
+        if (sliderQuality) {
+          sliderQuality.value = 60;
+          if (qualityValueLabel) qualityValueLabel.textContent = '60%';
+        }
+        if (originalWidth > 1280 && inputWidth && inputHeight) {
+          inputWidth.value = 1280;
+          inputHeight.value = Math.round((1280 / originalWidth) * originalHeight);
+        } else if (inputWidth && inputHeight) {
+          inputWidth.value = originalWidth;
+          inputHeight.value = originalHeight;
+        }
+      } else if (mode === 'max') {
+        if (sliderQuality) {
+          sliderQuality.value = 95;
+          if (qualityValueLabel) qualityValueLabel.textContent = '95%';
+        }
+        if (inputWidth) inputWidth.value = originalWidth;
+        if (inputHeight) inputHeight.value = originalHeight;
+      }
+      updateProcessedImage();
     });
   });
 
@@ -737,6 +819,34 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
     if (batchQualityVal) batchQualityVal.textContent = `${sliderBatchQuality.value}%`;
   });
 
+  const batchCompressPresetBtns = document.querySelectorAll('.btn-batch-compress-preset');
+  batchCompressPresetBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      batchCompressPresetBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const mode = btn.dataset.mode;
+      if (mode === 'recommended') {
+        if (sliderBatchQuality) {
+          sliderBatchQuality.value = 75;
+          if (batchQualityVal) batchQualityVal.textContent = '75%';
+        }
+        if (selectBatchResize) selectBatchResize.value = '2048';
+      } else if (mode === 'small') {
+        if (sliderBatchQuality) {
+          sliderBatchQuality.value = 60;
+          if (batchQualityVal) batchQualityVal.textContent = '60%';
+        }
+        if (selectBatchResize) selectBatchResize.value = '1280';
+      } else if (mode === 'max') {
+        if (sliderBatchQuality) {
+          sliderBatchQuality.value = 95;
+          if (batchQualityVal) batchQualityVal.textContent = '95%';
+        }
+        if (selectBatchResize) selectBatchResize.value = '0';
+      }
+    });
+  });
+
   function addBatchFiles(files) {
     files.forEach(file => {
       if (!isImageFile(file)) return;
@@ -774,14 +884,70 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
   function renderBatchList() {
     if (!batchTableBody || !batchListContainer) return;
 
+    const summaryBox = document.getElementById('img-batch-summary-box');
+    const totalOrigEl = document.getElementById('batch-total-orig-size');
+    const totalOptEl = document.getElementById('batch-total-opt-size');
+    const totalSavedEl = document.getElementById('batch-total-saved-size');
+    const summaryOptWrap = document.getElementById('batch-summary-opt-wrap');
+    const savingsBadgeWrap = document.getElementById('batch-savings-badge-wrap');
+    const savingsBadge = document.getElementById('batch-total-savings-badge');
+    const headerCount = document.getElementById('batch-header-count');
+    const emptyPlaceholder = document.getElementById('img-batch-empty-placeholder');
+
     if (batchFiles.length === 0) {
       batchListContainer.style.display = 'none';
+      if (summaryBox) summaryBox.style.display = 'none';
+      if (emptyPlaceholder) emptyPlaceholder.style.display = 'block';
       if (batchCountBadge) batchCountBadge.textContent = '0 archivos';
+      if (headerCount) headerCount.textContent = '0 archivos';
+      if (btnConvertBatchAll) {
+        btnConvertBatchAll.innerHTML = `
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          <span>Convertir y Descargar Todo en .ZIP</span>
+        `;
+      }
       return;
     }
 
+    if (emptyPlaceholder) emptyPlaceholder.style.display = 'none';
     batchListContainer.style.display = 'block';
     if (batchCountBadge) batchCountBadge.textContent = `${batchFiles.length} imágenes`;
+    if (headerCount) headerCount.textContent = `${batchFiles.length} imágenes`;
+
+    const totalOrigBytes = batchFiles.reduce((acc, f) => acc + (f.origSize || 0), 0);
+    if (totalOrigEl) totalOrigEl.textContent = `${formatBytes(totalOrigBytes)} (${batchFiles.length} fotos)`;
+    if (summaryBox) summaryBox.style.display = 'block';
+
+    const anyConverted = batchFiles.some(f => f.status === 'done' && f.convertedBlob);
+    if (!anyConverted) {
+      const estimatedZip = Math.round(totalOrigBytes * 0.25);
+      const estimatedSavings = Math.max(0, totalOrigBytes - estimatedZip);
+
+      if (totalOptEl) totalOptEl.textContent = `~${formatBytes(estimatedZip)}`;
+      if (summaryOptWrap) summaryOptWrap.style.display = 'block';
+
+      if (totalSavedEl) totalSavedEl.textContent = `~${formatBytes(estimatedSavings)}`;
+      if (savingsBadge) {
+        savingsBadge.textContent = '~75% estimado';
+        savingsBadge.className = 'tier-badge pro';
+      }
+      if (savingsBadgeWrap) savingsBadgeWrap.style.display = 'block';
+
+      if (btnConvertBatchAll && !btnConvertBatchAll.disabled) {
+        btnConvertBatchAll.innerHTML = `
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          <span>Optimizar y Descargar Todo en .ZIP (${formatBytes(totalOrigBytes)} en total)</span>
+        `;
+      }
+    }
 
     const targetFormat = selectBatchFormat?.value || 'image/jpeg';
     let targetExt = 'JPG';
@@ -795,24 +961,34 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
       const tr = document.createElement('tr');
       tr.className = 'batch-table-row';
 
-      let statusHtml = `<span class="tier-badge free">Listo para convertir</span>`;
+      let statusHtml = `<span class="tier-badge free">Listo para optimizar</span>`;
       let actionBtnHtml = `<button type="button" class="btn-danger-sm btn-batch-remove" data-id="${item.id}" title="Quitar">Eliminar</button>`;
+      let sizeDetailsHtml = `<div style="font-size: 0.75rem; color: var(--color-text-muted); margin-top: 2px;">Peso original: <strong>${formatBytes(item.origSize)}</strong></div>`;
 
       if (item.status === 'heic_loading') {
         statusHtml = `<span class="tier-badge free" style="background:#fef3c7; color:#b45309;">Decodificando HEIC...</span>`;
       } else if (item.status === 'converting') {
-        statusHtml = `<span class="tier-badge free" style="background:#e0f2fe; color:#0369a1;">Convirtiendo...</span>`;
+        statusHtml = `<span class="tier-badge free" style="background:#e0f2fe; color:#0369a1;">Comprimiendo...</span>`;
       } else if (item.status === 'done') {
-        const outSize = item.convertedBlob ? formatBytes(item.convertedBlob.size) : '';
-        statusHtml = `<span class="tier-badge pro">Convertido (${outSize})</span>`;
+        const outSize = item.convertedBlob ? item.convertedBlob.size : 0;
+        const savedDiff = Math.max(0, item.origSize - outSize);
+        const savedPct = item.origSize > 0 ? Math.max(0, Math.round((savedDiff / item.origSize) * 100)) : 0;
+
+        statusHtml = `<span class="tier-badge pro">Optimizado (-${savedPct}%)</span>`;
+        sizeDetailsHtml = `
+          <div style="font-size: 0.75rem; line-height: 1.4; margin-top: 2px;">
+            <span style="color: var(--color-text-muted);">${formatBytes(item.origSize)}</span> ➔ <strong style="color: var(--color-success);">${formatBytes(outSize)}</strong>
+            <span class="tier-badge pro" style="font-size: 0.65rem; padding: 0.1rem 0.35rem; margin-left: 2px;">Ahorraste ${formatBytes(savedDiff)} (-${savedPct}%)</span>
+          </div>
+        `;
         actionBtnHtml = `
           <button type="button" class="btn-action-outline btn-batch-dl" data-id="${item.id}" style="padding: 0.25rem 0.6rem; font-size: 0.75rem;">
-            Descargar
+            Descargar (${formatBytes(outSize)})
           </button>
           <button type="button" class="btn-danger-sm btn-batch-remove" data-id="${item.id}" title="Quitar">Eliminar</button>
         `;
       } else if (item.status === 'error') {
-        statusHtml = `<span class="tier-badge free" style="background:#fee2e2; color:#b91c1c;">Error al decodificar</span>`;
+        statusHtml = `<span class="tier-badge free" style="background:#fee2e2; color:#b91c1c;">Error</span>`;
       }
 
       const thumbImgHtml = item.thumbUrl
@@ -823,9 +999,9 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
         <td style="width: 50px;">
           ${thumbImgHtml}
         </td>
-        <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+        <td style="max-width: 220px; overflow: hidden; text-overflow: ellipsis;">
           <strong>${item.name}</strong>
-          <div style="font-size: 0.75rem; color: var(--color-text-muted);">${formatBytes(item.origSize)}</div>
+          ${sizeDetailsHtml}
         </td>
         <td style="text-align: center;">
           <span style="font-weight: 600; font-size: 0.82rem; color: var(--color-primary);">${targetExt}</span>
@@ -877,7 +1053,7 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
 
   btnConvertBatchAll?.addEventListener('click', async () => {
     if (batchFiles.length === 0) {
-      showToast({ message: 'Por favor agrega imágenes para convertir.', type: 'warning' });
+      showToast('Por favor agrega imágenes para optimizar.', 'warning');
       return;
     }
 
@@ -908,7 +1084,7 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
       renderBatchList();
 
       if (batchProgressText) {
-        batchProgressText.textContent = `Convirtiendo imagen ${i + 1} de ${batchFiles.length}: ${item.name}`;
+        batchProgressText.textContent = `Optimizando imagen ${i + 1} de ${batchFiles.length}: ${item.name}`;
       }
       if (batchProgressBar) {
         batchProgressBar.style.width = `${Math.round(((i + 1) / batchFiles.length) * 100)}%`;
@@ -939,13 +1115,35 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
 
     renderBatchList();
 
-    if (batchProgressText) batchProgressText.textContent = 'Generando archivo .ZIP...';
+    if (batchProgressText) batchProgressText.textContent = 'Generando archivo .ZIP final...';
 
     const zipBlob = await zip.generateAsync({ type: 'blob' });
+
+    // Actualizar métricas totales en el panel superior
+    const totalOrigBytes = batchFiles.reduce((acc, f) => acc + (f.origSize || 0), 0);
+    const zipSize = zipBlob.size;
+    const totalSavingsBytes = Math.max(0, totalOrigBytes - zipSize);
+    const totalSavingsPct = totalOrigBytes > 0 ? Math.max(0, Math.round((totalSavingsBytes / totalOrigBytes) * 100)) : 0;
+
+    const totalOptEl = document.getElementById('batch-total-opt-size');
+    const totalSavedEl = document.getElementById('batch-total-saved-size');
+    const summaryOptWrap = document.getElementById('batch-summary-opt-wrap');
+    const savingsBadgeWrap = document.getElementById('batch-savings-badge-wrap');
+    const savingsBadge = document.getElementById('batch-total-savings-badge');
+
+    if (totalOptEl) totalOptEl.textContent = formatBytes(zipSize);
+    if (totalSavedEl) totalSavedEl.textContent = formatBytes(totalSavingsBytes);
+    if (summaryOptWrap) summaryOptWrap.style.display = 'block';
+    if (savingsBadge) {
+      savingsBadge.textContent = `-${totalSavingsPct}% de ahorro`;
+      savingsBadge.className = 'tier-badge pro';
+    }
+    if (savingsBadgeWrap) savingsBadgeWrap.style.display = 'block';
+
     const url = URL.createObjectURL(zipBlob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `imagenes-convertidas-${targetExt}.zip`;
+    a.download = `imagenes-optimizadas-${targetExt}.zip`;
     document.body.appendChild(a);
     a.click();
     setTimeout(() => {
@@ -953,15 +1151,26 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
       URL.revokeObjectURL(url);
     }, 1000);
 
+    btnConvertBatchAll.disabled = false;
+    btnConvertBatchAll.innerHTML = `
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+        <polyline points="7 10 12 15 17 10"></polyline>
+        <line x1="12" y1="15" x2="12" y2="3"></line>
+      </svg>
+      <span>Descargar Todo en .ZIP (${formatBytes(zipSize)} • Ahorraste ${formatBytes(totalSavingsBytes)})</span>
+    `;
+
     consumeDailyUse();
     if (onUsageUpdated) onUsageUpdated();
 
-    btnConvertBatchAll.disabled = false;
     if (batchProgressBox) {
       setTimeout(() => {
         batchProgressBox.style.display = 'none';
       }, 2500);
     }
+
+    showToast(`¡Lote de ${batchFiles.length} imágenes descargado con éxito!`, 'success');
   });
 
   async function convertSingleImageBlob(file, { targetFormat, quality, maxDimension, forceWhiteBg }) {
@@ -979,13 +1188,19 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
           let w = img.naturalWidth;
           let h = img.naturalHeight;
 
-          if (maxDimension > 0 && (w > maxDimension || h > maxDimension)) {
+          let effectiveMaxDim = maxDimension;
+          // Si es compresión inteligente (calidad <= 0.85) y la foto es de cámara gigante (> 2048px), ajustar a 2048px para ahorrar peso real
+          if (effectiveMaxDim <= 0 && quality <= 0.85 && (w > 2048 || h > 2048)) {
+            effectiveMaxDim = 2048;
+          }
+
+          if (effectiveMaxDim > 0 && (w > effectiveMaxDim || h > effectiveMaxDim)) {
             if (w >= h) {
-              h = Math.round((maxDimension / w) * h);
-              w = maxDimension;
+              h = Math.round((effectiveMaxDim / w) * h);
+              w = effectiveMaxDim;
             } else {
-              w = Math.round((maxDimension / h) * w);
-              h = maxDimension;
+              w = Math.round((effectiveMaxDim / h) * w);
+              h = effectiveMaxDim;
             }
           }
 
@@ -993,6 +1208,8 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
           canvas.width = w;
           canvas.height = h;
           const ctx = canvas.getContext('2d');
+          ctx.imageSmoothingEnabled = true;
+          ctx.imageSmoothingQuality = 'high';
 
           if (targetFormat === 'image/jpeg' || forceWhiteBg) {
             ctx.fillStyle = '#FFFFFF';
@@ -1009,8 +1226,23 @@ export function initImageStudio({ onUsageUpdated, onProModalRequested }) {
           }
 
           canvas.toBlob((blob) => {
-            if (blob) resolve(blob);
-            else reject(new Error('Fallo en la compresión'));
+            if (!blob) {
+              reject(new Error('Fallo en la compresión'));
+              return;
+            }
+
+            // Si el blob casi no ahorró peso (>= 95% del original) y estamos en modo compresión, probar a calidad 0.70 para garantizar reducción real
+            if (blob.size >= file.size * 0.95 && quality <= 0.85 && quality > 0.65) {
+              canvas.toBlob((blobPass2) => {
+                if (blobPass2 && blobPass2.size < blob.size) {
+                  resolve(blobPass2);
+                } else {
+                  resolve(blob);
+                }
+              }, targetFormat, 0.70);
+            } else {
+              resolve(blob);
+            }
           }, targetFormat, quality);
         };
         img.onerror = reject;

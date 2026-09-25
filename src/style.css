@@ -4587,3 +4587,212 @@ h1, h2, h3, h4, .brand-text {
   }
 }
 
+/* ==========================================================================
+   Trust & Privacy Guarantee Badges
+   ========================================================================== */
+.trust-guarantee-badges {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin: 2rem auto 1rem;
+  max-width: 860px;
+  width: 100%;
+}
+
+.trust-badge-card {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 0.85rem 1rem;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+}
+
+.trust-badge-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card);
+  border-color: var(--color-border-hover);
+}
+
+.trust-badge-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.trust-badge-content {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.trust-badge-content strong {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--color-text-main);
+  line-height: 1.25;
+}
+
+.trust-badge-content small {
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+  line-height: 1.2;
+  margin-top: 2px;
+}
+
+@media (max-width: 900px) {
+  .trust-guarantee-badges {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .trust-guarantee-badges {
+    grid-template-columns: 1fr;
+    gap: 0.6rem;
+  }
+  .trust-badge-card {
+    padding: 0.75rem 0.85rem;
+  }
+}
+
+/* ==========================================================================
+   Compression Presets & Results (PDF & Images)
+   ========================================================================== */
+.compress-presets-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  margin: 1rem 0;
+}
+
+.compress-level-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  padding: 1rem 0.9rem;
+  background: var(--color-bg-base);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  width: 100%;
+}
+
+.compress-level-btn:hover {
+  border-color: var(--color-primary);
+  background: var(--color-primary-light);
+  transform: translateY(-2px);
+}
+
+.compress-level-btn.active {
+  border-color: var(--color-primary);
+  background: var(--color-primary-light);
+  box-shadow: var(--shadow-focus);
+}
+
+.compress-level-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--radius-full);
+  margin-bottom: 0.5rem;
+  background: #E2E8F0;
+  color: #475569;
+}
+
+.compress-level-btn.active .compress-level-badge {
+  background: var(--color-primary);
+  color: #FFFFFF;
+}
+
+.compress-level-title {
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: var(--color-text-main);
+  margin-bottom: 0.35rem;
+  line-height: 1.25;
+}
+
+.compress-level-desc {
+  font-size: 0.76rem;
+  color: var(--color-text-muted);
+  line-height: 1.4;
+  margin: 0;
+}
+
+.compress-result-box {
+  background: var(--color-bg-base);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 2.25rem 1.75rem;
+  text-align: center;
+  box-shadow: var(--shadow-card);
+  max-width: 620px;
+  margin: 1.5rem auto;
+}
+
+.compress-result-metrics {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  margin: 1.5rem 0 2rem;
+  padding: 1.25rem;
+  background: var(--color-bg-section);
+  border-radius: var(--radius-md);
+}
+
+.metric-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.metric-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--color-text-muted);
+}
+
+.metric-value {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--color-text-main);
+}
+
+.metric-value.highlight {
+  color: var(--color-success);
+}
+
+.metric-divider-arrow {
+  color: var(--color-text-muted);
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+@media (max-width: 768px) {
+  .compress-presets-grid {
+    grid-template-columns: 1fr;
+    gap: 0.6rem;
+  }
+}
+
+
+
