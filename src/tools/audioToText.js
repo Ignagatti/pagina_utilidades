@@ -58,23 +58,63 @@ async function getWhisperPipeline(onProgress) {
     }
   }
 
-  const { pipeline, env } = await import('@xenova/transformers');
+  const {
+    AutoTokenizer,
+    AutoProcessor,
+    AutoModelForSpeechSeq2Seq,
+    AutomaticSpeechRecognitionPipeline,
+    env
+  } = await import('@xenova/transformers');
 
   env.allowLocalModels = false;
+  env.allowRemoteModels = true;
   env.useFS = false;
   env.useFSCache = false;
+  env.useBrowserCache = true;
 
   if (env.backends?.onnx?.wasm) {
+    env.backends.onnx.wasm.numThreads = 1;
+    env.backends.onnx.wasm.simd = true;
+    env.backends.onnx.wasm.proxy = false;
     env.backends.onnx.wasm.wasmPaths = 'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.2/dist/';
   }
 
-  whisperPipeline = await pipeline('automatic-speech-recognition', 'Xenova/whisper-tiny', {
+  const modelId = 'Xenova/whisper-tiny';
+  const pretrainedOptions = {
+    quantized: true,
     progress_callback: (data) => {
       if (onProgress && data.status === 'progress' && data.progress !== undefined) {
         onProgress(Math.round(data.progress));
       }
     }
-  });
+  };
+
+  const loadPipelineComponents = async () => {
+    const tokenizer = await AutoTokenizer.from_pretrained(modelId, pretrainedOptions);
+    const processor = await AutoProcessor.from_pretrained(modelId, pretrainedOptions);
+    const model = await AutoModelForSpeechSeq2Seq.from_pretrained(modelId, pretrainedOptions);
+
+    return new AutomaticSpeechRecognitionPipeline({
+      tokenizer,
+      model,
+      processor,
+      task: 'automatic-speech-recognition'
+    });
+  };
+
+  try {
+    whisperPipeline = await loadPipelineComponents();
+  } catch (initialError) {
+    console.warn('Error inicial al cargar Whisper, limpiando caché dañada si existe e intentando de nuevo...', initialError);
+    if (typeof caches !== 'undefined') {
+      try {
+        await caches.delete('transformers-cache');
+      } catch (cacheErr) {
+        console.warn('No se pudo borrar transformers-cache:', cacheErr);
+      }
+    }
+    whisperPipeline = await loadPipelineComponents();
+  }
 
   return whisperPipeline;
 }
