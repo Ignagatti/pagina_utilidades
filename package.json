@@ -6,12 +6,13 @@
   "main": "electron/main.cjs",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "generate:seo": "node scripts/generate_seo_pages.js",
+    "build": "node scripts/generate_seo_pages.js && vite build",
     "preview": "vite preview",
     "electron:start": "electron .",
     "electron:dev": "concurrently -k \"vite\" \"wait-on tcp:5173 && cross-env ELECTRON_START_URL=http://localhost:5173 electron .\"",
-    "electron:pack": "vite build && npx @electron/packager . Nuvexa --platform=win32 --arch=x64 --icon=build/icon.ico --out=release --overwrite --ignore=\"(assets|scratch|\\.git)\"",
-    "electron:installer": "vite build && electron-builder --win --x64"
+    "electron:pack": "npm run build && npx @electron/packager . Nuvexa --platform=win32 --arch=x64 --icon=build/icon.ico --out=release --overwrite --ignore=\"(assets|scratch|\\.git)\"",
+    "electron:installer": "npm run build && electron-builder --win --x64"
   },
   "build": {
     "appId": "com.nuvexa.app",

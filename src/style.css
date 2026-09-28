@@ -4886,3 +4886,216 @@ h1, h2, h3, h4, .brand-text {
   background: var(--color-success-bg);
   color: var(--color-success);
 }
+
+/* ==========================================================================
+   Tool SEO Content & Long-Tail Text Sections
+   ========================================================================== */
+.tool-seo-article {
+  margin-top: 3.5rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.seo-article-inner {
+  max-width: 920px;
+  margin: 0 auto;
+}
+
+.seo-main-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.seo-tag-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-primary);
+  background: var(--color-primary-light);
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--radius-full);
+  margin-bottom: 0.85rem;
+  border: 1px solid rgba(37, 99, 235, 0.2);
+}
+
+.seo-article-title {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--color-text-main);
+  line-height: 1.3;
+  margin-bottom: 0.85rem;
+}
+
+.seo-article-lead {
+  font-size: 1.05rem;
+  color: var(--color-text-muted);
+  line-height: 1.65;
+  max-width: 780px;
+  margin: 0 auto;
+}
+
+.seo-features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 2.5rem;
+}
+
+.seo-feature-card {
+  background: var(--color-bg-base);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  transition: all var(--transition-base);
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.seo-feature-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-card-hover);
+}
+
+.seo-feature-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-sm);
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.35rem;
+}
+
+.seo-feature-card h4 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--color-text-main);
+}
+
+.seo-feature-card p {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  line-height: 1.55;
+}
+
+.seo-text-block {
+  background: var(--color-bg-base);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 2rem;
+  margin-bottom: 2.5rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.seo-text-block h3 {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--color-text-main);
+  margin-bottom: 1rem;
+}
+
+.seo-text-block h4 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-text-main);
+  margin: 1.5rem 0 0.5rem;
+}
+
+.seo-text-block p {
+  font-size: 0.925rem;
+  color: var(--color-text-muted);
+  line-height: 1.65;
+  margin-bottom: 1rem;
+}
+
+.seo-text-block p:last-child {
+  margin-bottom: 0;
+}
+
+.seo-text-block ul, .seo-text-block ol {
+  margin: 0.75rem 0 1.25rem 1.5rem;
+  color: var(--color-text-muted);
+  font-size: 0.925rem;
+  line-height: 1.65;
+}
+
+.seo-text-block li {
+  margin-bottom: 0.4rem;
+}
+
+.seo-text-block strong {
+  color: var(--color-text-main);
+}
+
+.seo-keywords-cluster {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.seo-kw-chip {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  background: var(--color-bg-section);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  padding: 0.3rem 0.75rem;
+  transition: all var(--transition-fast);
+}
+
+.seo-kw-chip:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  background: var(--color-primary-light);
+}
+
+.seo-usecases-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin: 1.25rem 0;
+}
+
+.seo-usecase-box {
+  background: var(--color-bg-section);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 1.1rem;
+}
+
+.seo-usecase-box strong {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--color-text-main);
+  margin-bottom: 0.35rem;
+}
+
+.seo-usecase-box p {
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+  line-height: 1.45;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .tool-seo-article {
+    margin-top: 2.5rem;
+    padding-top: 1.75rem;
+  }
+  .seo-article-title {
+    font-size: 1.35rem;
+  }
+  .seo-text-block {
+    padding: 1.25rem;
+  }
+}

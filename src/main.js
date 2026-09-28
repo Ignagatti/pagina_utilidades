@@ -17,6 +17,7 @@ import { initLegalModal } from './components/legalModal.js';
 import { inject } from '@vercel/analytics';
 import { initGoogleAds, removeExistingAds } from './services/adsService.js';
 import { initGlobalDialogInterceptor, showAlertModal, showToast } from './utils/dialog.js';
+import { getToolFromCurrentUrl, applyToolSeoMetadata, TOOL_ROUTES } from './utils/seoRouter.js';
 
 initGlobalDialogInterceptor();
 
@@ -26,6 +27,7 @@ if (!isElectronEnv()) {
 }
 
 let qrToolInstance = null;
+let currentActiveTool = 'smart-actions';
 
 export function updateFreemiumUI(shouldRefreshQR = false) {
   const status = getUsageStatus();
@@ -48,7 +50,6 @@ export function updateFreemiumUI(shouldRefreshQR = false) {
       `;
     }
     if (proBtn) {
-
       proBtn.style.display = 'none';
     }
     if (proStatusPill) {
@@ -82,7 +83,6 @@ export function updateFreemiumUI(shouldRefreshQR = false) {
       logoNotice.textContent = 'Logotipo habilitado en tu cuenta';
     }
   } else {
-
     if (usageBadge) {
       usageBadge.classList.remove('is-pro');
       usageBadge.style.cursor = 'pointer';
@@ -140,7 +140,13 @@ function initToolSwitcher() {
     'archive-studio': document.getElementById('view-archive-studio')
   };
 
-  function switchView(targetTool) {
+  function switchView(targetTool, updateHistory = true, scrollToTop = true) {
+    if (!views[targetTool]) {
+      targetTool = 'smart-actions';
+    }
+
+    currentActiveTool = targetTool;
+
     Object.entries(views).forEach(([key, element]) => {
       if (element) {
         element.style.display = (key === targetTool) ? 'block' : 'none';
@@ -165,17 +171,28 @@ function initToolSwitcher() {
       }
     });
 
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Update SEO meta tags & push history state
+    applyToolSeoMetadata(targetTool, updateHistory);
+
+    if (scrollToTop) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   }
+
+  // Handle browser back/forward buttons
+  window.addEventListener('popstate', (e) => {
+    const targetTool = e.state?.tool || getToolFromCurrentUrl();
+    switchView(targetTool, false, false);
+  });
 
   categoryButtons.forEach(btn => {
     btn.onclick = () => {
       const cat = btn.dataset.category;
       if (cat === 'pdf') {
-        switchView('pdf-editor');
+        switchView('pdf-editor', true, true);
       } else {
         const tool = btn.dataset.tool;
-        if (tool) switchView(tool);
+        if (tool) switchView(tool, true, true);
       }
     };
   });
@@ -183,9 +200,13 @@ function initToolSwitcher() {
   toolButtons.forEach(btn => {
     btn.onclick = () => {
       const tool = btn.dataset.tool;
-      if (tool) switchView(tool);
+      if (tool) switchView(tool, true, true);
     };
   });
+
+  // Check initial URL route
+  const initialTool = getToolFromCurrentUrl();
+  switchView(initialTool, false, false);
 
   return switchView;
 }

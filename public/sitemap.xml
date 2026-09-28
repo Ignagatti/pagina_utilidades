@@ -1,22 +1,120 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Página Principal / Smart Actions Hub -->
   <url>
     <loc>https://www.nuvexatools.site/</loc>
-    <lastmod>2026-09-25</lastmod>
+    <lastmod>2026-09-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
+
+  <!-- Generador de Códigos QR -->
+  <url>
+    <loc>https://www.nuvexatools.site/generador-qr</loc>
+    <lastmod>2026-09-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Editor Visual de PDF -->
+  <url>
+    <loc>https://www.nuvexatools.site/editor-pdf</loc>
+    <lastmod>2026-09-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Comprimir PDF -->
+  <url>
+    <loc>https://www.nuvexatools.site/comprimir-pdf</loc>
+    <lastmod>2026-09-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Unir PDFs -->
+  <url>
+    <loc>https://www.nuvexatools.site/unir-pdf</loc>
+    <lastmod>2026-09-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Separar PDF -->
+  <url>
+    <loc>https://www.nuvexatools.site/separar-pdf</loc>
+    <lastmod>2026-09-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Convertir Imágenes a PDF -->
+  <url>
+    <loc>https://www.nuvexatools.site/imagenes-a-pdf</loc>
+    <lastmod>2026-09-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- Comparar Documentos PDF -->
+  <url>
+    <loc>https://www.nuvexatools.site/comparar-pdf</loc>
+    <lastmod>2026-09-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- Censurar Datos Confidenciales en PDF -->
+  <url>
+    <loc>https://www.nuvexatools.site/censurar-pdf</loc>
+    <lastmod>2026-09-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- Convertidor HEIC y Optimización de Imágenes -->
+  <url>
+    <loc>https://www.nuvexatools.site/convertir-heic-a-jpg</loc>
+    <lastmod>2026-09-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Transcriptor de Audio a Texto con IA Whisper -->
+  <url>
+    <loc>https://www.nuvexatools.site/transcribir-audio-a-texto</loc>
+    <lastmod>2026-09-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Cifrado AES-256 Militar -->
+  <url>
+    <loc>https://www.nuvexatools.site/cifrar-archivos-aes256</loc>
+    <lastmod>2026-09-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- Creador de Archivos ZIP y Base64 -->
+  <url>
+    <loc>https://www.nuvexatools.site/crear-archivos-zip</loc>
+    <lastmod>2026-09-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- Páginas Legales -->
   <url>
     <loc>https://www.nuvexatools.site/privacy.html</loc>
-    <lastmod>2026-09-25</lastmod>
+    <lastmod>2026-09-27</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://www.nuvexatools.site/terms.html</loc>
-    <lastmod>2026-09-25</lastmod>
+    <lastmod>2026-09-27</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.6</priority>
   </url>
 </urlset>
-

@@ -1,4 +1,6 @@
 {
+  "cleanUrls": true,
+  "trailingSlash": false,
   "headers": [
     {
       "source": "/(.*)",
@@ -29,5 +31,20 @@
         }
       ]
     }
+  ],
+  "rewrites": [
+    { "source": "/generador-qr", "destination": "/index.html" },
+    { "source": "/editor-pdf", "destination": "/index.html" },
+    { "source": "/comprimir-pdf", "destination": "/index.html" },
+    { "source": "/unir-pdf", "destination": "/index.html" },
+    { "source": "/separar-pdf", "destination": "/index.html" },
+    { "source": "/imagenes-a-pdf", "destination": "/index.html" },
+    { "source": "/comparar-pdf", "destination": "/index.html" },
+    { "source": "/censurar-pdf", "destination": "/index.html" },
+    { "source": "/convertir-heic-a-jpg", "destination": "/index.html" },
+    { "source": "/transcribir-audio-a-texto", "destination": "/index.html" },
+    { "source": "/cifrar-archivos-aes256", "destination": "/index.html" },
+    { "source": "/crear-archivos-zip", "destination": "/index.html" },
+    { "source": "/smart-actions", "destination": "/index.html" }
   ]
 }
