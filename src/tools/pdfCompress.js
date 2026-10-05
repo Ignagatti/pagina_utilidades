@@ -14,18 +14,21 @@ let generatedZipBlob = null;
 
 const PRESET_CONFIG = {
   recommended: {
-    scale: 1.5,
-    quality: 0.75,
+    scale: 1.1,
+    maxDimension: 1250,
+    quality: 0.60,
     name: 'Compresión Recomendada'
   },
   extreme: {
-    scale: 1.0,
-    quality: 0.55,
+    scale: 0.85,
+    maxDimension: 950,
+    quality: 0.45,
     name: 'Compresión Extrema'
   },
   low: {
-    scale: 2.0,
-    quality: 0.90,
+    scale: 1.4,
+    maxDimension: 1650,
+    quality: 0.75,
     name: 'Baja Compresión'
   }
 };
@@ -68,6 +71,7 @@ export function initPdfCompress({ onUsageUpdated, onProModalRequested }) {
 
   const presetBtns = document.querySelectorAll('.compress-level-btn');
   const btnExecute = document.getElementById('btn-execute-compress-pdf');
+  const checkGrayscale = document.getElementById('check-compress-grayscale');
 
   const progressBox = document.getElementById('compress-progress-box');
   const progressBar = document.getElementById('compress-progress-bar');
@@ -93,6 +97,7 @@ export function initPdfCompress({ onUsageUpdated, onProModalRequested }) {
 
     if (fileInput) fileInput.value = '';
     if (addFileInput) addFileInput.value = '';
+    if (checkGrayscale) checkGrayscale.checked = false;
     if (dropzone) dropzone.style.display = 'block';
     if (workspace) workspace.style.display = 'none';
     if (resultCard) resultCard.style.display = 'none';
@@ -143,9 +148,9 @@ export function initPdfCompress({ onUsageUpdated, onProModalRequested }) {
     const pExtreme = document.querySelector('.compress-level-btn[data-level="extreme"] .compress-level-desc');
     const pLow = document.querySelector('.compress-level-btn[data-level="low"] .compress-level-desc');
 
-    if (pRecommended) pRecommended.textContent = `Ahorro estimado ~70% (quedará en aprox. ${formatBytes(Math.round(totalBytes * 0.3))}).`;
-    if (pExtreme) pExtreme.textContent = `Máximo ahorro ~85% (quedará en aprox. ${formatBytes(Math.round(totalBytes * 0.15))}).`;
-    if (pLow) pLow.textContent = `Alta calidad ~40% de ahorro (quedará en aprox. ${formatBytes(Math.round(totalBytes * 0.6))}).`;
+    if (pRecommended) pRecommended.textContent = `Ahorro estimado ~60-80% (quedará en aprox. ${formatBytes(Math.round(totalBytes * 0.35))}).`;
+    if (pExtreme) pExtreme.textContent = `Máximo ahorro ~80-95% (quedará en aprox. ${formatBytes(Math.round(totalBytes * 0.15))}).`;
+    if (pLow) pLow.textContent = `Alta calidad ~30-50% de ahorro (quedará en aprox. ${formatBytes(Math.round(totalBytes * 0.6))}).`;
 
     if (btnExecute) {
       btnExecute.disabled = false;
@@ -229,9 +234,64 @@ export function initPdfCompress({ onUsageUpdated, onProModalRequested }) {
     renderWorkspaceQueue();
   }
 
+  async function rasterizePdf(pdfBytes, targetScale, maxDimension, quality, isGrayscale, onPageProgress) {
+    const loadingTask = pdfjsLib.getDocument({ data: pdfBytes.slice(0) });
+    const pdf = await loadingTask.promise;
+    const totalPages = pdf.numPages;
+
+    const outputPdfDoc = await PDFDocument.create();
+
+    for (let i = 1; i <= totalPages; i++) {
+      if (onPageProgress) onPageProgress(i, totalPages);
+
+      const page = await pdf.getPage(i);
+      const unscaledViewport = page.getViewport({ scale: 1.0 });
+      const maxSide = Math.max(unscaledViewport.width, unscaledViewport.height);
+
+      let calcScale = targetScale;
+      if (maxSide * calcScale > maxDimension) {
+        calcScale = maxDimension / maxSide;
+      }
+
+      const viewport = page.getViewport({ scale: calcScale });
+
+      const canvas = document.createElement('canvas');
+      canvas.width = Math.max(1, Math.round(viewport.width));
+      canvas.height = Math.max(1, Math.round(viewport.height));
+      const ctx = canvas.getContext('2d');
+
+      if (isGrayscale) {
+        ctx.filter = 'grayscale(100%)';
+      }
+
+      await page.render({
+        canvasContext: ctx,
+        viewport: viewport
+      }).promise;
+
+      const jpegBlob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', quality));
+      const jpegBytes = new Uint8Array(await jpegBlob.arrayBuffer());
+
+      const embeddedImage = await outputPdfDoc.embedJpg(jpegBytes);
+      const pageW = page.view[2] - page.view[0];
+      const pageH = page.view[3] - page.view[1];
+      const newPage = outputPdfDoc.addPage([pageW, pageH]);
+      newPage.drawImage(embeddedImage, {
+        x: 0,
+        y: 0,
+        width: pageW,
+        height: pageH
+      });
+    }
+
+    const finalBytes = await outputPdfDoc.save({ useObjectStreams: true });
+    return new Blob([finalBytes], { type: 'application/pdf' });
+  }
+
   async function compressSinglePdf(item, config, onPageProgress) {
     const origSize = item.origSize;
     const currentBytes = item.bytes;
+    const isGrayscale = checkGrayscale ? checkGrayscale.checked : false;
 
     // Estrategia 1: Optimización nativa con pdf-lib (useObjectStreams)
     let nativeBlob = null;
@@ -243,64 +303,54 @@ export function initPdfCompress({ onUsageUpdated, onProModalRequested }) {
       console.warn('Optimización nativa no aplicable:', item.name, e);
     }
 
-    // Si el archivo es muy pequeño (< 40 KB), la compresión nativa o el original es la mejor
-    if (origSize < 40 * 1024) {
-      if (nativeBlob && nativeBlob.size < origSize) {
-        return nativeBlob;
-      }
-      return item.file;
-    }
-
-    // Estrategia 2: Compresión de páginas con renderizado a canvas JPEG
+    // Estrategia 2: Compresión de páginas con renderizado a canvas JPEG (Pasada Principal)
     let rasterBlob = null;
     try {
-      const loadingTask = pdfjsLib.getDocument({ data: currentBytes.slice(0) });
-      const pdf = await loadingTask.promise;
-      const totalPages = pdf.numPages;
-
-      const outputPdfDoc = await PDFDocument.create();
-
-      for (let i = 1; i <= totalPages; i++) {
-        if (onPageProgress) onPageProgress(i, totalPages);
-
-        const page = await pdf.getPage(i);
-        const viewport = page.getViewport({ scale: config.scale });
-
-        const canvas = document.createElement('canvas');
-        canvas.width = viewport.width;
-        canvas.height = viewport.height;
-        const ctx = canvas.getContext('2d');
-
-        await page.render({
-          canvasContext: ctx,
-          viewport: viewport
-        }).promise;
-
-        const jpegBlob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', config.quality));
-        const jpegBytes = new Uint8Array(await jpegBlob.arrayBuffer());
-
-        const embeddedImage = await outputPdfDoc.embedJpg(jpegBytes);
-        const newPage = outputPdfDoc.addPage([page.view[2] - page.view[0], page.view[3] - page.view[1]]);
-        newPage.drawImage(embeddedImage, {
-          x: 0,
-          y: 0,
-          width: newPage.getWidth(),
-          height: newPage.getHeight()
-        });
-      }
-
-      const finalBytes = await outputPdfDoc.save({ useObjectStreams: true });
-      rasterBlob = new Blob([finalBytes], { type: 'application/pdf' });
+      rasterBlob = await rasterizePdf(
+        currentBytes,
+        config.scale,
+        config.maxDimension,
+        config.quality,
+        isGrayscale,
+        onPageProgress
+      );
     } catch (err) {
       console.warn('Compresión rasterizada falló para:', item.name, err);
     }
 
-    // Elegir SIEMPRE la opción que resulte en el menor tamaño
-    const candidates = [
-      ...(rasterBlob ? [{ blob: rasterBlob, size: rasterBlob.size }] : []),
-      ...(nativeBlob ? [{ blob: nativeBlob, size: nativeBlob.size }] : []),
-      { blob: item.file, size: origSize }
-    ].sort((a, b) => a.size - b.size);
+    // Estrategia 3: Si rasterBlob no redujo el tamaño respecto a origSize (e.g. PDF de texto plano),
+    // y el usuario eligió "extreme" o "recommended", probamos una pasada más agresiva con resolución/calidad reducida.
+    let rasterBlobAggressive = null;
+    const isAggressiveRequested = selectedPreset === 'extreme' || selectedPreset === 'recommended';
+
+    if (isAggressiveRequested && (!rasterBlob || rasterBlob.size >= origSize * 0.95)) {
+      try {
+        const aggScale = Math.min(config.scale, 0.75);
+        const aggMaxDim = Math.min(config.maxDimension, 850);
+        const aggQuality = Math.min(config.quality, 0.38);
+
+        rasterBlobAggressive = await rasterizePdf(
+          currentBytes,
+          aggScale,
+          aggMaxDim,
+          aggQuality,
+          isGrayscale,
+          null
+        );
+      } catch (err) {
+        console.warn('Pasada agresiva falló:', item.name, err);
+      }
+    }
+
+    // Recopilar candidatos válidos
+    const candidates = [];
+
+    if (rasterBlob) candidates.push({ blob: rasterBlob, size: rasterBlob.size });
+    if (rasterBlobAggressive) candidates.push({ blob: rasterBlobAggressive, size: rasterBlobAggressive.size });
+    if (nativeBlob && nativeBlob.size < origSize) candidates.push({ blob: nativeBlob, size: nativeBlob.size });
+    candidates.push({ blob: item.file, size: origSize });
+
+    candidates.sort((a, b) => a.size - b.size);
 
     return candidates[0].blob;
   }
